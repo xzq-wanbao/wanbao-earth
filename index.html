@@ -293,6 +293,15 @@ Check your Browserslist config to be sure that your targets are set up correctly
             #build-menu .build-option > div:nth-child(3) { font-size: 9px !important; line-height: 1.1; }
             #build-menu #terraform-list, #build-menu #engineering-list, #build-menu #district-list { gap: 4px !important; }
         }
+
+        /* 电脑端：顶栏与建造栏同宽、固定宽度，顶部预留呼吸空间 */
+        @media (min-width: 768px) {
+            #game-ui { padding-top: 28px !important; }
+            #top-bar-wrap { max-width: 1200px !important; }
+            #top-bar { width: 100% !important; }
+            #top-bar #top-actions { margin-left: auto; }
+            #build-menu { max-width: 1200px !important; }
+        }
     </style>
 </head>
 <body>
@@ -301,7 +310,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
 
     <div id="game-ui" class="flex flex-col justify-between p-4">
         <!-- 顶栏资源 -->
-        <div class="flex justify-between items-start pointer-events-auto z-10 w-full max-w-6xl self-center">
+        <div id="top-bar-wrap" class="flex justify-between items-start pointer-events-auto z-10 w-full max-w-6xl self-center">
             <div id="top-bar" class="flex gap-2 md:gap-6 bg-slate-900/90 backdrop-blur-md p-1 md:p-3 origin-top scale-70 md:scale-100 rounded-xl border border-slate-700 shadow-xl pop-in flex-wrap items-center transition-all duration-500">
                 <div class="top-res flex items-center gap-2 text-rose-400" title="食物"><span class="text-xl">🌾</span> <span id="res-food" class="font-bold text-lg">0</span><span id="gain-food" class="text-xs text-gray-400">(+0)</span></div>
                 <div class="top-res flex items-center gap-2 text-amber-400" title="工业"><span class="text-xl">🔨</span> <span id="res-industry" class="font-bold text-lg">0</span><span id="gain-industry" class="text-xs text-gray-400">(+0)</span></div>
