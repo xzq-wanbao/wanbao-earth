@@ -156,6 +156,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
         }
         #side-rail > div { position: static !important; inset: auto !important; width: auto !important; }
         #side-rail button { width: 40px; height: 40px; font-size: 20px; }
+        #build-menu { z-index: 30; }
 
         .no-anim *, .no-anim *::before, .no-anim *::after {
             animation: none !important;
@@ -264,26 +265,33 @@ Check your Browserslist config to be sure that your targets are set up correctly
                 font-size: 8px !important; padding: 0 2px !important;
             }
 
-            /* 底部建造栏：与顶栏同宽，不要滚动条 */
+            /* 底部建造栏：与顶栏同宽，不要滚动条；层级高于左侧按钮 */
             #build-menu {
                 width: 100% !important;
                 max-width: 100% !important;
                 transform: none !important;
                 padding: 3px !important;
-                gap: 2px !important;
+                gap: 1px !important;
                 border-radius: 10px !important;
                 overflow: visible !important;
+                z-index: 30 !important;
             }
             #build-menu, #build-menu * { scrollbar-width: none; -ms-overflow-style: none; }
             #build-menu *::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
             #build-menu h2 { font-size: 10px !important; }
-            #build-menu h3 { font-size: 9px !important; }
+            #build-menu h3 { font-size: 9px !important; margin-bottom: 2px !important; }
+            #build-menu .mb-1 { margin-bottom: 0 !important; }
             #build-menu .min-w-\[48px\] { min-width: 38px !important; }
             #build-menu .min-w-\[70px\] { min-width: 52px !important; }
             #build-menu button { padding: 3px 4px !important; }
             #build-menu button .text-2xl, #build-menu button .text-3xl, #build-menu button .text-4xl { font-size: 16px !important; }
             #build-menu button .text-xs, #build-menu button .text-sm { font-size: 8px !important; line-height: 1.1; }
             #build-menu .text-xs { font-size: 9px !important; }
+            #build-menu .build-option { padding: 2px !important; }
+            #build-menu .build-option > div:first-child { font-size: 16px !important; line-height: 1; }
+            #build-menu .build-option > div:nth-child(2) { font-size: 9px !important; margin-top: 1px !important; line-height: 1.1; white-space: nowrap; }
+            #build-menu .build-option > div:nth-child(3) { font-size: 9px !important; line-height: 1.1; }
+            #build-menu #terraform-list, #build-menu #engineering-list, #build-menu #district-list { gap: 4px !important; }
         }
     </style>
 </head>
@@ -5533,19 +5541,30 @@ function initMusicSystem() {
     validTracks = musicTracks.map(track => {
         const audio = new Audio(track.src);
         audio.volume = 0.4;
-        audio.preload = 'metadata';
+        audio.preload = 'auto';
         audio._title = track.title || track.src.split('/').pop();
         audio.addEventListener('ended', playNextTrack);
+        if (typeof audio.load === 'function') {
+            try { audio.load(); } catch (e) { /* 忽略 */ }
+        }
         return audio;
     });
     isSystemReady = true;
     currentTrackIndex = -1;
-    if (typeof settings === 'undefined' || settings.music !== false) {
-        isMusicPlaying = true;
-        playNextTrack();
-    } else {
-        updateMusicUI(false);
-    }
+    isMusicPlaying = false;
+    updateMusicUI(false);
+}
+
+// 是否已经完整缓冲，避免边下边播造成断断续续
+function isTrackReady(audio) {
+    if (!audio) return false;
+    if (typeof audio.readyState !== 'number') return true;
+    if (audio.readyState >= 4) return true;
+    try {
+        const buffered = audio.buffered;
+        if (buffered && buffered.length && audio.duration && buffered.end(buffered.length - 1) >= audio.duration - 0.5) return true;
+    } catch (e) { /* 忽略 */ }
+    return false;
 }
 
 function playNextTrack(attempt = 0) {
@@ -5561,6 +5580,12 @@ function playNextTrack(attempt = 0) {
     if (!isMusicPlaying) return;
 
     const next = validTracks[currentTrackIndex];
+    if (!isTrackReady(next)) {
+        isMusicPlaying = false;
+        updateMusicUI(false);
+        showMsg('🎵 哈索尔还在准备音乐中....', 'warning');
+        return;
+    }
     const playPromise = next.play();
     if (playPromise !== undefined) {
         playPromise.then(() => {
@@ -5588,7 +5613,7 @@ function playNextTrack(attempt = 0) {
 // 按钮点击
 function toggleMusic() {
     if (!isSystemReady || validTracks.length === 0) {
-        showMsg("⏳ 音乐尚未就绪，请稍候...", "warning");
+        showMsg("🎵 哈索尔还在准备音乐中....", "warning");
         return;
     }
 
@@ -5599,6 +5624,13 @@ function toggleMusic() {
         return;
     }
     if (currentAudio.paused) {
+        if (!isTrackReady(currentAudio)) {
+            showMsg('🎵 哈索尔还在准备音乐中....', 'warning');
+            if (typeof currentAudio.load === 'function') {
+                try { currentAudio.load(); } catch (e) { /* 忽略 */ }
+            }
+            return;
+        }
         currentAudio.play().then(() => {
             isMusicPlaying = true;
             showCurrentSongName();
@@ -6871,7 +6903,7 @@ function updateSelectionUI(t) {
             let bgClass = targetList === tmList ? 'bg-green-900/80 border-green-600' : (targetList === engList ? 'bg-blue-900/80 border-blue-600' : 'bg-purple-900/80 border-purple-600');
             if (!canAfford) { bgClass = 'bg-gray-800 border-gray-600'; }
             const div = document.createElement('div');
-            div.className = `flex flex-col items-center p-0.5 md:p-2 border rounded cursor-pointer w-[72px] md:w-[88px] flex-none ${bgClass} hover:opacity-80 ${!canAfford ? 'opacity-50 cursor-not-allowed' : ''}`;
+            div.className = `build-option flex flex-col items-center p-0.5 md:p-2 border rounded cursor-pointer w-[58px] md:w-[88px] flex-none ${bgClass} hover:opacity-80 ${!canAfford ? 'opacity-50 cursor-not-allowed' : ''}`;
             div.innerHTML += `<div class="text-lg md:text-xl">${iconChar}</div><div class="text-[10px] md:text-xs mt-1 font-bold whitespace-nowrap">${nameText}</div><div class="text-[10px] md:text-xs text-yellow-300">${costText}</div>`;
             div.onmouseenter = (e) => showTooltip(`<div class="text-sm text-left">${tooltipText}</div>`, e.clientX, e.clientY);
             div.onmouseleave = () => hideTooltip();
