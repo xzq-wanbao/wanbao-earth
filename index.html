@@ -393,15 +393,9 @@ Check your Browserslist config to be sure that your targets are set up correctly
             </button>
         </div>
 
-        <div class="absolute bottom-60 left-4 pointer-events-auto w-max z-20">
-            <button id="btn-load" onclick="openSaveManager('load')" class="bg-slate-800/90 hover:bg-slate-700 text-white w-10 h-10 rounded-full shadow-lg border border-slate-500 flex items-center justify-center transition backdrop-blur-sm text-xl" title="读取存档">
-                <span>📂</span>
-            </button>
-        </div>
-
-        <div class="absolute bottom-48 left-4 pointer-events-auto w-max z-20">
-            <button id="btn-save" onclick="openSaveManager('save')" class="bg-slate-800/90 hover:bg-slate-700 text-white w-10 h-10 rounded-full shadow-lg border border-slate-500 flex items-center justify-center transition backdrop-blur-sm text-xl" title="保存进度">
-                <span>💾</span>
+        <div class="absolute bottom-52 left-4 pointer-events-auto w-max z-20">
+            <button id="btn-save" onclick="openSaveManager()" class="bg-slate-800/90 hover:bg-slate-700 text-white w-10 h-10 rounded-full shadow-lg border border-slate-500 flex items-center justify-center transition backdrop-blur-sm text-xl" title="存档管理（保存 / 读取）">
+                <span>🗂️</span>
             </button>
         </div>
 
@@ -535,7 +529,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                 <button onclick="continueFromSave()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition shadow-md">继续游戏</button>
                 <button onclick="startNewGame()" class="flex-1 py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg transition">新开一局</button>
             </div>
-            <button onclick="openSaveManager('load')" class="w-full mt-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm border border-slate-600">选择其他存档</button>
+            <button onclick="openSaveManager()" class="w-full mt-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm border border-slate-600">选择其他存档</button>
         </div>
     </div>
 
@@ -544,7 +538,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
         <div class="bg-slate-900 border border-emerald-600 rounded-2xl p-5 w-full max-w-2xl shadow-2xl max-h-[85vh] overflow-y-auto">
             <div class="flex items-center justify-between border-b border-gray-700 pb-3 mb-4">
                 <div class="flex items-center gap-3">
-                    <span class="text-3xl">💾</span>
+                    <span class="text-3xl">🗂️</span>
                     <div>
                         <h2 class="text-xl font-bold text-emerald-300">存档管理</h2>
                         <p id="save-manager-hint" class="text-xs text-gray-400">选择要保存/读取的槽位</p>
@@ -664,7 +658,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                             <li><b>区域连接：</b> 所有新区域必须与 <span class="text-purple-400">主广场</span> 连接。可以通过隧道、桥梁、运河或已建成的区域进行延伸。区域只可跨一格非交通类人造工程进行建造，不可拆除连接点内的区域（拆除会导致其他区域与主广场断开）。</li>
                             <li><b>人口：</b> 食物足够时每回合结束自动 +1 人口（可连续增长，消耗递增）。每一人口+3🔨+3🔬+3🎭，但-3🌾。食物耗尽会导致人口减少；献祭神时段自动增长暂停（托纳季乌运转期不暂停，人口仍会自然增长）。</li>
                             <li><b>村庄：</b> 长期交换每回合 -30💰 换 20 对应资源，交换期间每回合 +10 友好度；友好度满 100 后交换提升为 30💰 换 30 对应资源，并可花费 200🎭 吸纳村庄（人口 +3）。</li>
-                            <li><b>存档：</b> 左下角 💾 保存进度 / 📂 读取存档；每回合结束、建造与关闭页面时会自动存档。</li>
+                            <li><b>存档：</b> 左下角 🗂️ 打开存档管理，可保存、读取或删除槽位；每回合结束、建造与关闭页面时会自动存档。</li>
                         </ul>
                     </section>
 
@@ -4278,7 +4272,6 @@ const SAVE_SLOT_KEYS = {
 };
 const SAVE_VERSION = 2;
 let lastAutoSaveAt = 0;
-let saveManagerMode = 'save';
 let promptedSlot = 'auto';
 
 function snapshotTile(t) {
@@ -4614,13 +4607,10 @@ function formatSaveTime(ts) {
     }
 }
 
-function openSaveManager(mode = 'save') {
-    saveManagerMode = mode;
+function openSaveManager() {
     const hint = document.getElementById('save-manager-hint');
     if (hint) {
-        hint.textContent = mode === 'save'
-            ? '点击槽位保存当前进度；自动存档会在每回合结束时覆盖。'
-            : '点击槽位读取；删除会永久移除该槽位。';
+        hint.textContent = '每个槽位可保存或读取；自动存档会在每回合结束时覆盖。';
     }
     renderSaveManager();
     document.getElementById('save-modal').classList.add('hidden');
@@ -4643,15 +4633,14 @@ function renderSaveManager() {
             ? `回合 ${slot.meta.turn} · 人口 ${slot.meta.pop} · ${formatSaveTime(slot.meta.savedAt)}`
             : '空槽位';
         let actions = '';
-        if (saveManagerMode === 'save') {
-            actions = `<button onclick="saveToSlot('${slot.id}')" class="px-3 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold">${slot.meta ? '覆盖' : '保存'}</button>`;
+        if (slot.meta) {
+            actions = `<button onclick="loadFromSlot('${slot.id}')" class="px-3 py-1.5 rounded bg-blue-700 hover:bg-blue-600 text-white text-xs font-bold">读取</button>
+                <button onclick="saveToSlot('${slot.id}')" class="px-3 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold">覆盖</button>
+                <button onclick="deleteSlot('${slot.id}')" class="px-3 py-1.5 rounded bg-red-800 hover:bg-red-700 text-white text-xs font-bold">删除</button>`;
         } else {
-            if (slot.meta) {
-                actions = `<button onclick="loadFromSlot('${slot.id}')" class="px-3 py-1.5 rounded bg-blue-700 hover:bg-blue-600 text-white text-xs font-bold">读取</button>
-                    <button onclick="deleteSlot('${slot.id}')" class="px-3 py-1.5 rounded bg-red-800 hover:bg-red-700 text-white text-xs font-bold">删除</button>`;
-            }
+            actions = `<button onclick="saveToSlot('${slot.id}')" class="px-3 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold">保存</button>`;
         }
-        row.innerHTML = `<div><div class="font-bold text-slate-100 text-sm">${slot.label}</div><div class="text-[11px] text-gray-400 mt-0.5">${metaText}</div></div><div class="flex gap-2">${actions}</div>`;
+        row.innerHTML = `<div class="min-w-0"><div class="font-bold text-slate-100 text-sm">${slot.label}</div><div class="text-[11px] text-gray-400 mt-0.5">${metaText}</div></div><div class="flex gap-2 flex-wrap justify-end">${actions}</div>`;
         container.appendChild(row);
     });
 }
