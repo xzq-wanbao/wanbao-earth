@@ -1455,7 +1455,7 @@ const GODS = {
     },
     'xipe_totec': { 
         name: '剥皮之神——西佩·托特克', 
-        desc: '【剥皮重生】：第二年春季开始，可献祭人口\n【新生之力】：每献祭1人口：人口🔨/🔬/🎭产出+1，消耗🌾+1', 
+        desc: '【剥皮重生】：第二年春季开始，春季可献祭人口，且人口停止增长\n【新生之力】：每献祭1人口：人口🔨/🔬/🎭产出+1，消耗🌾+1', 
         icon: '🌽' 
     },
     'tlaloc': { 
@@ -5847,11 +5847,15 @@ function showPopTooltip(e) {
 
     // 剥皮之神：第二年春季献祭
     if (sacrificeGod === 'xipe_totec') {
+        const xipeCount = state.xipeSacrificeCount || 0;
+        const xipeCumulative = xipeCount > 0
+            ? `<div class="text-xs text-rose-300 mt-1">累计: 每人口 +${xipeCount}🔨/${xipeCount}🔬/${xipeCount}🎭，消耗 +${xipeCount}🌾</div>`
+            : '';
         const html = `<div class="font-bold text-base mb-1 text-rose-400">献祭人口 (剥皮之神)</div>
         <div class="text-sm">消耗: 1 人口</div>
-        <div class="text-xs text-green-300 mt-1">效果: 人口🔨/🔬/🎭产出+1</div>
-        <div class="text-xs text-red-300">代价: 所有人口消耗食物+1</div>
-        <div class="text-xs text-gray-400 mt-1">此时人口自动增长暂停 · 当前已献祭次数: ${state.xipeSacrificeCount || 0}</div>${deadInfo}`;
+        <div class="text-xs text-green-300 mt-1">本次献祭: 人口🔨/🔬/🎭产出+1</div>
+        <div class="text-xs text-red-300">本次献祭: 所有人口消耗食物+1</div>
+        <div class="text-xs text-gray-400 mt-1">此时人口自动增长暂停 · 当前已献祭次数: ${xipeCount}</div>${xipeCumulative}${deadInfo}`;
         return showTooltip(html, e.clientX, e.clientY);
     }
 
@@ -5867,6 +5871,17 @@ function showPopTooltip(e) {
     const costInc = flags.xolotl ? 10 : 5;
     const xolotlText = flags.xolotl ? '<div class="text-xs text-orange-400">肖洛特尔赐福: 增长时 50% 额外 +1 人口（涨价 +10）</div>' : '';
     const danuText = flags.danu ? '<div class="text-xs text-cyan-300">达努赐福: 增长时 +30🎭（黄金时代改为 +50💰）</div>' : '';
+    const xipeCount = state.xipeSacrificeCount || 0;
+    const perPopProd = (CONFIG.population.productionPerPop || 3) + xipeCount;
+    const perPopFood = (CONFIG.population.foodPerPop || 3) + xipeCount;
+    const xipeText = xipeCount > 0
+        ? `<div class="text-xs text-rose-300 mt-1">剥皮献祭 ×${xipeCount}: 每人口产出与食物消耗各 +${xipeCount}</div>`
+        : '';
+    const pauseText = flags.xipe_totec
+        ? '剥皮之春：第二年春季可献祭人口，且人口停止增长'
+        : flags.itztlacoliuhqui
+        ? '严霜之冬：冬季可献祭人口，自动增长暂停'
+        : '当前无献祭神时段，人口正常自动增长';
 
     const html = `<div class="font-bold text-base mb-1">人口自动增长</div>
     <div class="text-sm">下一个人口: <span class="text-rose-400 font-bold">${state.populationCost}🌾</span></div>
@@ -5874,9 +5889,10 @@ function showPopTooltip(e) {
     <div class="text-xs text-gray-300 mt-1">当前人口: ${state.resources.population}</div>
     ${xolotlText}
     ${danuText}
-    <div class="text-xs text-yellow-300 mt-1">收益: 每人口 +3🔨/3🔬/3🎭</div>
-    <div class="text-xs text-rose-300">消耗: 每人口 -3🌾/回合</div>
-    <div class="text-xs text-gray-400 mt-1">献祭神时段（严霜之冬 / 剥皮之春）自动增长暂停</div>${deadInfo}`;
+    <div class="text-xs text-yellow-300 mt-1">收益: 每人口 +${perPopProd}🔨/${perPopProd}🔬/${perPopProd}🎭</div>
+    <div class="text-xs text-rose-300">消耗: 每人口 -${perPopFood}🌾/回合</div>
+    ${xipeText}
+    <div class="text-xs text-gray-400 mt-1">${pauseText}</div>${deadInfo}`;
     showTooltip(html, e.clientX, e.clientY);
 }
 
