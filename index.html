@@ -1455,7 +1455,7 @@ const GODS = {
     },
     'xipe_totec': { 
         name: '剥皮之神——西佩·托特克', 
-        desc: '【剥皮重生】：第二年春季开始，春季可献祭人口，且人口停止增长\n【新生之力】：每献祭1人口：人口🔨/🔬/🎭产出+1，消耗🌾+1', 
+        desc: '【剥皮重生】：第二年春季开始，每年春季将5亡者转变为5人口，春季可献祭人口，且人口停止增长\n【新生之力】：每献祭1人口：人口🔨/🔬/🎭产出+1，消耗🌾+1', 
         icon: '🌽' 
     },
     'tlaloc': { 
@@ -2426,6 +2426,17 @@ GODS.itztlacoliuhqui.events.onBuyPopulation = function (ctx) {
 };
 
 GODS.xipe_totec.events = {
+  onTurnSpring(ctx) {
+    if (state.season !== 0 || state.seasonTurn !== 1) return;
+    const year = Math.floor((state.turn - 1) / getTurnsPerYear(ctx.activeGods)) + 1;
+    if (year < 2) return;
+    const dead = state.deadPopulation || 0;
+    const amount = Math.min(5, dead);
+    if (amount <= 0) return;
+    state.deadPopulation -= amount;
+    state.resources.population += amount;
+    showMsg(`🌱 剥皮重生：${amount} 名亡者转化为 ${amount} 人口。`, "success");
+  },
   onBuyPopulation(ctx) {
     if (ctx.season !== 0 || ctx.year < 2) return false;
     if (state.resources.population <= 1) {
