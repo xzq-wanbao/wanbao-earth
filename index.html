@@ -742,7 +742,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                         <h3 class="text-red-400 font-bold text-lg mb-2">🌪️ 自然灾害</h3>
                         <p class="mb-1 text-xs text-gray-400">因为自然灾害摧毁的人造工程与区域会返还部分🔨，LV2/Lv3区域以及交通类人造工程不会被火山以外的自然灾害摧毁，但仍然会获得收益减半的效果</p>
                         <div class="space-y-2 text-gray-300">
-                            <p><b>🌋 火山：</b> 爆发摧毁周围区域与人造工程，将地形变为焦土。恢复后形成高产火山灰（火山灰基础 +2🌾；每次喷发使火山灰再+2🌾）。<span class="text-amber-300">山火神迹1阶段：喷发不再造成破坏；2阶段：喷发概率翻3倍，每次喷发使己方所有农业区 +1🌾（可累计）。</span></p>
+                            <p><b>🌋 火山：</b> 爆发摧毁周围区域与人造工程，将地形变为焦土。恢复后形成高产火山灰（火山灰基础 +2🌾；每次喷发使火山灰再+2🌾）。</p>
                             <p><b>❄️ 暴风雪：</b> 冬季-寒带产生，向温带扩散。覆盖区域产出减半（可被山脉，针叶林阻挡）。</p>
                             <p><b>🌪️ 沙尘暴：</b> 沙漠产生，随机移动。覆盖区域产出减半（可通过滴灌沙漠阻止产生）（可被树林阻挡，但阻挡的树林有几率被摧毁变为干草地）。</p>
                             <p><b>🐘 兽潮迁徙：</b> 稀树草原产生，会优先朝区域移动。覆盖区域产出减半（可通过焦土稀树草原阻止产生）。</p>
@@ -3027,12 +3027,14 @@ function processVillageTrades() {
   let totalGold = 0;
   let count = 0;
   const gain = { food: 0, industry: 0, science: 0 };
-  const failed = [];
+  const cancelled = [];
 
   state.map.forEach(t => {
     if (!t.village || !t.village.activeTrade) return;
     if (state.resources.gold < VILLAGE_TRADE_GOLD) {
-      failed.push(t.village.name);
+      t.village.activeTrade = false;
+      t.village.friendship = Math.max(0, t.village.friendship - 10);
+      cancelled.push(t.village.name);
       return;
     }
     const spec = getVillageSpecialty(t.village);
@@ -3055,8 +3057,8 @@ function processVillageTrades() {
     if (gain.science) parts.push(`+${gain.science}🔬`);
     showMsg(`🏘️ 村庄贸易：${count} 笔完成（${parts.join(' ')}）`, "success");
   }
-  if (failed.length > 0) {
-    showMsg(`⚠️ 金币不足，暂停与 ${failed.join('、')} 的交换`, "warning");
+  if (cancelled.length > 0) {
+    showMsg(`⚠️ 金币不足，已取消与 ${cancelled.join('、')} 的交换：友好度 -10`, "warning");
   }
 }
 
@@ -3109,7 +3111,7 @@ function renderVillageModal(t) {
       <div class="h-2.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
         <div class="h-full bg-gradient-to-r from-amber-500 to-emerald-400" style="width:${friendship}%"></div>
       </div>
-      <p class="text-[11px] text-gray-500 mt-1">交换期间每回合 +${CONFIG.village.friendshipPerTurn}；取消 -10。好感度满 ${CONFIG.village.maxFriendship} 后，交换量提升为 ${VILLAGE_TRADE_GOLD}💰 → ${VILLAGE_TRADE_AMOUNT_MAX} 对应资源。</p>
+      <p class="text-[11px] text-gray-500 mt-1">交换期间每回合 +${CONFIG.village.friendshipPerTurn}；手动取消或金币不足自动取消时，友好度 -10。好感度满 ${CONFIG.village.maxFriendship} 后，交换量提升为 ${VILLAGE_TRADE_GOLD}💰 → ${VILLAGE_TRADE_AMOUNT_MAX} 对应资源。</p>
     </div>
 
     <div class="bg-slate-800 border ${active ? 'border-emerald-500' : 'border-slate-700'} rounded-lg p-3 flex items-center justify-between gap-3">
