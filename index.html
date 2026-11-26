@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>丸宝导师的地球 - 诸神黄昏</title>
+    <title>地球-诸神の黄昏</title>
     <script>
 (()=>{var qv=Object.create;var Hi=Object.defineProperty;var $v=Object.getOwnPropertyDescriptor;var Lv=Object.getOwnPropertyNames;var Mv=Object.getPrototypeOf,Nv=Object.prototype.hasOwnProperty;var df=r=>Hi(r,"__esModule",{value:!0});var hf=r=>{if(typeof require!="undefined")return require(r);throw new Error('Dynamic require of "'+r+'" is not supported')};var P=(r,e)=>()=>(r&&(e=r(r=0)),e);var x=(r,e)=>()=>(e||r((e={exports:{}}).exports,e),e.exports),Ge=(r,e)=>{df(r);for(var t in e)Hi(r,t,{get:e[t],enumerable:!0})},Bv=(r,e,t)=>{if(e&&typeof e=="object"||typeof e=="function")for(let i of Lv(e))!Nv.call(r,i)&&i!=="default"&&Hi(r,i,{get:()=>e[i],enumerable:!(t=$v(e,i))||t.enumerable});return r},pe=r=>Bv(df(Hi(r!=null?qv(Mv(r)):{},"default",r&&r.__esModule&&"default"in r?{get:()=>r.default,enumerable:!0}:{value:r,enumerable:!0})),r);var m,u=P(()=>{m={platform:"",env:{},versions:{node:"14.17.6"}}});var Fv,be,ft=P(()=>{u();Fv=0,be={readFileSync:r=>self[r]||"",statSync:()=>({mtimeMs:Fv++}),promises:{readFile:r=>Promise.resolve(self[r]||"")}}});var Fs=x((oP,gf)=>{u();"use strict";var mf=class{constructor(e={}){if(!(e.maxSize&&e.maxSize>0))throw new TypeError("`maxSize` must be a number greater than 0");if(typeof e.maxAge=="number"&&e.maxAge===0)throw new TypeError("`maxAge` must be a number greater than 0");this.maxSize=e.maxSize,this.maxAge=e.maxAge||1/0,this.onEviction=e.onEviction,this.cache=new Map,this.oldCache=new Map,this._size=0}_emitEvictions(e){if(typeof this.onEviction=="function")for(let[t,i]of e)this.onEviction(t,i.value)}_deleteIfExpired(e,t){return typeof t.expiry=="number"&&t.expiry<=Date.now()?(typeof this.onEviction=="function"&&this.onEviction(e,t.value),this.delete(e)):!1}_getOrDeleteIfExpired(e,t){if(this._deleteIfExpired(e,t)===!1)return t.value}_getItemValue(e,t){return t.expiry?this._getOrDeleteIfExpired(e,t):t.value}_peek(e,t){let i=t.get(e);return this._getItemValue(e,i)}_set(e,t){this.cache.set(e,t),this._size++,this._size>=this.maxSize&&(this._size=0,this._emitEvictions(this.oldCache),this.oldCache=this.cache,this.cache=new Map)}_moveToRecent(e,t){this.oldCache.delete(e),this._set(e,t)}*_entriesAscending(){for(let e of this.oldCache){let[t,i]=e;this.cache.has(t)||this._deleteIfExpired(t,i)===!1&&(yield e)}for(let e of this.cache){let[t,i]=e;this._deleteIfExpired(t,i)===!1&&(yield e)}}get(e){if(this.cache.has(e)){let t=this.cache.get(e);return this._getItemValue(e,t)}if(this.oldCache.has(e)){let t=this.oldCache.get(e);if(this._deleteIfExpired(e,t)===!1)return this._moveToRecent(e,t),t.value}}set(e,t,{maxAge:i=this.maxAge===1/0?void 0:Date.now()+this.maxAge}={}){this.cache.has(e)?this.cache.set(e,{value:t,maxAge:i}):this._set(e,{value:t,expiry:i})}has(e){return this.cache.has(e)?!this._deleteIfExpired(e,this.cache.get(e)):this.oldCache.has(e)?!this._deleteIfExpired(e,this.oldCache.get(e)):!1}peek(e){if(this.cache.has(e))return this._peek(e,this.cache);if(this.oldCache.has(e))return this._peek(e,this.oldCache)}delete(e){let t=this.cache.delete(e);return t&&this._size--,this.oldCache.delete(e)||t}clear(){this.cache.clear(),this.oldCache.clear(),this._size=0}resize(e){if(!(e&&e>0))throw new TypeError("`maxSize` must be a number greater than 0");let t=[...this._entriesAscending()],i=t.length-e;i<0?(this.cache=new Map(t),this.oldCache=new Map,this._size=t.length):(i>0&&this._emitEvictions(t.slice(0,i)),this.oldCache=new Map(t.slice(i)),this.cache=new Map,this._size=0),this.maxSize=e}*keys(){for(let[e]of this)yield e}*values(){for(let[,e]of this)yield e}*[Symbol.iterator](){for(let e of this.cache){let[t,i]=e;this._deleteIfExpired(t,i)===!1&&(yield[t,i.value])}for(let e of this.oldCache){let[t,i]=e;this.cache.has(t)||this._deleteIfExpired(t,i)===!1&&(yield[t,i.value])}}*entriesDescending(){let e=[...this.cache];for(let t=e.length-1;t>=0;--t){let i=e[t],[n,s]=i;this._deleteIfExpired(n,s)===!1&&(yield[n,s.value])}e=[...this.oldCache];for(let t=e.length-1;t>=0;--t){let i=e[t],[n,s]=i;this.cache.has(n)||this._deleteIfExpired(n,s)===!1&&(yield[n,s.value])}}*entriesAscending(){for(let[e,t]of this._entriesAscending())yield[e,t.value]}get size(){if(!this._size)return this.oldCache.size;let e=0;for(let t of this.oldCache.keys())this.cache.has(t)||e++;return Math.min(this._size+e,this.maxSize)}};gf.exports=mf});var yf,bf=P(()=>{u();yf=r=>r&&r._hash});function Wi(r){return yf(r,{ignoreUnknown:!0})}var wf=P(()=>{u();bf()});function xt(r){if(r=`${r}`,r==="0")return"0";if(/^[+-]?(\d+|\d*\.\d+)(e[+-]?\d+)?(%|\w+)?$/.test(r))return r.replace(/^[+-]?/,t=>t==="-"?"":"-");let e=["var","calc","min","max","clamp"];for(let t of e)if(r.includes(`${t}(`))return`calc(${r} * -1)`}var Gi=P(()=>{u()});var vf,xf=P(()=>{u();vf=["preflight","container","accessibility","pointerEvents","visibility","position","inset","isolation","zIndex","order","gridColumn","gridColumnStart","gridColumnEnd","gridRow","gridRowStart","gridRowEnd","float","clear","margin","boxSizing","lineClamp","display","aspectRatio","size","height","maxHeight","minHeight","width","minWidth","maxWidth","flex","flexShrink","flexGrow","flexBasis","tableLayout","captionSide","borderCollapse","borderSpacing","transformOrigin","translate","rotate","skew","scale","transform","animation","cursor","touchAction","userSelect","resize","scrollSnapType","scrollSnapAlign","scrollSnapStop","scrollMargin","scrollPadding","listStylePosition","listStyleType","listStyleImage","appearance","columns","breakBefore","breakInside","breakAfter","gridAutoColumns","gridAutoFlow","gridAutoRows","gridTemplateColumns","gridTemplateRows","flexDirection","flexWrap","placeContent","placeItems","alignContent","alignItems","justifyContent","justifyItems","gap","space","divideWidth","divideStyle","divideColor","divideOpacity","placeSelf","alignSelf","justifySelf","overflow","overscrollBehavior","scrollBehavior","textOverflow","hyphens","whitespace","textWrap","wordBreak","borderRadius","borderWidth","borderStyle","borderColor","borderOpacity","backgroundColor","backgroundOpacity","backgroundImage","gradientColorStops","boxDecorationBreak","backgroundSize","backgroundAttachment","backgroundClip","backgroundPosition","backgroundRepeat","backgroundOrigin","fill","stroke","strokeWidth","objectFit","objectPosition","padding","textAlign","textIndent","verticalAlign","fontFamily","fontSize","fontWeight","textTransform","fontStyle","fontVariantNumeric","lineHeight","letterSpacing","textColor","textOpacity","textDecoration","textDecorationColor","textDecorationStyle","textDecorationThickness","textUnderlineOffset","fontSmoothing","placeholderColor","placeholderOpacity","caretColor","accentColor","opacity","backgroundBlendMode","mixBlendMode","boxShadow","boxShadowColor","outlineStyle","outlineWidth","outlineOffset","outlineColor","ringWidth","ringColor","ringOpacity","ringOffsetWidth","ringOffsetColor","blur","brightness","contrast","dropShadow","grayscale","hueRotate","invert","saturate","sepia","filter","backdropBlur","backdropBrightness","backdropContrast","backdropGrayscale","backdropHueRotate","backdropInvert","backdropOpacity","backdropSaturate","backdropSepia","backdropFilter","transitionProperty","transitionDelay","transitionDuration","transitionTimingFunction","willChange","contain","content","forcedColorAdjust"]});function kf(r,e){return r===void 0?e:Array.isArray(r)?r:[...new Set(e.filter(i=>r!==!1&&r[i]!==!1).concat(Object.keys(r).filter(i=>r[i]!==!1)))]}var Sf=P(()=>{u()});var Af={};Ge(Af,{default:()=>Qe});var Qe,Qi=P(()=>{u();Qe=new Proxy({},{get:()=>String})});function js(r,e,t){typeof m!="undefined"&&m.env.JEST_WORKER_ID||t&&Cf.has(t)||(t&&Cf.add(t),console.warn(""),e.forEach(i=>console.warn(r,"-",i)))}function zs(r){return Qe.dim(r)}var Cf,G,Be=P(()=>{u();Qi();Cf=new Set;G={info(r,e){js(Qe.bold(Qe.cyan("info")),...Array.isArray(r)?[r]:[e,r])},warn(r,e){["content-problems"].includes(r)||js(Qe.bold(Qe.yellow("warn")),...Array.isArray(r)?[r]:[e,r])},risk(r,e){js(Qe.bold(Qe.magenta("risk")),...Array.isArray(r)?[r]:[e,r])}}});var _f={};Ge(_f,{default:()=>Us});function qr({version:r,from:e,to:t}){G.warn(`${e}-color-renamed`,[`As of Tailwind CSS ${r}, \`${e}\` has been renamed to \`${t}\`.`,"Update your configuration file to silence this warning."])}var Us,Vs=P(()=>{u();Be();Us={inherit:"inherit",current:"currentColor",transparent:"transparent",black:"#000",white:"#fff",slate:{50:"#f8fafc",100:"#f1f5f9",200:"#e2e8f0",300:"#cbd5e1",400:"#94a3b8",500:"#64748b",600:"#475569",700:"#334155",800:"#1e293b",900:"#0f172a",950:"#020617"},gray:{50:"#f9fafb",100:"#f3f4f6",200:"#e5e7eb",300:"#d1d5db",400:"#9ca3af",500:"#6b7280",600:"#4b5563",700:"#374151",800:"#1f2937",900:"#111827",950:"#030712"},zinc:{50:"#fafafa",100:"#f4f4f5",200:"#e4e4e7",300:"#d4d4d8",400:"#a1a1aa",500:"#71717a",600:"#52525b",700:"#3f3f46",800:"#27272a",900:"#18181b",950:"#09090b"},neutral:{50:"#fafafa",100:"#f5f5f5",200:"#e5e5e5",300:"#d4d4d4",400:"#a3a3a3",500:"#737373",600:"#525252",700:"#404040",800:"#262626",900:"#171717",950:"#0a0a0a"},stone:{50:"#fafaf9",100:"#f5f5f4",200:"#e7e5e4",300:"#d6d3d1",400:"#a8a29e",500:"#78716c",600:"#57534e",700:"#44403c",800:"#292524",900:"#1c1917",950:"#0c0a09"},red:{50:"#fef2f2",100:"#fee2e2",200:"#fecaca",300:"#fca5a5",400:"#f87171",500:"#ef4444",600:"#dc2626",700:"#b91c1c",800:"#991b1b",900:"#7f1d1d",950:"#450a0a"},orange:{50:"#fff7ed",100:"#ffedd5",200:"#fed7aa",300:"#fdba74",400:"#fb923c",500:"#f97316",600:"#ea580c",700:"#c2410c",800:"#9a3412",900:"#7c2d12",950:"#431407"},amber:{50:"#fffbeb",100:"#fef3c7",200:"#fde68a",300:"#fcd34d",400:"#fbbf24",500:"#f59e0b",600:"#d97706",700:"#b45309",800:"#92400e",900:"#78350f",950:"#451a03"},yellow:{50:"#fefce8",100:"#fef9c3",200:"#fef08a",300:"#fde047",400:"#facc15",500:"#eab308",600:"#ca8a04",700:"#a16207",800:"#854d0e",900:"#713f12",950:"#422006"},lime:{50:"#f7fee7",100:"#ecfccb",200:"#d9f99d",300:"#bef264",400:"#a3e635",500:"#84cc16",600:"#65a30d",700:"#4d7c0f",800:"#3f6212",900:"#365314",950:"#1a2e05"},green:{50:"#f0fdf4",100:"#dcfce7",200:"#bbf7d0",300:"#86efac",400:"#4ade80",500:"#22c55e",600:"#16a34a",700:"#15803d",800:"#166534",900:"#14532d",950:"#052e16"},emerald:{50:"#ecfdf5",100:"#d1fae5",200:"#a7f3d0",300:"#6ee7b7",400:"#34d399",500:"#10b981",600:"#059669",700:"#047857",800:"#065f46",900:"#064e3b",950:"#022c22"},teal:{50:"#f0fdfa",100:"#ccfbf1",200:"#99f6e4",300:"#5eead4",400:"#2dd4bf",500:"#14b8a6",600:"#0d9488",700:"#0f766e",800:"#115e59",900:"#134e4a",950:"#042f2e"},cyan:{50:"#ecfeff",100:"#cffafe",200:"#a5f3fc",300:"#67e8f9",400:"#22d3ee",500:"#06b6d4",600:"#0891b2",700:"#0e7490",800:"#155e75",900:"#164e63",950:"#083344"},sky:{50:"#f0f9ff",100:"#e0f2fe",200:"#bae6fd",300:"#7dd3fc",400:"#38bdf8",500:"#0ea5e9",600:"#0284c7",700:"#0369a1",800:"#075985",900:"#0c4a6e",950:"#082f49"},blue:{50:"#eff6ff",100:"#dbeafe",200:"#bfdbfe",300:"#93c5fd",400:"#60a5fa",500:"#3b82f6",600:"#2563eb",700:"#1d4ed8",800:"#1e40af",900:"#1e3a8a",950:"#172554"},indigo:{50:"#eef2ff",100:"#e0e7ff",200:"#c7d2fe",300:"#a5b4fc",400:"#818cf8",500:"#6366f1",600:"#4f46e5",700:"#4338ca",800:"#3730a3",900:"#312e81",950:"#1e1b4b"},violet:{50:"#f5f3ff",100:"#ede9fe",200:"#ddd6fe",300:"#c4b5fd",400:"#a78bfa",500:"#8b5cf6",600:"#7c3aed",700:"#6d28d9",800:"#5b21b6",900:"#4c1d95",950:"#2e1065"},purple:{50:"#faf5ff",100:"#f3e8ff",200:"#e9d5ff",300:"#d8b4fe",400:"#c084fc",500:"#a855f7",600:"#9333ea",700:"#7e22ce",800:"#6b21a8",900:"#581c87",950:"#3b0764"},fuchsia:{50:"#fdf4ff",100:"#fae8ff",200:"#f5d0fe",300:"#f0abfc",400:"#e879f9",500:"#d946ef",600:"#c026d3",700:"#a21caf",800:"#86198f",900:"#701a75",950:"#4a044e"},pink:{50:"#fdf2f8",100:"#fce7f3",200:"#fbcfe8",300:"#f9a8d4",400:"#f472b6",500:"#ec4899",600:"#db2777",700:"#be185d",800:"#9d174d",900:"#831843",950:"#500724"},rose:{50:"#fff1f2",100:"#ffe4e6",200:"#fecdd3",300:"#fda4af",400:"#fb7185",500:"#f43f5e",600:"#e11d48",700:"#be123c",800:"#9f1239",900:"#881337",950:"#4c0519"},get lightBlue(){return qr({version:"v2.2",from:"lightBlue",to:"sky"}),this.sky},get warmGray(){return qr({version:"v3.0",from:"warmGray",to:"stone"}),this.stone},get trueGray(){return qr({version:"v3.0",from:"trueGray",to:"neutral"}),this.neutral},get coolGray(){return qr({version:"v3.0",from:"coolGray",to:"gray"}),this.gray},get blueGray(){return qr({version:"v3.0",from:"blueGray",to:"slate"}),this.slate}}});function Hs(r,...e){for(let t of e){for(let i in t)r?.hasOwnProperty?.(i)||(r[i]=t[i]);for(let i of Object.getOwnPropertySymbols(t))r?.hasOwnProperty?.(i)||(r[i]=t[i])}return r}var Ef=P(()=>{u()});function kt(r){if(Array.isArray(r))return r;let e=r.split("[").length-1,t=r.split("]").length-1;if(e!==t)throw new Error(`Path is invalid. Has unbalanced brackets: ${r}`);return r.split(/\.(?![^\[]*\])|[\[\]]/g).filter(Boolean)}var Yi=P(()=>{u()});function we(r,e){return Ki.future.includes(e)?r.future==="all"||(r?.future?.[e]??Of[e]??!1):Ki.experimental.includes(e)?r.experimental==="all"||(r?.experimental?.[e]??Of[e]??!1):!1}function Tf(r){return r.experimental==="all"?Ki.experimental:Object.keys(r?.experimental??{}).filter(e=>Ki.experimental.includes(e)&&r.experimental[e])}function Rf(r){if(m.env.JEST_WORKER_ID===void 0&&Tf(r).length>0){let e=Tf(r).map(t=>Qe.yellow(t)).join(", ");G.warn("experimental-flags-enabled",[`You have enabled experimental features: ${e}`,"Experimental features in Tailwind CSS are not covered by semver, may introduce breaking changes, and can change at any time."])}}var Of,Ki,ct=P(()=>{u();Qi();Be();Of={optimizeUniversalDefaults:!1,generalizedModifiers:!0,disableColorOpacityUtilitiesByDefault:!1,relativeContentPathsByDefault:!1},Ki={future:["hoverOnlyWhenSupported","respectDefaultRingColorOpacity","disableColorOpacityUtilitiesByDefault","relativeContentPathsByDefault"],experimental:["optimizeUniversalDefaults","generalizedModifiers"]}});function Pf(r){(()=>{if(r.purge||!r.content||!Array.isArray(r.content)&&!(typeof r.content=="object"&&r.content!==null))return!1;if(Array.isArray(r.content))return r.content.every(t=>typeof t=="string"?!0:!(typeof t?.raw!="string"||t?.extension&&typeof t?.extension!="string"));if(typeof r.content=="object"&&r.content!==null){if(Object.keys(r.content).some(t=>!["files","relative","extract","transform"].includes(t)))return!1;if(Array.isArray(r.content.files)){if(!r.content.files.every(t=>typeof t=="string"?!0:!(typeof t?.raw!="string"||t?.extension&&typeof t?.extension!="string")))return!1;if(typeof r.content.extract=="object"){for(let t of Object.values(r.content.extract))if(typeof t!="function")return!1}else if(!(r.content.extract===void 0||typeof r.content.extract=="function"))return!1;if(typeof r.content.transform=="object"){for(let t of Object.values(r.content.transform))if(typeof t!="function")return!1}else if(!(r.content.transform===void 0||typeof r.content.transform=="function"))return!1;if(typeof r.content.relative!="boolean"&&typeof r.content.relative!="undefined")return!1}return!0}return!1})()||G.warn("purge-deprecation",["The `purge`/`content` options have changed in Tailwind CSS v3.0.","Update your configuration file to eliminate this warning.","https://tailwindcss.com/docs/upgrade-guide#configure-content-sources"]),r.safelist=(()=>{let{content:t,purge:i,safelist:n}=r;return Array.isArray(n)?n:Array.isArray(t?.safelist)?t.safelist:Array.isArray(i?.safelist)?i.safelist:Array.isArray(i?.options?.safelist)?i.options.safelist:[]})(),r.blocklist=(()=>{let{blocklist:t}=r;if(Array.isArray(t)){if(t.every(i=>typeof i=="string"))return t;G.warn("blocklist-invalid",["The `blocklist` option must be an array of strings.","https://tailwindcss.com/docs/content-configuration#discarding-classes"])}return[]})(),typeof r.prefix=="function"?(G.warn("prefix-function",["As of Tailwind CSS v3.0, `prefix` cannot be a function.","Update `prefix` in your configuration to be a string to eliminate this warning.","https://tailwindcss.com/docs/upgrade-guide#prefix-cannot-be-a-function"]),r.prefix=""):r.prefix=r.prefix??"",r.content={relative:(()=>{let{content:t}=r;return t?.relative?t.relative:we(r,"relativeContentPathsByDefault")})(),files:(()=>{let{content:t,purge:i}=r;return Array.isArray(i)?i:Array.isArray(i?.content)?i.content:Array.isArray(t)?t:Array.isArray(t?.content)?t.content:Array.isArray(t?.files)?t.files:[]})(),extract:(()=>{let t=(()=>r.purge?.extract?r.purge.extract:r.content?.extract?r.content.extract:r.purge?.extract?.DEFAULT?r.purge.extract.DEFAULT:r.content?.extract?.DEFAULT?r.content.extract.DEFAULT:r.purge?.options?.extractors?r.purge.options.extractors:r.content?.options?.extractors?r.content.options.extractors:{})(),i={},n=(()=>{if(r.purge?.options?.defaultExtractor)return r.purge.options.defaultExtractor;if(r.content?.options?.defaultExtractor)return r.content.options.defaultExtractor})();if(n!==void 0&&(i.DEFAULT=n),typeof t=="function")i.DEFAULT=t;else if(Array.isArray(t))for(let{extensions:s,extractor:a}of t??[])for(let o of s)i[o]=a;else typeof t=="object"&&t!==null&&Object.assign(i,t);return i})(),transform:(()=>{let t=(()=>r.purge?.transform?r.purge.transform:r.content?.transform?r.content.transform:r.purge?.transform?.DEFAULT?r.purge.transform.DEFAULT:r.content?.transform?.DEFAULT?r.content.transform.DEFAULT:{})(),i={};return typeof t=="function"?i.DEFAULT=t:typeof t=="object"&&t!==null&&Object.assign(i,t),i})()};for(let t of r.content.files)if(typeof t=="string"&&/{([^,]*?)}/g.test(t)){G.warn("invalid-glob-braces",[`The glob pattern ${zs(t)} in your Tailwind CSS configuration is invalid.`,`Update it to ${zs(t.replace(/{([^,]*?)}/g,"$1"))} to silence this warning.`]);break}return r}var If=P(()=>{u();ct();Be()});function ke(r){if(Object.prototype.toString.call(r)!=="[object Object]")return!1;let e=Object.getPrototypeOf(r);return e===null||Object.getPrototypeOf(e)===null}var Kt=P(()=>{u()});function St(r){return Array.isArray(r)?r.map(e=>St(e)):typeof r=="object"&&r!==null?Object.fromEntries(Object.entries(r).map(([e,t])=>[e,St(t)])):r}var Xi=P(()=>{u()});function jt(r){return r.replace(/\\,/g,"\\2c ")}var Zi=P(()=>{u()});var Ws,Df=P(()=>{u();Ws={aliceblue:[240,248,255],antiquewhite:[250,235,215],aqua:[0,255,255],aquamarine:[127,255,212],azure:[240,255,255],beige:[245,245,220],bisque:[255,228,196],black:[0,0,0],blanchedalmond:[255,235,205],blue:[0,0,255],blueviolet:[138,43,226],brown:[165,42,42],burlywood:[222,184,135],cadetblue:[95,158,160],chartreuse:[127,255,0],chocolate:[210,105,30],coral:[255,127,80],cornflowerblue:[100,149,237],cornsilk:[255,248,220],crimson:[220,20,60],cyan:[0,255,255],darkblue:[0,0,139],darkcyan:[0,139,139],darkgoldenrod:[184,134,11],darkgray:[169,169,169],darkgreen:[0,100,0],darkgrey:[169,169,169],darkkhaki:[189,183,107],darkmagenta:[139,0,139],darkolivegreen:[85,107,47],darkorange:[255,140,0],darkorchid:[153,50,204],darkred:[139,0,0],darksalmon:[233,150,122],darkseagreen:[143,188,143],darkslateblue:[72,61,139],darkslategray:[47,79,79],darkslategrey:[47,79,79],darkturquoise:[0,206,209],darkviolet:[148,0,211],deeppink:[255,20,147],deepskyblue:[0,191,255],dimgray:[105,105,105],dimgrey:[105,105,105],dodgerblue:[30,144,255],firebrick:[178,34,34],floralwhite:[255,250,240],forestgreen:[34,139,34],fuchsia:[255,0,255],gainsboro:[220,220,220],ghostwhite:[248,248,255],gold:[255,215,0],goldenrod:[218,165,32],gray:[128,128,128],green:[0,128,0],greenyellow:[173,255,47],grey:[128,128,128],honeydew:[240,255,240],hotpink:[255,105,180],indianred:[205,92,92],indigo:[75,0,130],ivory:[255,255,240],khaki:[240,230,140],lavender:[230,230,250],lavenderblush:[255,240,245],lawngreen:[124,252,0],lemonchiffon:[255,250,205],lightblue:[173,216,230],lightcoral:[240,128,128],lightcyan:[224,255,255],lightgoldenrodyellow:[250,250,210],lightgray:[211,211,211],lightgreen:[144,238,144],lightgrey:[211,211,211],lightpink:[255,182,193],lightsalmon:[255,160,122],lightseagreen:[32,178,170],lightskyblue:[135,206,250],lightslategray:[119,136,153],lightslategrey:[119,136,153],lightsteelblue:[176,196,222],lightyellow:[255,255,224],lime:[0,255,0],limegreen:[50,205,50],linen:[250,240,230],magenta:[255,0,255],maroon:[128,0,0],mediumaquamarine:[102,205,170],mediumblue:[0,0,205],mediumorchid:[186,85,211],mediumpurple:[147,112,219],mediumseagreen:[60,179,113],mediumslateblue:[123,104,238],mediumspringgreen:[0,250,154],mediumturquoise:[72,209,204],mediumvioletred:[199,21,133],midnightblue:[25,25,112],mintcream:[245,255,250],mistyrose:[255,228,225],moccasin:[255,228,181],navajowhite:[255,222,173],navy:[0,0,128],oldlace:[253,245,230],olive:[128,128,0],olivedrab:[107,142,35],orange:[255,165,0],orangered:[255,69,0],orchid:[218,112,214],palegoldenrod:[238,232,170],palegreen:[152,251,152],paleturquoise:[175,238,238],palevioletred:[219,112,147],papayawhip:[255,239,213],peachpuff:[255,218,185],peru:[205,133,63],pink:[255,192,203],plum:[221,160,221],powderblue:[176,224,230],purple:[128,0,128],rebeccapurple:[102,51,153],red:[255,0,0],rosybrown:[188,143,143],royalblue:[65,105,225],saddlebrown:[139,69,19],salmon:[250,128,114],sandybrown:[244,164,96],seagreen:[46,139,87],seashell:[255,245,238],sienna:[160,82,45],silver:[192,192,192],skyblue:[135,206,235],slateblue:[106,90,205],slategray:[112,128,144],slategrey:[112,128,144],snow:[255,250,250],springgreen:[0,255,127],steelblue:[70,130,180],tan:[210,180,140],teal:[0,128,128],thistle:[216,191,216],tomato:[255,99,71],turquoise:[64,224,208],violet:[238,130,238],wheat:[245,222,179],white:[255,255,255],whitesmoke:[245,245,245],yellow:[255,255,0],yellowgreen:[154,205,50]}});function $r(r,{loose:e=!1}={}){if(typeof r!="string")return null;if(r=r.trim(),r==="transparent")return{mode:"rgb",color:["0","0","0"],alpha:"0"};if(r in Ws)return{mode:"rgb",color:Ws[r].map(s=>s.toString())};let t=r.replace(zv,(s,a,o,l,c)=>["#",a,a,o,o,l,l,c?c+c:""].join("")).match(jv);if(t!==null)return{mode:"rgb",color:[parseInt(t[1],16),parseInt(t[2],16),parseInt(t[3],16)].map(s=>s.toString()),alpha:t[4]?(parseInt(t[4],16)/255).toString():void 0};let i=r.match(Uv)??r.match(Vv);if(i===null)return null;let n=[i[2],i[3],i[4]].filter(Boolean).map(s=>s.toString());return n.length===2&&n[0].startsWith("var(")?{mode:i[1],color:[n[0]],alpha:n[1]}:!e&&n.length!==3||n.length<3&&!n.some(s=>/^var\(.*?\)$/.test(s))?null:{mode:i[1],color:n,alpha:i[5]?.toString?.()}}function Gs({mode:r,color:e,alpha:t}){let i=t!==void 0;return r==="rgba"||r==="hsla"?`${r}(${e.join(", ")}${i?`, ${t}`:""})`:`${r}(${e.join(" ")}${i?` / ${t}`:""})`}var jv,zv,At,Ji,qf,Ct,Uv,Vv,Qs=P(()=>{u();Df();jv=/^#([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i,zv=/^#([a-f\d])([a-f\d])([a-f\d])([a-f\d])?$/i,At=/(?:\d+|\d*\.\d+)%?/,Ji=/(?:\s*,\s*|\s+)/,qf=/\s*[,/]\s*/,Ct=/var\(--(?:[^ )]*?)(?:,(?:[^ )]*?|var\(--[^ )]*?\)))?\)/,Uv=new RegExp(`^(rgba?)\\(\\s*(${At.source}|${Ct.source})(?:${Ji.source}(${At.source}|${Ct.source}))?(?:${Ji.source}(${At.source}|${Ct.source}))?(?:${qf.source}(${At.source}|${Ct.source}))?\\s*\\)$`),Vv=new RegExp(`^(hsla?)\\(\\s*((?:${At.source})(?:deg|rad|grad|turn)?|${Ct.source})(?:${Ji.source}(${At.source}|${Ct.source}))?(?:${Ji.source}(${At.source}|${Ct.source}))?(?:${qf.source}(${At.source}|${Ct.source}))?\\s*\\)$`)});function Je(r,e,t){if(typeof r=="function")return r({opacityValue:e});let i=$r(r,{loose:!0});return i===null?t:Gs({...i,alpha:e})}function Ae({color:r,property:e,variable:t}){let i=[].concat(e);if(typeof r=="function")return{[t]:"1",...Object.fromEntries(i.map(s=>[s,r({opacityVariable:t,opacityValue:`var(${t}, 1)`})]))};let n=$r(r);return n===null?Object.fromEntries(i.map(s=>[s,r])):n.alpha!==void 0?Object.fromEntries(i.map(s=>[s,r])):{[t]:"1",...Object.fromEntries(i.map(s=>[s,Gs({...n,alpha:`var(${t}, 1)`})]))}}var Lr=P(()=>{u();Qs()});function ve(r,e){let t=[],i=[],n=0,s=!1;for(let a=0;a<r.length;a++){let o=r[a];t.length===0&&o===e[0]&&!s&&(e.length===1||r.slice(a,a+e.length)===e)&&(i.push(r.slice(n,a)),n=a+e.length),s=s?!1:o==="\\",o==="("||o==="["||o==="{"?t.push(o):(o===")"&&t[t.length-1]==="("||o==="]"&&t[t.length-1]==="["||o==="}"&&t[t.length-1]==="{")&&t.pop()}return i.push(r.slice(n)),i}var zt=P(()=>{u()});function en(r){return ve(r,",").map(t=>{let i=t.trim(),n={raw:i},s=i.split(Wv),a=new Set;for(let o of s)$f.lastIndex=0,!a.has("KEYWORD")&&Hv.has(o)?(n.keyword=o,a.add("KEYWORD")):$f.test(o)?a.has("X")?a.has("Y")?a.has("BLUR")?a.has("SPREAD")||(n.spread=o,a.add("SPREAD")):(n.blur=o,a.add("BLUR")):(n.y=o,a.add("Y")):(n.x=o,a.add("X")):n.color?(n.unknown||(n.unknown=[]),n.unknown.push(o)):n.color=o;return n.valid=n.x!==void 0&&n.y!==void 0,n})}function Lf(r){return r.map(e=>e.valid?[e.keyword,e.x,e.y,e.blur,e.spread,e.color].filter(Boolean).join(" "):e.raw).join(", ")}var Hv,Wv,$f,Ys=P(()=>{u();zt();Hv=new Set(["inset","inherit","initial","revert","unset"]),Wv=/\ +(?![^(]*\))/g,$f=/^-?(\d+|\.\d+)(.*?)$/g});function Ks(r){return Gv.some(e=>new RegExp(`^${e}\\(.*\\)`).test(r))}function K(r,e=null,t=!0){let i=e&&Qv.has(e.property);return r.startsWith("--")&&!i?`var(${r})`:r.includes("url(")?r.split(/(url\(.*?\))/g).filter(Boolean).map(n=>/^url\(.*?\)$/.test(n)?n:K(n,e,!1)).join(""):(r=r.replace(/([^\\])_+/g,(n,s)=>s+" ".repeat(n.length-1)).replace(/^_/g," ").replace(/\\_/g,"_"),t&&(r=r.trim()),r=Yv(r),r)}function Ye(r){return r.includes("=")&&(r=r.replace(/(=.*)/g,(e,t)=>{if(t[1]==="'"||t[1]==='"')return t;if(t.length>2){let i=t[t.length-1];if(t[t.length-2]===" "&&(i==="i"||i==="I"||i==="s"||i==="S"))return`="${t.slice(1,-2)}" ${t[t.length-1]}`}return`="${t.slice(1)}"`})),r}function Yv(r){let e=["theme"],t=["min-content","max-content","fit-content","safe-area-inset-top","safe-area-inset-right","safe-area-inset-bottom","safe-area-inset-left","titlebar-area-x","titlebar-area-y","titlebar-area-width","titlebar-area-height","keyboard-inset-top","keyboard-inset-right","keyboard-inset-bottom","keyboard-inset-left","keyboard-inset-width","keyboard-inset-height","radial-gradient","linear-gradient","conic-gradient","repeating-radial-gradient","repeating-linear-gradient","repeating-conic-gradient","anchor-size"];return r.replace(/(calc|min|max|clamp)\(.+\)/g,i=>{let n="";function s(){let a=n.trimEnd();return a[a.length-1]}for(let a=0;a<i.length;a++){let o=function(f){return f.split("").every((d,p)=>i[a+p]===d)},l=function(f){let d=1/0;for(let h of f){let b=i.indexOf(h,a);b!==-1&&b<d&&(d=b)}let p=i.slice(a,d);return a+=p.length-1,p},c=i[a];if(o("var"))n+=l([")",","]);else if(t.some(f=>o(f))){let f=t.find(d=>o(d));n+=f,a+=f.length-1}else e.some(f=>o(f))?n+=l([")"]):o("[")?n+=l(["]"]):["+","-","*","/"].includes(c)&&!["(","+","-","*","/",","].includes(s())?n+=` ${c} `:n+=c}return n.replace(/\s+/g," ")})}function Xs(r){return r.startsWith("url(")}function Zs(r){return!isNaN(Number(r))||Ks(r)}function Mr(r){return r.endsWith("%")&&Zs(r.slice(0,-1))||Ks(r)}function Nr(r){return r==="0"||new RegExp(`^[+-]?[0-9]*.?[0-9]+(?:[eE][+-]?[0-9]+)?${Xv}$`).test(r)||Ks(r)}function Mf(r){return Zv.has(r)}function Nf(r){let e=en(K(r));for(let t of e)if(!t.valid)return!1;return!0}function Bf(r){let e=0;return ve(r,"_").every(i=>(i=K(i),i.startsWith("var(")?!0:$r(i,{loose:!0})!==null?(e++,!0):!1))?e>0:!1}function Ff(r){let e=0;return ve(r,",").every(i=>(i=K(i),i.startsWith("var(")?!0:Xs(i)||ex(i)||["element(","image(","cross-fade(","image-set("].some(n=>i.startsWith(n))?(e++,!0):!1))?e>0:!1}function ex(r){r=K(r);for(let e of Jv)if(r.startsWith(`${e}(`))return!0;return!1}function jf(r){let e=0;return ve(r,"_").every(i=>(i=K(i),i.startsWith("var(")?!0:tx.has(i)||Nr(i)||Mr(i)?(e++,!0):!1))?e>0:!1}function zf(r){let e=0;return ve(r,",").every(i=>(i=K(i),i.startsWith("var(")?!0:i.includes(" ")&&!/(['"])([^"']+)\1/g.test(i)||/^\d/g.test(i)?!1:(e++,!0)))?e>0:!1}function Uf(r){return rx.has(r)}function Vf(r){return ix.has(r)}function Hf(r){return nx.has(r)}var Gv,Qv,Kv,Xv,Zv,Jv,tx,rx,ix,nx,Br=P(()=>{u();Qs();Ys();zt();Gv=["min","max","clamp","calc"];Qv=new Set(["scroll-timeline-name","timeline-scope","view-timeline-name","font-palette","anchor-name","anchor-scope","position-anchor","position-try-options","scroll-timeline","animation-timeline","view-timeline","position-try"]);Kv=["cm","mm","Q","in","pc","pt","px","em","ex","ch","rem","lh","rlh","vw","vh","vmin","vmax","vb","vi","svw","svh","lvw","lvh","dvw","dvh","cqw","cqh","cqi","cqb","cqmin","cqmax"],Xv=`(?:${Kv.join("|")})`;Zv=new Set(["thin","medium","thick"]);Jv=new Set(["conic-gradient","linear-gradient","radial-gradient","repeating-conic-gradient","repeating-linear-gradient","repeating-radial-gradient"]);tx=new Set(["center","top","right","bottom","left"]);rx=new Set(["serif","sans-serif","monospace","cursive","fantasy","system-ui","ui-serif","ui-sans-serif","ui-monospace","ui-rounded","math","emoji","fangsong"]);ix=new Set(["xx-small","x-small","small","medium","large","x-large","xx-large","xxx-large"]);nx=new Set(["larger","smaller"])});function Wf(r){let e=["cover","contain"];return ve(r,",").every(t=>{let i=ve(t,"_").filter(Boolean);return i.length===1&&e.includes(i[0])?!0:i.length!==1&&i.length!==2?!1:i.every(n=>Nr(n)||Mr(n)||n==="auto")})}var Gf=P(()=>{u();Br();zt()});function Qf(r,e){r.walkClasses(t=>{t.value=e(t.value),t.raws&&t.raws.value&&(t.raws.value=jt(t.raws.value))})}function Yf(r,e){if(!_t(r))return;let t=r.slice(1,-1);if(!!e(t))return K(t)}function sx(r,e={},t){let i=e[r];if(i!==void 0)return xt(i);if(_t(r)){let n=Yf(r,t);return n===void 0?void 0:xt(n)}}function tn(r,e={},{validate:t=()=>!0}={}){let i=e.values?.[r];return i!==void 0?i:e.supportsNegativeValues&&r.startsWith("-")?sx(r.slice(1),e.values,t):Yf(r,t)}function _t(r){return r.startsWith("[")&&r.endsWith("]")}function Kf(r){let e=r.lastIndexOf("/"),t=r.lastIndexOf("[",e),i=r.indexOf("]",e);return r[e-1]==="]"||r[e+1]==="["||t!==-1&&i!==-1&&t<e&&e<i&&(e=r.lastIndexOf("/",t)),e===-1||e===r.length-1?[r,void 0]:_t(r)&&!r.includes("]/[")?[r,void 0]:[r.slice(0,e),r.slice(e+1)]}function Xt(r){if(typeof r=="string"&&r.includes("<alpha-value>")){let e=r;return({opacityValue:t=1})=>e.replace(/<alpha-value>/g,t)}return r}function Xf(r){return K(r.slice(1,-1))}function ax(r,e={},{tailwindConfig:t={}}={}){if(e.values?.[r]!==void 0)return Xt(e.values?.[r]);let[i,n]=Kf(r);if(n!==void 0){let s=e.values?.[i]??(_t(i)?i.slice(1,-1):void 0);return s===void 0?void 0:(s=Xt(s),_t(n)?Je(s,Xf(n)):t.theme?.opacity?.[n]===void 0?void 0:Je(s,t.theme.opacity[n]))}return tn(r,e,{validate:Bf})}function ox(r,e={}){return e.values?.[r]}function qe(r){return(e,t)=>tn(e,t,{validate:r})}function lx(r,e){let t=r.indexOf(e);return t===-1?[void 0,r]:[r.slice(0,t),r.slice(t+1)]}function ea(r,e,t,i){if(t.values&&e in t.values)for(let{type:s}of r??[]){let a=Js[s](e,t,{tailwindConfig:i});if(a!==void 0)return[a,s,null]}if(_t(e)){let s=e.slice(1,-1),[a,o]=lx(s,":");if(!/^[\w-_]+$/g.test(a))o=s;else if(a!==void 0&&!Zf.includes(a))return[];if(o.length>0&&Zf.includes(a))return[tn(`[${o}]`,t),a,null]}let n=ta(r,e,t,i);for(let s of n)return s;return[]}function*ta(r,e,t,i){let n=we(i,"generalizedModifiers"),[s,a]=Kf(e);if(n&&t.modifiers!=null&&(t.modifiers==="any"||typeof t.modifiers=="object"&&(a&&_t(a)||a in t.modifiers))||(s=e,a=void 0),a!==void 0&&s===""&&(s="DEFAULT"),a!==void 0&&typeof t.modifiers=="object"){let l=t.modifiers?.[a]??null;l!==null?a=l:_t(a)&&(a=Xf(a))}for(let{type:l}of r??[]){let c=Js[l](s,t,{tailwindConfig:i});c!==void 0&&(yield[c,l,a??null])}}var Js,Zf,Fr=P(()=>{u();Zi();Lr();Br();Gi();Gf();ct();Js={any:tn,color:ax,url:qe(Xs),image:qe(Ff),length:qe(Nr),percentage:qe(Mr),position:qe(jf),lookup:ox,"generic-name":qe(Uf),"family-name":qe(zf),number:qe(Zs),"line-width":qe(Mf),"absolute-size":qe(Vf),"relative-size":qe(Hf),shadow:qe(Nf),size:qe(Wf)},Zf=Object.keys(Js)});function X(r){return typeof r=="function"?r({}):r}var ra=P(()=>{u()});function Zt(r){return typeof r=="function"}function jr(r,...e){let t=e.pop();for(let i of e)for(let n in i){let s=t(r[n],i[n]);s===void 0?ke(r[n])&&ke(i[n])?r[n]=jr({},r[n],i[n],t):r[n]=i[n]:r[n]=s}return r}function ux(r,...e){return Zt(r)?r(...e):r}function fx(r){return r.reduce((e,{extend:t})=>jr(e,t,(i,n)=>i===void 0?[n]:Array.isArray(i)?[n,...i]:[n,i]),{})}function cx(r){return{...r.reduce((e,t)=>Hs(e,t),{}),extend:fx(r)}}function Jf(r,e){if(Array.isArray(r)&&ke(r[0]))return r.concat(e);if(Array.isArray(e)&&ke(e[0])&&ke(r))return[r,...e];if(Array.isArray(e))return e}function px({extend:r,...e}){return jr(e,r,(t,i)=>!Zt(t)&&!i.some(Zt)?jr({},t,...i,Jf):(n,s)=>jr({},...[t,...i].map(a=>ux(a,n,s)),Jf))}function*dx(r){let e=kt(r);if(e.length===0||(yield e,Array.isArray(r)))return;let t=/^(.*?)\s*\/\s*([^/]+)$/,i=r.match(t);if(i!==null){let[,n,s]=i,a=kt(n);a.alpha=s,yield a}}function hx(r){let e=(t,i)=>{for(let n of dx(t)){let s=0,a=r;for(;a!=null&&s<n.length;)a=a[n[s++]],a=Zt(a)&&(n.alpha===void 0||s<=n.length-1)?a(e,ia):a;if(a!==void 0){if(n.alpha!==void 0){let o=Xt(a);return Je(o,n.alpha,X(o))}return ke(a)?St(a):a}}return i};return Object.assign(e,{theme:e,...ia}),Object.keys(r).reduce((t,i)=>(t[i]=Zt(r[i])?r[i](e,ia):r[i],t),{})}function ec(r){let e=[];return r.forEach(t=>{e=[...e,t];let i=t?.plugins??[];i.length!==0&&i.forEach(n=>{n.__isOptionsFunction&&(n=n()),e=[...e,...ec([n?.config??{}])]})}),e}function mx(r){return[...r].reduceRight((t,i)=>Zt(i)?i({corePlugins:t}):kf(i,t),vf)}function gx(r){return[...r].reduceRight((t,i)=>[...t,...i],[])}function na(r){let e=[...ec(r),{prefix:"",important:!1,separator:":"}];return Pf(Hs({theme:hx(px(cx(e.map(t=>t?.theme??{})))),corePlugins:mx(e.map(t=>t.corePlugins)),plugins:gx(r.map(t=>t?.plugins??[]))},...e))}var ia,tc=P(()=>{u();Gi();xf();Sf();Vs();Ef();Yi();If();Kt();Xi();Fr();Lr();ra();ia={colors:Us,negative(r){return Object.keys(r).filter(e=>r[e]!=="0").reduce((e,t)=>{let i=xt(r[t]);return i!==void 0&&(e[`-${t}`]=i),e},{})},breakpoints(r){return Object.keys(r).filter(e=>typeof r[e]=="string").reduce((e,t)=>({...e,[`screen-${t}`]:r[t]}),{})}}});var rn=x((f3,rc)=>{u();rc.exports={content:[],presets:[],darkMode:"media",theme:{accentColor:({theme:r})=>({...r("colors"),auto:"auto"}),animation:{none:"none",spin:"spin 1s linear infinite",ping:"ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",pulse:"pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",bounce:"bounce 1s infinite"},aria:{busy:'busy="true"',checked:'checked="true"',disabled:'disabled="true"',expanded:'expanded="true"',hidden:'hidden="true"',pressed:'pressed="true"',readonly:'readonly="true"',required:'required="true"',selected:'selected="true"'},aspectRatio:{auto:"auto",square:"1 / 1",video:"16 / 9"},backdropBlur:({theme:r})=>r("blur"),backdropBrightness:({theme:r})=>r("brightness"),backdropContrast:({theme:r})=>r("contrast"),backdropGrayscale:({theme:r})=>r("grayscale"),backdropHueRotate:({theme:r})=>r("hueRotate"),backdropInvert:({theme:r})=>r("invert"),backdropOpacity:({theme:r})=>r("opacity"),backdropSaturate:({theme:r})=>r("saturate"),backdropSepia:({theme:r})=>r("sepia"),backgroundColor:({theme:r})=>r("colors"),backgroundImage:{none:"none","gradient-to-t":"linear-gradient(to top, var(--tw-gradient-stops))","gradient-to-tr":"linear-gradient(to top right, var(--tw-gradient-stops))","gradient-to-r":"linear-gradient(to right, var(--tw-gradient-stops))","gradient-to-br":"linear-gradient(to bottom right, var(--tw-gradient-stops))","gradient-to-b":"linear-gradient(to bottom, var(--tw-gradient-stops))","gradient-to-bl":"linear-gradient(to bottom left, var(--tw-gradient-stops))","gradient-to-l":"linear-gradient(to left, var(--tw-gradient-stops))","gradient-to-tl":"linear-gradient(to top left, var(--tw-gradient-stops))"},backgroundOpacity:({theme:r})=>r("opacity"),backgroundPosition:{bottom:"bottom",center:"center",left:"left","left-bottom":"left bottom","left-top":"left top",right:"right","right-bottom":"right bottom","right-top":"right top",top:"top"},backgroundSize:{auto:"auto",cover:"cover",contain:"contain"},blur:{0:"0",none:"",sm:"4px",DEFAULT:"8px",md:"12px",lg:"16px",xl:"24px","2xl":"40px","3xl":"64px"},borderColor:({theme:r})=>({...r("colors"),DEFAULT:r("colors.gray.200","currentColor")}),borderOpacity:({theme:r})=>r("opacity"),borderRadius:{none:"0px",sm:"0.125rem",DEFAULT:"0.25rem",md:"0.375rem",lg:"0.5rem",xl:"0.75rem","2xl":"1rem","3xl":"1.5rem",full:"9999px"},borderSpacing:({theme:r})=>({...r("spacing")}),borderWidth:{DEFAULT:"1px",0:"0px",2:"2px",4:"4px",8:"8px"},boxShadow:{sm:"0 1px 2px 0 rgb(0 0 0 / 0.05)",DEFAULT:"0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",md:"0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",lg:"0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",xl:"0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)","2xl":"0 25px 50px -12px rgb(0 0 0 / 0.25)",inner:"inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",none:"none"},boxShadowColor:({theme:r})=>r("colors"),brightness:{0:"0",50:".5",75:".75",90:".9",95:".95",100:"1",105:"1.05",110:"1.1",125:"1.25",150:"1.5",200:"2"},caretColor:({theme:r})=>r("colors"),colors:({colors:r})=>({inherit:r.inherit,current:r.current,transparent:r.transparent,black:r.black,white:r.white,slate:r.slate,gray:r.gray,zinc:r.zinc,neutral:r.neutral,stone:r.stone,red:r.red,orange:r.orange,amber:r.amber,yellow:r.yellow,lime:r.lime,green:r.green,emerald:r.emerald,teal:r.teal,cyan:r.cyan,sky:r.sky,blue:r.blue,indigo:r.indigo,violet:r.violet,purple:r.purple,fuchsia:r.fuchsia,pink:r.pink,rose:r.rose}),columns:{auto:"auto",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"11",12:"12","3xs":"16rem","2xs":"18rem",xs:"20rem",sm:"24rem",md:"28rem",lg:"32rem",xl:"36rem","2xl":"42rem","3xl":"48rem","4xl":"56rem","5xl":"64rem","6xl":"72rem","7xl":"80rem"},container:{},content:{none:"none"},contrast:{0:"0",50:".5",75:".75",100:"1",125:"1.25",150:"1.5",200:"2"},cursor:{auto:"auto",default:"default",pointer:"pointer",wait:"wait",text:"text",move:"move",help:"help","not-allowed":"not-allowed",none:"none","context-menu":"context-menu",progress:"progress",cell:"cell",crosshair:"crosshair","vertical-text":"vertical-text",alias:"alias",copy:"copy","no-drop":"no-drop",grab:"grab",grabbing:"grabbing","all-scroll":"all-scroll","col-resize":"col-resize","row-resize":"row-resize","n-resize":"n-resize","e-resize":"e-resize","s-resize":"s-resize","w-resize":"w-resize","ne-resize":"ne-resize","nw-resize":"nw-resize","se-resize":"se-resize","sw-resize":"sw-resize","ew-resize":"ew-resize","ns-resize":"ns-resize","nesw-resize":"nesw-resize","nwse-resize":"nwse-resize","zoom-in":"zoom-in","zoom-out":"zoom-out"},divideColor:({theme:r})=>r("borderColor"),divideOpacity:({theme:r})=>r("borderOpacity"),divideWidth:({theme:r})=>r("borderWidth"),dropShadow:{sm:"0 1px 1px rgb(0 0 0 / 0.05)",DEFAULT:["0 1px 2px rgb(0 0 0 / 0.1)","0 1px 1px rgb(0 0 0 / 0.06)"],md:["0 4px 3px rgb(0 0 0 / 0.07)","0 2px 2px rgb(0 0 0 / 0.06)"],lg:["0 10px 8px rgb(0 0 0 / 0.04)","0 4px 3px rgb(0 0 0 / 0.1)"],xl:["0 20px 13px rgb(0 0 0 / 0.03)","0 8px 5px rgb(0 0 0 / 0.08)"],"2xl":"0 25px 25px rgb(0 0 0 / 0.15)",none:"0 0 #0000"},fill:({theme:r})=>({none:"none",...r("colors")}),flex:{1:"1 1 0%",auto:"1 1 auto",initial:"0 1 auto",none:"none"},flexBasis:({theme:r})=>({auto:"auto",...r("spacing"),"1/2":"50%","1/3":"33.333333%","2/3":"66.666667%","1/4":"25%","2/4":"50%","3/4":"75%","1/5":"20%","2/5":"40%","3/5":"60%","4/5":"80%","1/6":"16.666667%","2/6":"33.333333%","3/6":"50%","4/6":"66.666667%","5/6":"83.333333%","1/12":"8.333333%","2/12":"16.666667%","3/12":"25%","4/12":"33.333333%","5/12":"41.666667%","6/12":"50%","7/12":"58.333333%","8/12":"66.666667%","9/12":"75%","10/12":"83.333333%","11/12":"91.666667%",full:"100%"}),flexGrow:{0:"0",DEFAULT:"1"},flexShrink:{0:"0",DEFAULT:"1"},fontFamily:{sans:["ui-sans-serif","system-ui","sans-serif",'"Apple Color Emoji"','"Segoe UI Emoji"','"Segoe UI Symbol"','"Noto Color Emoji"'],serif:["ui-serif","Georgia","Cambria",'"Times New Roman"',"Times","serif"],mono:["ui-monospace","SFMono-Regular","Menlo","Monaco","Consolas",'"Liberation Mono"','"Courier New"',"monospace"]},fontSize:{xs:["0.75rem",{lineHeight:"1rem"}],sm:["0.875rem",{lineHeight:"1.25rem"}],base:["1rem",{lineHeight:"1.5rem"}],lg:["1.125rem",{lineHeight:"1.75rem"}],xl:["1.25rem",{lineHeight:"1.75rem"}],"2xl":["1.5rem",{lineHeight:"2rem"}],"3xl":["1.875rem",{lineHeight:"2.25rem"}],"4xl":["2.25rem",{lineHeight:"2.5rem"}],"5xl":["3rem",{lineHeight:"1"}],"6xl":["3.75rem",{lineHeight:"1"}],"7xl":["4.5rem",{lineHeight:"1"}],"8xl":["6rem",{lineHeight:"1"}],"9xl":["8rem",{lineHeight:"1"}]},fontWeight:{thin:"100",extralight:"200",light:"300",normal:"400",medium:"500",semibold:"600",bold:"700",extrabold:"800",black:"900"},gap:({theme:r})=>r("spacing"),gradientColorStops:({theme:r})=>r("colors"),gradientColorStopPositions:{"0%":"0%","5%":"5%","10%":"10%","15%":"15%","20%":"20%","25%":"25%","30%":"30%","35%":"35%","40%":"40%","45%":"45%","50%":"50%","55%":"55%","60%":"60%","65%":"65%","70%":"70%","75%":"75%","80%":"80%","85%":"85%","90%":"90%","95%":"95%","100%":"100%"},grayscale:{0:"0",DEFAULT:"100%"},gridAutoColumns:{auto:"auto",min:"min-content",max:"max-content",fr:"minmax(0, 1fr)"},gridAutoRows:{auto:"auto",min:"min-content",max:"max-content",fr:"minmax(0, 1fr)"},gridColumn:{auto:"auto","span-1":"span 1 / span 1","span-2":"span 2 / span 2","span-3":"span 3 / span 3","span-4":"span 4 / span 4","span-5":"span 5 / span 5","span-6":"span 6 / span 6","span-7":"span 7 / span 7","span-8":"span 8 / span 8","span-9":"span 9 / span 9","span-10":"span 10 / span 10","span-11":"span 11 / span 11","span-12":"span 12 / span 12","span-full":"1 / -1"},gridColumnEnd:{auto:"auto",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"11",12:"12",13:"13"},gridColumnStart:{auto:"auto",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"11",12:"12",13:"13"},gridRow:{auto:"auto","span-1":"span 1 / span 1","span-2":"span 2 / span 2","span-3":"span 3 / span 3","span-4":"span 4 / span 4","span-5":"span 5 / span 5","span-6":"span 6 / span 6","span-7":"span 7 / span 7","span-8":"span 8 / span 8","span-9":"span 9 / span 9","span-10":"span 10 / span 10","span-11":"span 11 / span 11","span-12":"span 12 / span 12","span-full":"1 / -1"},gridRowEnd:{auto:"auto",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"11",12:"12",13:"13"},gridRowStart:{auto:"auto",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"11",12:"12",13:"13"},gridTemplateColumns:{none:"none",subgrid:"subgrid",1:"repeat(1, minmax(0, 1fr))",2:"repeat(2, minmax(0, 1fr))",3:"repeat(3, minmax(0, 1fr))",4:"repeat(4, minmax(0, 1fr))",5:"repeat(5, minmax(0, 1fr))",6:"repeat(6, minmax(0, 1fr))",7:"repeat(7, minmax(0, 1fr))",8:"repeat(8, minmax(0, 1fr))",9:"repeat(9, minmax(0, 1fr))",10:"repeat(10, minmax(0, 1fr))",11:"repeat(11, minmax(0, 1fr))",12:"repeat(12, minmax(0, 1fr))"},gridTemplateRows:{none:"none",subgrid:"subgrid",1:"repeat(1, minmax(0, 1fr))",2:"repeat(2, minmax(0, 1fr))",3:"repeat(3, minmax(0, 1fr))",4:"repeat(4, minmax(0, 1fr))",5:"repeat(5, minmax(0, 1fr))",6:"repeat(6, minmax(0, 1fr))",7:"repeat(7, minmax(0, 1fr))",8:"repeat(8, minmax(0, 1fr))",9:"repeat(9, minmax(0, 1fr))",10:"repeat(10, minmax(0, 1fr))",11:"repeat(11, minmax(0, 1fr))",12:"repeat(12, minmax(0, 1fr))"},height:({theme:r})=>({auto:"auto",...r("spacing"),"1/2":"50%","1/3":"33.333333%","2/3":"66.666667%","1/4":"25%","2/4":"50%","3/4":"75%","1/5":"20%","2/5":"40%","3/5":"60%","4/5":"80%","1/6":"16.666667%","2/6":"33.333333%","3/6":"50%","4/6":"66.666667%","5/6":"83.333333%",full:"100%",screen:"100vh",svh:"100svh",lvh:"100lvh",dvh:"100dvh",min:"min-content",max:"max-content",fit:"fit-content"}),hueRotate:{0:"0deg",15:"15deg",30:"30deg",60:"60deg",90:"90deg",180:"180deg"},inset:({theme:r})=>({auto:"auto",...r("spacing"),"1/2":"50%","1/3":"33.333333%","2/3":"66.666667%","1/4":"25%","2/4":"50%","3/4":"75%",full:"100%"}),invert:{0:"0",DEFAULT:"100%"},keyframes:{spin:{to:{transform:"rotate(360deg)"}},ping:{"75%, 100%":{transform:"scale(2)",opacity:"0"}},pulse:{"50%":{opacity:".5"}},bounce:{"0%, 100%":{transform:"translateY(-25%)",animationTimingFunction:"cubic-bezier(0.8,0,1,1)"},"50%":{transform:"none",animationTimingFunction:"cubic-bezier(0,0,0.2,1)"}}},letterSpacing:{tighter:"-0.05em",tight:"-0.025em",normal:"0em",wide:"0.025em",wider:"0.05em",widest:"0.1em"},lineHeight:{none:"1",tight:"1.25",snug:"1.375",normal:"1.5",relaxed:"1.625",loose:"2",3:".75rem",4:"1rem",5:"1.25rem",6:"1.5rem",7:"1.75rem",8:"2rem",9:"2.25rem",10:"2.5rem"},listStyleType:{none:"none",disc:"disc",decimal:"decimal"},listStyleImage:{none:"none"},margin:({theme:r})=>({auto:"auto",...r("spacing")}),lineClamp:{1:"1",2:"2",3:"3",4:"4",5:"5",6:"6"},maxHeight:({theme:r})=>({...r("spacing"),none:"none",full:"100%",screen:"100vh",svh:"100svh",lvh:"100lvh",dvh:"100dvh",min:"min-content",max:"max-content",fit:"fit-content"}),maxWidth:({theme:r,breakpoints:e})=>({...r("spacing"),none:"none",xs:"20rem",sm:"24rem",md:"28rem",lg:"32rem",xl:"36rem","2xl":"42rem","3xl":"48rem","4xl":"56rem","5xl":"64rem","6xl":"72rem","7xl":"80rem",full:"100%",min:"min-content",max:"max-content",fit:"fit-content",prose:"65ch",...e(r("screens"))}),minHeight:({theme:r})=>({...r("spacing"),full:"100%",screen:"100vh",svh:"100svh",lvh:"100lvh",dvh:"100dvh",min:"min-content",max:"max-content",fit:"fit-content"}),minWidth:({theme:r})=>({...r("spacing"),full:"100%",min:"min-content",max:"max-content",fit:"fit-content"}),objectPosition:{bottom:"bottom",center:"center",left:"left","left-bottom":"left bottom","left-top":"left top",right:"right","right-bottom":"right bottom","right-top":"right top",top:"top"},opacity:{0:"0",5:"0.05",10:"0.1",15:"0.15",20:"0.2",25:"0.25",30:"0.3",35:"0.35",40:"0.4",45:"0.45",50:"0.5",55:"0.55",60:"0.6",65:"0.65",70:"0.7",75:"0.75",80:"0.8",85:"0.85",90:"0.9",95:"0.95",100:"1"},order:{first:"-9999",last:"9999",none:"0",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"11",12:"12"},outlineColor:({theme:r})=>r("colors"),outlineOffset:{0:"0px",1:"1px",2:"2px",4:"4px",8:"8px"},outlineWidth:{0:"0px",1:"1px",2:"2px",4:"4px",8:"8px"},padding:({theme:r})=>r("spacing"),placeholderColor:({theme:r})=>r("colors"),placeholderOpacity:({theme:r})=>r("opacity"),ringColor:({theme:r})=>({DEFAULT:r("colors.blue.500","#3b82f6"),...r("colors")}),ringOffsetColor:({theme:r})=>r("colors"),ringOffsetWidth:{0:"0px",1:"1px",2:"2px",4:"4px",8:"8px"},ringOpacity:({theme:r})=>({DEFAULT:"0.5",...r("opacity")}),ringWidth:{DEFAULT:"3px",0:"0px",1:"1px",2:"2px",4:"4px",8:"8px"},rotate:{0:"0deg",1:"1deg",2:"2deg",3:"3deg",6:"6deg",12:"12deg",45:"45deg",90:"90deg",180:"180deg"},saturate:{0:"0",50:".5",100:"1",150:"1.5",200:"2"},scale:{0:"0",50:".5",75:".75",90:".9",95:".95",100:"1",105:"1.05",110:"1.1",125:"1.25",150:"1.5"},screens:{sm:"640px",md:"768px",lg:"1024px",xl:"1280px","2xl":"1536px"},scrollMargin:({theme:r})=>({...r("spacing")}),scrollPadding:({theme:r})=>r("spacing"),sepia:{0:"0",DEFAULT:"100%"},skew:{0:"0deg",1:"1deg",2:"2deg",3:"3deg",6:"6deg",12:"12deg"},space:({theme:r})=>({...r("spacing")}),spacing:{px:"1px",0:"0px",.5:"0.125rem",1:"0.25rem",1.5:"0.375rem",2:"0.5rem",2.5:"0.625rem",3:"0.75rem",3.5:"0.875rem",4:"1rem",5:"1.25rem",6:"1.5rem",7:"1.75rem",8:"2rem",9:"2.25rem",10:"2.5rem",11:"2.75rem",12:"3rem",14:"3.5rem",16:"4rem",20:"5rem",24:"6rem",28:"7rem",32:"8rem",36:"9rem",40:"10rem",44:"11rem",48:"12rem",52:"13rem",56:"14rem",60:"15rem",64:"16rem",72:"18rem",80:"20rem",96:"24rem"},stroke:({theme:r})=>({none:"none",...r("colors")}),strokeWidth:{0:"0",1:"1",2:"2"},supports:{},data:{},textColor:({theme:r})=>r("colors"),textDecorationColor:({theme:r})=>r("colors"),textDecorationThickness:{auto:"auto","from-font":"from-font",0:"0px",1:"1px",2:"2px",4:"4px",8:"8px"},textIndent:({theme:r})=>({...r("spacing")}),textOpacity:({theme:r})=>r("opacity"),textUnderlineOffset:{auto:"auto",0:"0px",1:"1px",2:"2px",4:"4px",8:"8px"},transformOrigin:{center:"center",top:"top","top-right":"top right",right:"right","bottom-right":"bottom right",bottom:"bottom","bottom-left":"bottom left",left:"left","top-left":"top left"},transitionDelay:{0:"0s",75:"75ms",100:"100ms",150:"150ms",200:"200ms",300:"300ms",500:"500ms",700:"700ms",1e3:"1000ms"},transitionDuration:{DEFAULT:"150ms",0:"0s",75:"75ms",100:"100ms",150:"150ms",200:"200ms",300:"300ms",500:"500ms",700:"700ms",1e3:"1000ms"},transitionProperty:{none:"none",all:"all",DEFAULT:"color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter",colors:"color, background-color, border-color, text-decoration-color, fill, stroke",opacity:"opacity",shadow:"box-shadow",transform:"transform"},transitionTimingFunction:{DEFAULT:"cubic-bezier(0.4, 0, 0.2, 1)",linear:"linear",in:"cubic-bezier(0.4, 0, 1, 1)",out:"cubic-bezier(0, 0, 0.2, 1)","in-out":"cubic-bezier(0.4, 0, 0.2, 1)"},translate:({theme:r})=>({...r("spacing"),"1/2":"50%","1/3":"33.333333%","2/3":"66.666667%","1/4":"25%","2/4":"50%","3/4":"75%",full:"100%"}),size:({theme:r})=>({auto:"auto",...r("spacing"),"1/2":"50%","1/3":"33.333333%","2/3":"66.666667%","1/4":"25%","2/4":"50%","3/4":"75%","1/5":"20%","2/5":"40%","3/5":"60%","4/5":"80%","1/6":"16.666667%","2/6":"33.333333%","3/6":"50%","4/6":"66.666667%","5/6":"83.333333%","1/12":"8.333333%","2/12":"16.666667%","3/12":"25%","4/12":"33.333333%","5/12":"41.666667%","6/12":"50%","7/12":"58.333333%","8/12":"66.666667%","9/12":"75%","10/12":"83.333333%","11/12":"91.666667%",full:"100%",min:"min-content",max:"max-content",fit:"fit-content"}),width:({theme:r})=>({auto:"auto",...r("spacing"),"1/2":"50%","1/3":"33.333333%","2/3":"66.666667%","1/4":"25%","2/4":"50%","3/4":"75%","1/5":"20%","2/5":"40%","3/5":"60%","4/5":"80%","1/6":"16.666667%","2/6":"33.333333%","3/6":"50%","4/6":"66.666667%","5/6":"83.333333%","1/12":"8.333333%","2/12":"16.666667%","3/12":"25%","4/12":"33.333333%","5/12":"41.666667%","6/12":"50%","7/12":"58.333333%","8/12":"66.666667%","9/12":"75%","10/12":"83.333333%","11/12":"91.666667%",full:"100%",screen:"100vw",svw:"100svw",lvw:"100lvw",dvw:"100dvw",min:"min-content",max:"max-content",fit:"fit-content"}),willChange:{auto:"auto",scroll:"scroll-position",contents:"contents",transform:"transform"},zIndex:{auto:"auto",0:"0",10:"10",20:"20",30:"30",40:"40",50:"50"}},plugins:[]}});function nn(r){let e=(r?.presets??[ic.default]).slice().reverse().flatMap(n=>nn(n instanceof Function?n():n)),t={respectDefaultRingColorOpacity:{theme:{ringColor:({theme:n})=>({DEFAULT:"#3b82f67f",...n("colors")})}},disableColorOpacityUtilitiesByDefault:{corePlugins:{backgroundOpacity:!1,borderOpacity:!1,divideOpacity:!1,placeholderOpacity:!1,ringOpacity:!1,textOpacity:!1}}},i=Object.keys(t).filter(n=>we(r,n)).map(n=>t[n]);return[r,...i,...e]}var ic,nc=P(()=>{u();ic=pe(rn());ct()});var sc={};Ge(sc,{default:()=>zr});function zr(...r){let[,...e]=nn(r[0]);return na([...r,...e])}var sa=P(()=>{u();tc();nc()});var Ur={};Ge(Ur,{default:()=>me});var me,et=P(()=>{u();me={resolve:r=>r,extname:r=>"."+r.split(".").pop()}});function sn(r){return typeof r=="object"&&r!==null}function bx(r){return Object.keys(r).length===0}function ac(r){return typeof r=="string"||r instanceof String}function aa(r){return sn(r)&&r.config===void 0&&!bx(r)?null:sn(r)&&r.config!==void 0&&ac(r.config)?me.resolve(r.config):sn(r)&&r.config!==void 0&&sn(r.config)?null:ac(r)?me.resolve(r):wx()}function wx(){for(let r of yx)try{let e=me.resolve(r);return be.accessSync(e),e}catch(e){}return null}var yx,oc=P(()=>{u();ft();et();yx=["./tailwind.config.js","./tailwind.config.cjs","./tailwind.config.mjs","./tailwind.config.ts","./tailwind.config.cts","./tailwind.config.mts"]});var lc={};Ge(lc,{default:()=>oa});var oa,la=P(()=>{u();oa={parse:r=>({href:r})}});var ua=x(()=>{u()});var an=x((v3,cc)=>{u();"use strict";var uc=(Qi(),Af),fc=ua(),Jt=class extends Error{constructor(e,t,i,n,s,a){super(e);this.name="CssSyntaxError",this.reason=e,s&&(this.file=s),n&&(this.source=n),a&&(this.plugin=a),typeof t!="undefined"&&typeof i!="undefined"&&(typeof t=="number"?(this.line=t,this.column=i):(this.line=t.line,this.column=t.column,this.endLine=i.line,this.endColumn=i.column)),this.setMessage(),Error.captureStackTrace&&Error.captureStackTrace(this,Jt)}setMessage(){this.message=this.plugin?this.plugin+": ":"",this.message+=this.file?this.file:"<css input>",typeof this.line!="undefined"&&(this.message+=":"+this.line+":"+this.column),this.message+=": "+this.reason}showSourceCode(e){if(!this.source)return"";let t=this.source;e==null&&(e=uc.isColorSupported);let i=f=>f,n=f=>f,s=f=>f;if(e){let{bold:f,gray:d,red:p}=uc.createColors(!0);n=h=>f(p(h)),i=h=>d(h),fc&&(s=h=>fc(h))}let a=t.split(/\r?\n/),o=Math.max(this.line-3,0),l=Math.min(this.line+2,a.length),c=String(l).length;return a.slice(o,l).map((f,d)=>{let p=o+1+d,h=" "+(" "+p).slice(-c)+" | ";if(p===this.line){if(f.length>160){let v=20,y=Math.max(0,this.column-v),w=Math.max(this.column+v,this.endColumn+v),k=f.slice(y,w),S=i(h.replace(/\d/g," "))+f.slice(0,Math.min(this.column-1,v-1)).replace(/[^\t]/g," ");return n(">")+i(h)+s(k)+`
  `+S+n("^")}let b=i(h.replace(/\d/g," "))+f.slice(0,this.column-1).replace(/[^\t]/g," ");return n(">")+i(h)+s(f)+`
@@ -198,6 +198,9 @@ Check your Browserslist config to be sure that your targets are set up correctly
             #pop-box #res-population { font-size: 13px !important; }
             #pop-box #pop-auto { font-size: 8px !important; padding: 1px 3px !important; }
             #pop-box #btn-buy-pop { width: 18px !important; height: 18px !important; font-size: 10px !important; }
+            #pop-box #dead-box { margin-left: 1px !important; padding-left: 3px !important; gap: 1px !important; }
+            #pop-box #dead-box > span:first-child { font-size: 12px !important; }
+            #pop-box #res-dead { font-size: 11px !important; }
 
             #btn-golden-age {
                 grid-row: 2; grid-column: 4 / span 3;
@@ -311,15 +314,15 @@ Check your Browserslist config to be sure that your targets are set up correctly
     <div id="game-ui" class="flex flex-col justify-between p-4">
         <!-- 顶栏资源 -->
         <div id="top-bar-wrap" class="flex justify-between items-start pointer-events-auto z-10 w-full max-w-6xl self-center">
-            <div id="top-bar" class="flex gap-2 md:gap-6 bg-slate-900/90 backdrop-blur-md p-1 md:p-3 origin-top scale-70 md:scale-100 rounded-xl border border-slate-700 shadow-xl pop-in flex-wrap items-center transition-all duration-500">
-                <div class="top-res flex items-center gap-2 text-rose-400" title="食物"><span class="text-xl">🌾</span> <span id="res-food" class="font-bold text-lg">0</span><span id="gain-food" class="text-xs text-gray-400">(+0)</span></div>
-                <div class="top-res flex items-center gap-2 text-amber-400" title="工业"><span class="text-xl">🔨</span> <span id="res-industry" class="font-bold text-lg">0</span><span id="gain-industry" class="text-xs text-gray-400">(+0)</span></div>
+            <div id="top-bar" class="flex gap-2 md:gap-4 bg-slate-900/90 backdrop-blur-md p-1 md:p-3 origin-top scale-70 md:scale-100 rounded-xl border border-slate-700 shadow-xl pop-in flex-wrap items-center transition-all duration-500">
+                <div class="top-res flex items-center gap-2 text-rose-400" title="食物"><span class="text-xl">🌾</span> <span id="res-food" class="font-bold text-lg text-green-400">0</span><span id="gain-food" class="text-xs text-gray-400">(+0)</span></div>
+                <div class="top-res flex items-center gap-2 text-orange-400" title="工业"><span class="text-xl">🔨</span> <span id="res-industry" class="font-bold text-lg text-orange-400">0</span><span id="gain-industry" class="text-xs text-gray-400">(+0)</span></div>
                 <div class="top-res flex items-center gap-2 text-cyan-400" title="科技"><span class="text-xl">🔬</span> <span id="res-science" class="font-bold text-lg">0</span><span id="gain-science" class="text-xs text-gray-400">(+0)</span></div>
-                <div class="top-res flex items-center gap-2 text-purple-400" title="文化"><span class="text-xl">🎭</span> <span id="res-culture" class="font-bold text-lg">0</span><span id="gain-culture" class="text-xs text-gray-400">(+0)</span></div>
+                <div class="top-res flex items-center gap-2 text-purple-400" title="文化"><span class="text-xl">🎭</span> <span id="res-culture" class="font-bold text-lg text-pink-400">0</span><span id="gain-culture" class="text-xs text-gray-400">(+0)</span></div>
                 <div class="top-res flex items-center gap-2 text-yellow-300" title="金币"><span class="text-xl">💰</span> <span id="res-gold" class="font-bold text-lg">0</span><span id="gain-gold" class="text-xs text-gray-400">(+0)</span></div>
                 
                 <!-- 人口系统：食物足够时每回合自动增长；献祭神时段按钮改为献祭 -->
-                <div id="pop-box" class="flex items-center gap-1 text-gray-200 border-l border-gray-600 pl-4" title="人口" onmouseenter="showPopTooltip(event)" onmouseleave="hideTooltip()">
+                <div id="pop-box" class="flex items-center gap-1 text-gray-200 border-l border-gray-600 pl-4" title="人口 / 亡者" onmouseenter="showPopTooltip(event)" onmouseleave="hideTooltip()">
                     <span class="text-xl">👥</span>
                     <span id="res-population" class="font-bold text-lg">1</span>
                     <span id="pop-auto" class="text-[10px] px-1 py-0.5 rounded bg-emerald-900/60 border border-emerald-700 text-emerald-300 font-bold">自动</span>
@@ -328,6 +331,11 @@ Check your Browserslist config to be sure that your targets are set up correctly
                         onclick="buyPopulation()">
                         +
                     </button>
+                    <!-- 亡者计数：因饥饿或被献祭损失的人口（安魂神恩按此提供文化） -->
+                    <span id="dead-box" class="flex items-center gap-0.5 ml-1 pl-2 border-l border-gray-600 text-amber-200 opacity-50">
+                        <span class="text-lg">🏺</span>
+                        <span id="res-dead" class="font-bold text-base">0</span>
+                    </span>
                 </div>
 
                 <!-- 黄金时代按钮 -->
@@ -470,7 +478,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
 
                 <div class="flex gap-2 mb-1 shrink-0">
                     <button id="faith-tab-gods" onclick="setFaithTab('gods')" class="px-4 py-1.5 rounded-lg border text-sm font-bold transition">守护神</button>
-                    <button id="faith-tab-miracles" onclick="setFaithTab('miracles')" class="px-4 py-1.5 rounded-lg border text-sm font-bold transition">神迹</button>
+                    <button id="faith-tab-miracles" onclick="setFaithTab('miracles')" class="px-4 py-1.5 rounded-lg border text-sm font-bold transition">神恩</button>
                 </div>
                 <div class="flex items-center justify-between gap-3 flex-wrap mb-2 shrink-0">
                     <p class="text-[11px] text-gray-400 leading-tight">⚡ 信仰点获取：建造主广场 +1，开启黄金时代 +1</p>
@@ -519,7 +527,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                 <span class="text-4xl">💾</span>
                 <div>
                     <h2 class="text-xl font-bold text-emerald-300">检测到存档</h2>
-                    <p id="save-modal-info" class="text-xs text-gray-400 mt-1">回合 1 · 诸神黄昏</p>
+                    <p id="save-modal-info" class="text-xs text-gray-400 mt-1">回合 1 · 诸神の黄昏</p>
                 </div>
             </div>
             <p class="text-sm text-gray-300 mb-5">要继续上次的文明，还是从一片新大陆开始？</p>
@@ -614,7 +622,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                 <span class="text-3xl">💎</span>
                 <div class="flex-1">
                     <h2 class="text-xl font-bold text-emerald-300">帝国宝藏</h2>
-                    <p class="text-[11px] text-gray-400 mt-0.5">动物园与植物园两大收藏；藏品按稀有度每回合提供 💰 与 🎭。派出探险家可持续发现新的动物与植物。</p>
+                    <p class="text-[11px] text-gray-400 mt-0.5">动物园与植物园两大收藏；藏品按稀有度每回合提供 🎭，黄金时代期间会转化为 💰。派出探险家可持续发现新的动物与植物。</p>
                 </div>
             </div>
             <button onclick="closeZooModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl leading-none">×</button>
@@ -633,17 +641,18 @@ Check your Browserslist config to be sure that your targets are set up correctly
     <div id="notification-area" class="absolute top-24 right-4 flex flex-col gap-2 pointer-events-none w-72 z-50"></div>
 
     <div id="encyclopedia-modal" class="hidden absolute inset-0 bg-black/85 z-50 flex items-center justify-center pointer-events-auto backdrop-blur-sm pop-in p-4">
-        <div class="bg-slate-900 border border-blue-500 rounded-2xl p-6 w-full max-w-5xl shadow-2xl relative max-h-[85vh] overflow-y-auto text-gray-200">
-    <button onclick="toggleEncyclopedia()" class="absolute top-2 right-2 text-gray-400 hover:text-white text-3xl font-bold z-50 transition pb-1 leading-none">×</button>
-            
-            <div class="flex items-center gap-3 mb-6 border-b border-gray-700 pb-4">
-                <span class="text-4xl">📖</span>
-                <div>
-                    <h2 class="text-2xl font-bold text-blue-400">托特之书</h2>
-                    <p class="text-gray-400 text-sm">世界的运行法则与生存指南</p>
+        <div class="bg-slate-900 border border-blue-500 rounded-2xl w-full max-w-5xl shadow-2xl relative flex flex-col max-h-[85vh] overflow-hidden text-gray-200">
+            <div class="relative shrink-0 px-6 pt-6 pb-4 border-b border-gray-700">
+                <button onclick="toggleEncyclopedia()" class="absolute top-2 right-2 text-gray-400 hover:text-white text-3xl font-bold z-50 transition pb-1 leading-none">×</button>
+                <div class="flex items-center gap-3 pr-10">
+                    <span class="text-4xl">📖</span>
+                    <div>
+                        <h2 class="text-2xl font-bold text-blue-400">托特之书</h2>
+                        <p class="text-gray-400 text-sm">世界的运行法则与生存指南</p>
+                    </div>
                 </div>
             </div>
-
+            <div class="overflow-y-auto px-6 py-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                 <div class="space-y-4">
                     <section>
@@ -652,21 +661,22 @@ Check your Browserslist config to be sure that your targets are set up correctly
                             <li><b>胜利条件：</b> 在 <span class="text-yellow-300">50 回合内</span>于沙漠建造 <span class="text-yellow-300">永恒金字塔</span>（默认 10000💰；普塔 9000💰；维拉科查 3000🔨/💰/🔬/🎭）。</li>
                             <li><b>可重复游玩性：</b> 通过不断尝试各种神灵搭配，以不同的方式获得胜利。</li>
                             <li><b>改造地形：</b> 可花费资源永久改造部分地形，重塑地球生态圈。</li>
-                            <li><b>区域连接：</b> 所有新区域必须与 <span class="text-purple-400">主广场</span> 连接。可以通过隧道、桥梁、运河或已建成的区域进行延伸。区域只可跨一格非交通类人造工程进行建造，不可拆除连接点内的区域（</li>
-                            <li><b>人口：</b> 食物足够时每回合结束自动 +1 人口（可连续增长，消耗递增）。每一人口+3🔨+3🔬+3🎭，但-3🌾。食物耗尽会导致人口减少；献祭神时段与太阳神运转期自动增长暂停。</li>
+                            <li><b>区域连接：</b> 所有新区域必须与 <span class="text-purple-400">主广场</span> 连接。可以通过隧道、桥梁、运河或已建成的区域进行延伸。区域只可跨一格非交通类人造工程进行建造，不可拆除连接点内的区域（拆除会导致其他区域与主广场断开）。</li>
+                            <li><b>人口：</b> 食物足够时每回合结束自动 +1 人口（可连续增长，消耗递增）。每一人口+3🔨+3🔬+3🎭，但-3🌾。食物耗尽会导致人口减少；献祭神时段自动增长暂停（托纳季乌运转期不暂停，人口仍会自然增长）。</li>
+                            <li><b>村庄：</b> 长期交换每回合 -30💰 换 20 对应资源，交换期间每回合 +10 友好度；友好度满 100 后交换提升为 30💰 换 30 对应资源，并可花费 200🎭 吸纳村庄（人口 +3）。</li>
                             <li><b>存档：</b> 左下角 💾 保存进度 / 📂 读取存档；每回合结束、建造与关闭页面时会自动存档。</li>
                         </ul>
                     </section>
 
                     <section>
                         <h3 class="text-green-400 font-bold text-lg mb-2">🏙️ 区域与毗邻</h3>
-                        <p class="mb-1 text-xs text-gray-400">区域通过毗邻相同区域或对应类型的人造工程获得等级加成 (Lv1:+1, Lv2:+2, Lv3:+3)</p>
+                        <p class="mb-1 text-xs text-gray-400">区域通过毗邻相同区域或对应类型的人造工程获得等级加成 (Lv1:+1, Lv2:+2, Lv3:+3)；农业/工业/市场/科研/娱乐五大区域的等级会以罗马数字 <b>I / II / III</b> 显示在区域上方。</p>
                         <ul class="space-y-1">
                             <li><span class="text-green-300">🌾 农业区：</span> 毗邻梯田、坎儿井、绿洲设施等。</li>
-                            <li><span class="text-amber-300">🔨 工业区：</span> 毗邻矿山、伐木场、太阳能、风电等。</li>
+                            <li><span class="text-orange-300">🔨 工业区：</span> 毗邻矿山、伐木场、太阳能、风电等。</li>
                             <li><span class="text-yellow-300">💰 市场区：</span> 毗邻交通设施、牧场、种植园、捕鱼场等。</li>
                             <li><span class="text-cyan-300">🔬 科研区：</span> 毗邻极地站、保护区、地质设施等。</li>
-                            <li><span class="text-purple-300">🎭 娱乐区：</span> 毗邻景区、沿海、保护区等。</li>
+                            <li><span class="text-pink-300">🎭 娱乐区：</span> 毗邻景区、沿海、保护区等。</li>
                             <li><span class="text-amber-300">🔨 人造工程：</span> 可在世界任意地点建造，用于给对应区域提供毗邻收益。</li>
                             <li><span class="text-amber-300">🗿 遗迹：</span> 随机出现在世界各地，区域建造在遗迹上将获得收益。</li>
                         </ul>
@@ -676,11 +686,11 @@ Check your Browserslist config to be sure that your targets are set up correctly
                         <h3 class="text-blue-400 font-bold text-lg mb-2">🔨 五项资源用处</h3>
                         <p class="mb-1 text-xs text-gray-400">游戏共有🌾🔨💰🔬🎭五种资源，各自对应着不同的功能</p>
                         <ul class="space-y-1">
-                            <li><span class="text-green-300">🌾 食物：</span> 用于自动增长人口（食物足够时每回合 +1 人口）。</li>
-                            <li><span class="text-amber-300">🔨 工业：</span> 用于建造区域或人造工程以及升级区域。</li>
+                            <li><span class="text-green-300">🌾 食物：</span> 用于增长以及维持人口。</li>
+                            <li><span class="text-orange-300">🔨 工业：</span> 用于建造区域或人造工程以及升级区域。</li>
                             <li><span class="text-yellow-300">💰 金钱：</span> 用于主广场的内政管理进行资源交换，并是游戏胜利条件的重要资源。</li>
                             <li><span class="text-cyan-300">🔬 科研：</span> 用于升级区域，并为 Lv3 区域提供科技加成（每 100 科研储存 +1 对应产出，<b>无上限</b>）。</li>
-                            <li><span class="text-purple-300">🎭 文化：</span> 用于开启黄金时代、吸纳村庄（300🎭）；也可在神灵面板兑换信仰点（首次 150🎭，之后每次 +50🎭）。</li>
+                            <li><span class="text-pink-300">🎭 文化：</span> 用于开启黄金时代、吸纳村庄（200🎭，人口 +3）；也可在神灵面板兑换信仰点（首次 150🎭，之后每次 +50🎭）。</li>
                         </ul>
                     </section>
 
@@ -735,7 +745,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                         <h3 class="text-red-400 font-bold text-lg mb-2">🌪️ 自然灾害</h3>
                         <p class="mb-1 text-xs text-gray-400">因为自然灾害摧毁的人造工程与区域会返还部分🔨，LV2/Lv3区域以及交通类人造工程不会被火山以外的自然灾害摧毁，但仍然会获得收益减半的效果</p>
                         <div class="space-y-2 text-gray-300">
-                            <p><b>🌋 火山：</b> 爆发摧毁周围区域与人造工程，将地形变为焦土。恢复后形成高产火山灰（+1🌾/每次喷发累计)。<span class="text-amber-300">山火神迹1阶段：喷发不再造成破坏；2阶段：喷发概率翻3倍并累计区域产出。</span></p>
+                            <p><b>🌋 火山：</b> 爆发摧毁周围区域与人造工程，将地形变为焦土。恢复后形成高产火山灰（基础 +2🌾，相邻火山共用一次；每次喷发 +1 层，每层再 +2🌾，层数可叠加）。<span class="text-amber-300">山火神迹1阶段：喷发不再造成破坏；2阶段：喷发概率翻3倍，每次喷发使己方所有农业区 +1🌾（可累计）。</span></p>
                             <p><b>❄️ 暴风雪：</b> 冬季-寒带产生，向温带扩散。覆盖区域产出减半（可被山脉，针叶林阻挡）。</p>
                             <p><b>🌪️ 沙尘暴：</b> 沙漠产生，随机移动。覆盖区域产出减半（可通过滴灌沙漠阻止产生）（可被树林阻挡，但阻挡的树林有几率被摧毁变为干草地）。</p>
                             <p><b>🐘 兽潮迁徙：</b> 稀树草原产生，会优先朝区域移动。覆盖区域产出减半（可通过焦土稀树草原阻止产生）。</p>
@@ -747,18 +757,19 @@ Check your Browserslist config to be sure that your targets are set up correctly
                     </section>
 
                     <section>
-                        <h3 class="text-purple-400 font-bold text-lg mb-2">⚡ 信仰与时代</h3>
+                        <h3 class="text-purple-400 font-bold text-lg mb-2">⚡ 信仰</h3>
                         <ul class="list-disc pl-5 space-y-1 text-gray-300">
-                            <li><b>主广场：</b> 后续建造的2个主广场可各自信奉一位神祇，获得独特被动能力。</li>
-                            <li><b>黄金时代：</b> 消耗文化开启。期间产出大幅提升，且可通过特定神祇(如哈索尔/托纳季乌)改变规则。</li>
-                            <li><b>神迹：</b> 部分神祇(如赛特/波塞冬)允许使用独特的地形改造技能。</li>
+                            <li><b>信仰点：</b> 初始 1 点；每建造 1 个主广场 +1，每次开启黄金时代 +1；也可用文化兑换（150🎭 起）。用于解锁守护神或升级神恩。</li>
+                            <li><b>守护神：</b> 消耗 2 信仰点解锁，提供独特被动能力；一局最多 2 位，<b>优先推荐先选守护神</b>。</li>
+                            <li><b>神恩：</b> 消耗 1 信仰点解锁 1 阶段、再 1 点升至 2 阶段，提供永久加成；建议在守护神之后投入。</li>
                         </ul>
                     </section>
                 </div>
             </div>
             
-            <div class="mt-6 pt-4 border-t border-gray-700 text-center text-xs text-gray-500">
-                点击右上角关闭托特之书
+                <div class="mt-6 pt-4 border-t border-gray-700 text-center text-xs text-gray-500">
+                    点击右上角关闭托特之书
+                </div>
             </div>
         </div>
     </div>
@@ -838,7 +849,7 @@ const CONFIG = {
     gaDuration: {
       name: '庆典', icon: '✨', cost: 1,
       desc1: '黄金时代持续时间 +1 回合',
-      desc2: '黄金时代持续时间再 +1 回合（合计 +2）'
+      desc2: '黄金时代期间，每个人口 +3💰'
     },
     explorerExtra: {
       name: '寻踪', icon: '🧭', cost: 1,
@@ -848,7 +859,7 @@ const CONFIG = {
     villageFriendship: {
       name: '归化', icon: '🏘️', cost: 1,
       desc1: '所有村庄友好度立即变为 100',
-      desc2: '吸纳村庄文化费用减半（300→150）'
+      desc2: '吸纳村庄文化费用减半（200→100）'
     },
     ancientRuins: {
       name: '古墟', icon: '🗿', cost: 1,
@@ -863,12 +874,17 @@ const CONFIG = {
     seasonPopulation: {
       name: '季礼', icon: '🍂', cost: 1,
       desc1: '每个季节开启时 +1 人口',
-      desc2: '每年额外 +3 人口'
+      desc2: '新年到来时 +3 人口'
     },
     mountainFire: {
       name: '山火', icon: '🌋', cost: 1,
-      desc1: '山脉→火山 3 次；火山→山脉 3 次，火→山 +30🔨；火山喷发不会摧毁区域',
-      desc2: '火山喷发概率翻3倍；每次喷发使己方区域 +1 对应产出（可累计）'
+      desc1: '山脉可转变为火山（3 次）；火山可转变为山脉（3 次），火山转变为山脉时 +30🔨；火山喷发不会摧毁区域',
+      desc2: '火山喷发概率翻3倍；每次喷发使己方所有农业区 +1🌾（可累计）'
+    },
+    deadCulture: {
+      name: '安魂', icon: '🏺', cost: 1,
+      desc1: '每个亡者每回合 +2🎭',
+      desc2: '每个亡者每回合额外 +2💰'
     }
   },
   village: {
@@ -876,19 +892,19 @@ const CONFIG = {
     maxCount: 3,
     friendshipPerTurn: 10,
     maxFriendship: 100,
-    absorbCost: 300,
-    absorbPopulation: 5
+    absorbCost: 200,
+    absorbPopulation: 3
   },
   zoo: {
     rarityIncome: {
-      '蓝色': { gold: 1, culture: 1 },
-      '紫色': { gold: 2, culture: 2 },
-      '金色': { gold: 3, culture: 3 }
+      '蓝色': { culture: 1 },
+      '紫色': { culture: 2 },
+      '金色': { culture: 3 }
     },
     plantRarityIncome: {
-      '蓝色': { gold: 1, culture: 1 },
-      '紫色': { gold: 2, culture: 2 },
-      '金色': { gold: 3, culture: 3 }
+      '蓝色': { culture: 1 },
+      '紫色': { culture: 2 },
+      '金色': { culture: 3 }
     }
   },
   save: { autoIntervalMs: 1500, slots: 3 },
@@ -900,7 +916,7 @@ const CONFIG = {
 // ==================== src/00-bootstrap.js：画布与运行环境 ====================
 
 // ============================================================
-// 丸宝导师的地球 · v2.0（诸神黄昏）
+// 地球-诸神の黄昏 · v2.0
 // 主要改动：统一造价 / 存档·读档（含自动存档）/ 连通性收入 /
 // 灾害状态清理 / DPR + rAF 渲染优化 / 一批 bug 修复
 // ============================================================
@@ -1204,7 +1220,7 @@ const ADJ_INFO = {
     [TERRAIN.PALEONTOLOGY_DIG]: '科研区', [TERRAIN.GEOPARK]: '科研/娱乐', [TERRAIN.THERMOPHILE_LAB]: '科研区',
     [TERRAIN.DEEP_EARTH_LAB]: '科研区', [TERRAIN.MANGROVE_RESERVE]: '科研/娱乐', [TERRAIN.PEAT_BOG_RESERVE]: '科研/娱乐',
     [TERRAIN.TOURIST_SPOT]: '娱乐区', [TERRAIN.SKI_RESORT]: '娱乐区', [TERRAIN.ICE_SCULPTURE_PARK]: '娱乐区',
-    [TERRAIN.MANGROVE]: '科研/娱乐/港口(需保护区)',
+    [TERRAIN.MANGROVE]: '科研/港口(需保护区)',
     [TERRAIN.LAKE]: '各区域(需设施)', [TERRAIN.SWAMP]: '各区域(需设施)', [TERRAIN.OASIS]: '各区域(需设施)'
 };
 const ALL_DRY_GRASS = [TERRAIN.DRY_GRASS_COLD, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP];
@@ -1232,10 +1248,9 @@ const ENGINEERING_ACTIONS = ['make_terrace', 'build_mine', 'make_tunnel', 'make_
 const GODS = {
     'osiris': { 
         name: '丰饶之神——奥西里斯', 
-        desc: '【冥界恩典】：每一人口消耗🌾-1，且产出+1💰\n【泛滥沃土】：农业区获得等级等量的额外🌾', 
+        desc: '【冥界恩典】：每3回合复活1名亡者（亡者-1，人口+1）\n【泛滥沃土】：农业区获得等级等量的额外🌾', 
         icon: '⚖️',
         effects: {
-            income: (state, inc) => { inc.food += state.resources.population; inc.gold += state.resources.population; },
             yield: (t, y, list) => { if(t.improvement==='farm') { let v=t.level||1; y.food+=v; list.push(`奥西里斯: +${v}🌾`); } }
         }
     },
@@ -1428,12 +1443,12 @@ const GODS = {
     },
     'xolotl': { 
         name: '双生之神——肖洛特尔', 
-        desc: '【双生引导】：购买人口时，50%几率额外+1人口\n【冥界代价】：每次购买人口🌾消耗增加10', 
+        desc: '【双生引导】：人口增长时，额外增加1名亡者\n【冥界代价】：每次购买人口🌾消耗增加10', 
         icon: '🐕' 
     },
     'tonatiuh': { 
         name: '第五太阳——托纳季乌', 
-        desc: '【太阳运行】：✨黄金时代免费且强制开启，全产出+2（随回合累计）\n【燃烧祭品】：每回合自动-1人口，若归零则太阳熄灭（5回合后可再次开启）', 
+        desc: '【太阳运行】：✨黄金时代免费且强制开启，全产出+1（随回合累计）\n【燃烧祭品】：每回合自动-1人口（人口仍会自然增长），若归零则太阳熄灭（5回合后可再次开启）', 
         icon: '🌞' 
     },
     'itztlacoliuhqui': { 
@@ -1867,6 +1882,12 @@ function validateGameData() {
     if (!(CONFIG.village.minCount >= 3 && CONFIG.village.maxCount === 3)) {
       issues.push('CONFIG.village 数量配置非法');
     }
+    if (!(CONFIG.village.absorbCost > 0 && CONFIG.village.absorbPopulation > 0)) {
+      issues.push('CONFIG.village 吸纳配置非法');
+    }
+    if (!(VILLAGE_TRADE_AMOUNT_MAX > VILLAGE_TRADE_AMOUNT)) {
+      issues.push('VILLAGE_TRADE_AMOUNT_MAX 必须高于基础交换量');
+    }
     for (const key of VILLAGE_SPECIALTY_ORDER) {
       const spec = VILLAGE_SPECIALTIES[key];
       if (!spec || !spec.name || !(VILLAGE_TRADE_GOLD > 0) || !(VILLAGE_TRADE_AMOUNT > 0)) {
@@ -2009,7 +2030,7 @@ function hasHorusAdjacency(gods) {
   return hasGod(gods, 'horus');
 }
 function getVolcanoBase(gods) {
-  return hasGod(gods, 'pachamama') ? 5 : 1;
+  return hasGod(gods, 'pachamama') ? 5 : 2;
 }
 function isPachamamaActive(gods) { return hasGod(gods, 'pachamama'); }
 function isUrcuchillayActive(gods) { return hasGod(gods, 'urcuchillay'); }
@@ -2258,6 +2279,21 @@ GODS.hephaestus.events = {
 };
 
 // === 回合 / 时代钩子 ===
+GODS.osiris.events = {
+  onTurnOsiris() {
+    if ((state.deadPopulation || 0) <= 0) {
+      state.osirisReviveTurns = 0;
+      return;
+    }
+    state.osirisReviveTurns = (state.osirisReviveTurns || 0) + 1;
+    if (state.osirisReviveTurns < 3) return;
+    state.osirisReviveTurns = 0;
+    state.deadPopulation--;
+    state.resources.population++;
+    showMsg(`⚖️ 奥西里斯：1 名亡者复活（亡者 ${state.deadPopulation}，人口 ${state.resources.population}）。`, "success");
+  }
+};
+
 GODS.tonatiuh.events = {
   onTurnTonatiuh() {
     if (typeof state.tonatiuhCooldown === 'undefined') state.tonatiuhCooldown = 0;
@@ -2270,10 +2306,17 @@ GODS.tonatiuh.events = {
         showMsg(`托纳季乌：太阳熄灭中 (剩余冷却 ${state.tonatiuhCooldown} 回合)`, "warning");
       }
     } else if (state.resources.population > 0) {
+      // 太阳（重新）升起时才结算一次「开启黄金时代」的信仰点；
+      // 此前写成每回合 +1，会随时间无限累积信仰点。
+      const wasActive = state.goldenAge.active;
       state.resources.population--;
+      recordDeadPopulation(1);
       state.goldenAge.active = true;
       state.goldenAge.turnCount = CONFIG.goldenAge.tonatiuhTurns + getMiracleGaTurns();
-      state.faithPoints = (state.faithPoints || 0) + CONFIG.faith.goldenAgeGain;
+      if (!wasActive) {
+        state.faithPoints = (state.faithPoints || 0) + CONFIG.faith.goldenAgeGain;
+        showMsg("托纳季乌：太阳升起，黄金时代开启 (+1⚡)", "success");
+      }
     } else {
       state.goldenAge.active = false;
       state.tonatiuhCooldown = 5;
@@ -2375,6 +2418,7 @@ GODS.itztlacoliuhqui.events.onBuyPopulation = function (ctx) {
     return true;
   }
   state.resources.population--;
+  recordDeadPopulation(1);
   state.permanentGold += 20;
   state.sacrificedThisTurn = true;
   showMsg("献祭成功！回合金+20(永久)", "success");
@@ -2392,6 +2436,7 @@ GODS.xipe_totec.events = {
       return true;
     }
     state.resources.population--;
+    recordDeadPopulation(1);
     state.xipeSacrificeCount = (state.xipeSacrificeCount || 0) + 1;
     showMsg("献祭成功！全人口产出提升", "success");
     calculateIncome();
@@ -2403,10 +2448,8 @@ GODS.xipe_totec.events = {
 
 GODS.xolotl.events = {
   onPopulationGain(ctx) {
-    if (Math.random() < 0.5) {
-      ctx.gained += 1;
-      if (!ctx.silent) showMsg('肖洛特尔赐福: 额外 +1 人口!', 'success');
-    }
+    ctx.deadGain = (ctx.deadGain || 0) + 1;
+    if (!ctx.silent) showMsg('肖洛特尔赐福: 额外 +1 亡者!', 'success');
     ctx.step = CONFIG.population.xolotlStep;
   }
 };
@@ -2531,6 +2574,7 @@ GODS.tlaloc.events.onActivateGoldenAge = function () {
   }
   if (state.resources.population >= 3) {
     state.resources.population -= 3;
+    recordDeadPopulation(3);
     state.goldenAge.level++;
     state.goldenAge.active = true;
     state.goldenAge.turnCount = CONFIG.goldenAge.tlalocTurns + getMiracleGaTurns();
@@ -2549,6 +2593,7 @@ GODS.tlaloc.events.onActivateGoldenAge = function () {
 GODS.huitzilopochtli.events = {
   onActivateGoldenAge() {
     if (state.resources.population >= state.goldenAge.popCost) {
+      recordDeadPopulation(state.goldenAge.popCost);
       state.resources.population -= state.goldenAge.popCost;
       state.goldenAge.popCost += 1;
       startGoldenAgeEffect(getActiveGods());
@@ -2789,6 +2834,10 @@ function createInitialState() {
         miracleSeasonPopulation2: false,
         miracleMountainFire: false,
         miracleMountainFire2: false,
+        miracleDeadCulture: false,
+        miracleDeadCulture2: false,
+        deadPopulation: 10,
+        osirisReviveTurns: 0,
         miracleMountainToVolcano: 0,
         miracleVolcanoToMountain: 0,
         volcanoEruptionBonus: 0,
@@ -2837,11 +2886,12 @@ let lastTouchDist = 0;
 // ==================== src/04b-villages.js：可互动村庄与长期贸易 ====================
 const VILLAGE_TRADE_GOLD = 30;
 const VILLAGE_TRADE_AMOUNT = 20;
+const VILLAGE_TRADE_AMOUNT_MAX = 30;
 
 const VILLAGE_SPECIALTIES = {
-  food: { key: 'food', name: '粮食交换', icon: '🌾', resource: 'food', label: '食物', color: '#a3e635', desc: '每回合用 30💰 换 20🌾' },
-  industry: { key: 'industry', name: '工业交换', icon: '🔨', resource: 'industry', label: '工业', color: '#b45309', desc: '每回合用 30💰 换 20🔨' },
-  science: { key: 'science', name: '科研交换', icon: '🔬', resource: 'science', label: '科研', color: '#3b82f6', desc: '每回合用 30💰 换 20🔬' }
+  food: { key: 'food', name: '粮食交换', icon: '🌾', resource: 'food', label: '食物', color: '#a3e635', desc: `每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT}🌾（好感满后 ${VILLAGE_TRADE_AMOUNT_MAX}🌾）` },
+  industry: { key: 'industry', name: '工业交换', icon: '🔨', resource: 'industry', label: '工业', color: '#b45309', desc: `每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT}🔨（好感满后 ${VILLAGE_TRADE_AMOUNT_MAX}🔨）` },
+  science: { key: 'science', name: '科研交换', icon: '🔬', resource: 'science', label: '科研', color: '#3b82f6', desc: `每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT}🔬（好感满后 ${VILLAGE_TRADE_AMOUNT_MAX}🔬）` }
 };
 const VILLAGE_SPECIALTY_ORDER = ['food', 'industry', 'science'];
 
@@ -2889,6 +2939,12 @@ function getVillageSpecialty(village) {
   return VILLAGE_SPECIALTIES[village && village.specialty] || VILLAGE_SPECIALTIES.food;
 }
 
+// 好感度满后，同样的 30💰 可换到更多对应资源（20 → 30）
+function getVillageTradeAmount(village) {
+  const friendship = (village && village.friendship) || 0;
+  return friendship >= CONFIG.village.maxFriendship ? VILLAGE_TRADE_AMOUNT_MAX : VILLAGE_TRADE_AMOUNT;
+}
+
 function getVillageDryGrassType(tile) {
   const lat = (tile.r - CONFIG.map.offsetY) / CONFIG.map.height;
   if (lat < 0.27 || lat > 0.86) return TERRAIN.DRY_GRASS_COLD;
@@ -2901,7 +2957,9 @@ function selectVillageTrade(q, r) {
   if (!t || t.village.activeTrade) return;
   t.village.activeTrade = true;
   const spec = getVillageSpecialty(t.village);
-  showMsg(`🤝 与 ${t.village.name} 建立长期交换：每回合 -${VILLAGE_TRADE_GOLD}💰 +${VILLAGE_TRADE_AMOUNT}${spec.icon}`, "success");
+  const amount = getVillageTradeAmount(t.village);
+  const maxNote = amount < VILLAGE_TRADE_AMOUNT_MAX ? `（好感满后 +${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}）` : '';
+  showMsg(`🤝 与 ${t.village.name} 建立长期交换：每回合 -${VILLAGE_TRADE_GOLD}💰 +${amount}${spec.icon}${maxNote}`, "success");
   renderVillageModal(t);
   updateSelectionUI(t);
   updateUI();
@@ -2963,7 +3021,7 @@ function getVillageTradeIncome() {
     if (!t.village || !t.village.activeTrade) return;
     const spec = getVillageSpecialty(t.village);
     mod.gold -= VILLAGE_TRADE_GOLD;
-    mod[spec.resource] += VILLAGE_TRADE_AMOUNT;
+    mod[spec.resource] += getVillageTradeAmount(t.village);
   });
   return mod;
 }
@@ -2981,14 +3039,15 @@ function processVillageTrades() {
       return;
     }
     const spec = getVillageSpecialty(t.village);
+    const amount = getVillageTradeAmount(t.village);
     state.resources.gold -= VILLAGE_TRADE_GOLD;
-    state.resources[spec.resource] += VILLAGE_TRADE_AMOUNT;
+    state.resources[spec.resource] += amount;
     t.village.friendship = Math.min(
       CONFIG.village.maxFriendship,
       t.village.friendship + CONFIG.village.friendshipPerTurn
     );
     totalGold += VILLAGE_TRADE_GOLD;
-    gain[spec.resource] += VILLAGE_TRADE_AMOUNT;
+    gain[spec.resource] += amount;
     count++;
   });
 
@@ -3053,7 +3112,7 @@ function renderVillageModal(t) {
       <div class="h-2.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
         <div class="h-full bg-gradient-to-r from-amber-500 to-emerald-400" style="width:${friendship}%"></div>
       </div>
-      <p class="text-[11px] text-gray-500 mt-1">交换期间每回合 +${CONFIG.village.friendshipPerTurn}；取消 -10。</p>
+      <p class="text-[11px] text-gray-500 mt-1">交换期间每回合 +${CONFIG.village.friendshipPerTurn}；取消 -10。好感度满 ${CONFIG.village.maxFriendship} 后，交换量提升为 ${VILLAGE_TRADE_GOLD}💰 → ${VILLAGE_TRADE_AMOUNT_MAX} 对应资源。</p>
     </div>
 
     <div class="bg-slate-800 border ${active ? 'border-emerald-500' : 'border-slate-700'} rounded-lg p-3 flex items-center justify-between gap-3">
@@ -3061,13 +3120,14 @@ function renderVillageModal(t) {
         <div class="font-bold text-slate-100">${spec.icon} ${spec.name}</div>
         <div class="text-xs text-gray-400 mt-0.5">${spec.desc}</div>
       </div>
-      <button onclick="selectVillageTrade(${t.q},${t.r})" class="px-3 py-1.5 rounded border text-xs font-bold whitespace-nowrap ${active ? 'bg-emerald-800 text-emerald-200 border-emerald-600 cursor-default' : 'bg-indigo-700 hover:bg-indigo-600 text-white border-indigo-500'}" ${active ? 'disabled' : ''}>${active ? '当前交换' : '建立交换'}</button>
+      <button onclick="selectVillageTrade(${t.q},${t.r})" class="px-3 py-1.5 rounded border text-xs font-bold whitespace-nowrap ${active ? 'bg-emerald-800 text-emerald-200 border-emerald-600 cursor-default' : 'bg-indigo-700 hover:bg-indigo-600 text-white border-indigo-500'}" ${active ? 'disabled' : ''}>${active ? `当前交换 (${VILLAGE_TRADE_GOLD}→${getVillageTradeAmount(v)})` : '建立交换'}</button>
     </div>
+    <p class="text-[11px] mt-1.5 ${friendship >= CONFIG.village.maxFriendship ? 'text-emerald-300' : 'text-gray-400'}">${friendship >= CONFIG.village.maxFriendship ? `好感度已满：每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}。` : `好感度满 ${CONFIG.village.maxFriendship} 后：每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}（现在换 ${VILLAGE_TRADE_AMOUNT}${spec.icon}）。`}</p>
 
     <div class="mt-4 pt-3 border-t border-gray-700 flex flex-wrap items-center gap-2">
       ${active ? `<button onclick="cancelVillageTrade(${t.q},${t.r})" class="px-3 py-2 rounded bg-red-800 hover:bg-red-700 text-white text-sm font-bold">取消交换 (-10友好度)</button>` : ''}
       <button onclick="absorbVillage(${t.q},${t.r})" class="px-3 py-2 rounded border text-sm font-bold ${canAbsorb ? 'bg-amber-600 hover:bg-amber-500 text-black border-amber-300' : 'bg-gray-800 text-gray-500 border-gray-700 cursor-not-allowed'}" ${canAbsorb ? '' : 'disabled'}>吸纳村庄 (${getVillageAbsorbCost()}🎭 / +${CONFIG.village.absorbPopulation}人口)</button>
-      <span class="text-xs text-gray-500">${canAbsorb ? '友好度已满，可以吸纳。' : `需友好度 ${CONFIG.village.maxFriendship} 且文化 ${getVillageAbsorbCost()}。`}</span>
+      <span class="text-xs text-gray-500">${canAbsorb ? `友好度已满，可以吸纳（人口 +${CONFIG.village.absorbPopulation}）。` : `需友好度 ${CONFIG.village.maxFriendship} 且文化 ${getVillageAbsorbCost()}。`}</span>
     </div>
   `;
 }
@@ -3324,32 +3384,30 @@ const RARITY_ORDER = { '金色': 0, '紫色': 1, '蓝色': 2 };
 const MOVEMENT_ORDER = { '海洋': 0, '陆地': 1, '飞行': 2 };
 
 function getCollectionIncome(kind) {
-  let gold = 0;
   let culture = 0;
   if (kind === 'plant') {
     for (const id of state.plants || []) {
       const plant = PLANT_BY_ID[id];
       if (!plant) continue;
-      const bonus = CONFIG.zoo.plantRarityIncome[plant.rarity] || { gold: 0, culture: 0 };
-      gold += bonus.gold;
-      culture += bonus.culture;
+      const bonus = CONFIG.zoo.plantRarityIncome[plant.rarity] || { culture: 0 };
+      culture += bonus.culture || 0;
     }
-    return { gold, culture };
+    return { culture };
   }
   for (const id of state.animals || []) {
     const animal = ANIMAL_BY_ID[id];
     if (!animal) continue;
-    const bonus = CONFIG.zoo.rarityIncome[animal.rarity] || { gold: 0, culture: 0 };
-    gold += bonus.gold;
-    culture += bonus.culture;
+    const bonus = CONFIG.zoo.rarityIncome[animal.rarity] || { culture: 0 };
+    culture += bonus.culture || 0;
   }
-  return { gold, culture };
+  return { culture };
 }
 
+// 动物与植物只提供文化；黄金时代期间文化仍会照常转化为金币
 function getZooIncome() {
   const animal = getCollectionIncome('animal');
   const plant = getCollectionIncome('plant');
-  return { gold: animal.gold + plant.gold, culture: animal.culture + plant.culture };
+  return { culture: animal.culture + plant.culture };
 }
 
 function updateZooBadge() {
@@ -3469,7 +3527,7 @@ function processExplorers() {
     }
     const pick = pool[Math.floor(Math.random() * pool.length)];
     const picks = [pick];
-    // 寻踪神迹：每名探险家每回合 25% 概率额外 +1 收藏进度
+    // 寻踪神恩：每名探险家每回合 25% 概率额外 +1 收藏进度
     if (state.miracleExplorerExtra && Math.random() < 0.25) {
       const extraPool = getContinentRemaining(continent)
         .filter(target => !(target.kind === pick.kind && target.id === pick.id));
@@ -3750,10 +3808,9 @@ function renderZooModal() {
 
   body.innerHTML = `
     <div class="flex items-center gap-1 border-b border-slate-700 mb-2">${treasureTabsHtml()}</div>
-    <div class="grid grid-cols-3 gap-2 mb-2">
+    <div class="grid grid-cols-2 gap-2 mb-2">
       <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">已收集</div><div class="text-lg font-bold text-emerald-300">${owned.size}/${total}</div></div>
-      <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">每回合文化</div><div class="text-lg font-bold text-yellow-300">+${inc.culture}🎭</div></div>
-      <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">每回合金币</div><div class="text-lg font-bold text-yellow-300">+${inc.gold}💰</div></div>
+      <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">每回合文化</div><div class="text-lg font-bold text-pink-300">+${inc.culture}🎭</div></div>
     </div>
     ${isPlant ? renderPlantTab(plantOwned) : renderAnimalTab(animalOwned)}
 
@@ -3811,14 +3868,14 @@ function renderExpeditionModal() {
       <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">空闲</div><div class="text-lg font-bold ${idle > 0 ? 'text-emerald-300' : 'text-gray-400'}">${idle}</div></div>
     </div>
     <div class="space-y-2">${renderExpeditionRows()}</div>
-    <p class="text-[11px] text-gray-500 mt-3">来源：每有 1 个主广场 +1，寻踪神迹额外 +1（吸纳村庄不提供探险家）。动物按稀有度每回合提供 +1~+3💰/🎭，植物按蓝/紫/金提供 +1~+3💰/🎭。完成大洲后若没有可派位置，所有多余探险家都会转为人口。</p>
+    <p class="text-[11px] text-gray-500 mt-3">来源：每有 1 个主广场 +1，寻踪神恩额外 +1（吸纳村庄不提供探险家）。动物与植物按稀有度每回合提供 +1~+3🎭，黄金时代期间会转化为💰。完成大洲后若没有可派位置，所有多余探险家都会转为人口。</p>
   `;
 }
 
 
 // ==================== src/04e-advisor.js：左上角顾问提示 ====================
 // ==================== src/04e-advisor.js：左上角顾问提示 ====================
-// 有可用信仰点时给玩家提示：能解锁神灵或继续提升神迹
+// 有可用信仰点时给玩家提示：能解锁神灵或继续提升神恩
 function getFaithSpendInfo() {
   const points = state.faithPoints || 0;
   const exchangeable = getAffordableCultureExchanges();
@@ -3896,7 +3953,7 @@ function updateAdvisorBox() {
     } else {
       parts.push(`文化可换 ${faith.exchangeable} 点（${getCultureExchangeCost()}🎭/点）`);
     }
-    if (faith.availableMiracles > 0) parts.push(`神迹可提升 ${faith.availableMiracles} 项`);
+    if (faith.availableMiracles > 0) parts.push(`神恩可提升 ${faith.availableMiracles} 项`);
     if (faith.availableGods > 0) parts.push(`${faith.availableGods} 位神灵可选`);
     rows.push({
       icon: '⚡',
@@ -3925,7 +3982,7 @@ function updateAdvisorBox() {
     rows.push({
       icon: '🤝',
       title: '村庄可交换',
-      detail: `${tradableVillages.length} 个 · ${VILLAGE_TRADE_GOLD}💰/回合`,
+      detail: `${tradableVillages.length} 个 · ${VILLAGE_TRADE_GOLD}💰/回合（满好感 30💰→30资源）`,
       action: 'advisorOpenVillageTrade()'
     });
   }
@@ -4024,6 +4081,16 @@ function getConnectedTileSet() {
     return connected;
 }
 
+// 「安魂」神恩：1阶段每名亡者 +2🎭，2阶段额外每名亡者 +2💰
+function getDeadCultureIncome() {
+    if (!state.miracleDeadCulture) return 0;
+    return (state.deadPopulation || 0) * 2;
+}
+function getDeadGoldIncome() {
+    if (!state.miracleDeadCulture2) return 0;
+    return (state.deadPopulation || 0) * 2;
+}
+
 function calculateIncome() {
     state.income = { food: 0, industry: 0, science: 0, gold: 0, culture: 0 };
     const activeGods = getActiveGods();
@@ -4068,10 +4135,15 @@ function calculateIncome() {
     state.income.industry += baseProduction; state.income.science += baseProduction; 
     state.income.culture += baseProduction;
 
-    // 动物园/植物园收入先计入，再进行黄金时代的文化→金币转换
+    // 动物园/植物园只提供文化；黄金时代仍会把文化统一转换成金币
     const zooIncome = getZooIncome();
-    state.income.gold += zooIncome.gold;
     state.income.culture += zooIncome.culture;
+
+    // 「安魂」：每个亡者每回合提供文化（1阶段）与金币（2阶段），文化同样参与黄金时代转换
+    const deadCulture = getDeadCultureIncome();
+    if (deadCulture > 0) state.income.culture += deadCulture;
+    const deadGold = getDeadGoldIncome();
+    if (deadGold > 0) state.income.gold += deadGold;
 
     // 4. 黄金时代/黑暗时代修正（神明钩子可修改 bonus / 转换 / 黑暗）
     if (state.goldenAge.active) {
@@ -4097,6 +4169,10 @@ function calculateIncome() {
             if (ctx.convertIndustry) {
                 state.income.gold += state.income.industry;
                 state.income.industry = 0;
+            }
+            // 庆典2阶段：黄金时代期间每个人口 +3💰
+            if (state.miracleGaDuration2) {
+                state.income.gold += state.resources.population * 3;
             }
         }
     }
@@ -4269,6 +4345,10 @@ function buildSaveData() {
         miracleSeasonPopulation2: !!state.miracleSeasonPopulation2,
         miracleMountainFire: !!state.miracleMountainFire,
         miracleMountainFire2: !!state.miracleMountainFire2,
+        miracleDeadCulture: !!state.miracleDeadCulture,
+        miracleDeadCulture2: !!state.miracleDeadCulture2,
+        deadPopulation: state.deadPopulation || 0,
+        osirisReviveTurns: state.osirisReviveTurns || 0,
         miracleMountainToVolcano: state.miracleMountainToVolcano || 0,
         miracleVolcanoToMountain: state.miracleVolcanoToMountain || 0,
         volcanoEruptionBonus: state.volcanoEruptionBonus || 0,
@@ -4351,6 +4431,10 @@ function applySaveData(data) {
     next.miracleSeasonPopulation2 = !!data.miracleSeasonPopulation2;
     next.miracleMountainFire = !!data.miracleMountainFire;
     next.miracleMountainFire2 = !!data.miracleMountainFire2;
+    next.miracleDeadCulture = !!data.miracleDeadCulture;
+    next.miracleDeadCulture2 = !!data.miracleDeadCulture2;
+    next.deadPopulation = Math.max(0, Math.floor(Number(data.deadPopulation) || 0));
+    next.osirisReviveTurns = Math.max(0, Math.floor(Number(data.osirisReviveTurns) || 0));
     next.miracleMountainToVolcano = data.miracleMountainToVolcano || 0;
     next.miracleVolcanoToMountain = data.miracleVolcanoToMountain || 0;
     next.volcanoEruptionBonus = data.volcanoEruptionBonus || 0;
@@ -5020,6 +5104,38 @@ function traceHexPath(ctx, cx, cy, radius) {
     ctx.closePath();
 }
 
+// ==================== 五大区域等级标记（罗马数字） ====================
+// 农业/工业/市场/科研/娱乐区在六边形上方显示 I / II / III；主广场与人造工程没有等级概念。
+const DISTRICT_LEVEL_ROMANS = ['', 'I', 'II', 'III'];
+const LEVELED_DISTRICTS = DISTRICT_BUILDINGS.filter(key => key !== 'plaza');
+
+function getDistrictLevelRoman(level) {
+    const lvl = Math.max(1, Math.round(Number(level) || 1));
+    return DISTRICT_LEVEL_ROMANS[lvl] || String(lvl);
+}
+
+function isLeveledDistrict(t) {
+    return !!(t && t.improvement && LEVELED_DISTRICTS.includes(t.improvement));
+}
+
+function drawDistrictLevelBadge(ctx, t, p, size) {
+    if (!isLeveledDistrict(t)) return;
+    const label = getDistrictLevelRoman(t.level);
+    const x = p.x;
+    const y = p.y - size * 0.62;
+    ctx.save();
+    ctx.font = `bold ${size * 0.34}px Arial, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = Math.max(1.5, size * 0.065);
+    ctx.strokeStyle = 'rgba(15, 23, 42, 0.95)';
+    ctx.fillStyle = '#fde047';
+    ctx.strokeText(label, x, y);
+    ctx.fillText(label, x, y);
+    ctx.restore();
+}
+
 function isInfrastructureTile(t) {
     return isEngineeringTile(t);
 }
@@ -5300,6 +5416,9 @@ if (t.fireTurns > 0) {
             ctx.fillText('🌫️', p.x, p.y);
         }
     }
+
+    // 等级标记最后绘制，避免被灾害/迷雾等覆盖
+    drawDistrictLevelBadge(ctx, t, p, size);
 }
 
 function drawTileYields(ctx, t, activeGods) {
@@ -5329,14 +5448,31 @@ function updateUI() {
         if(gainEl) {
             const display = (state.income[k] || 0) + (villageTrade[k] || 0);
             gainEl.innerText = `(${display >= 0 ? '+' : ''}${display})`;
+            if (display < 0) {
+                gainEl.classList.add('text-red-400');
+                gainEl.classList.remove('text-gray-400');
+            } else {
+                gainEl.classList.remove('text-red-400');
+                gainEl.classList.add('text-gray-400');
+            }
             if (k === 'gold') {
                 const parts = [];
                 if (villageTrade.gold) parts.push('含村庄长期贸易');
+                if (typeof getDeadGoldIncome === 'function') {
+                    const deadGold = getDeadGoldIncome();
+                    if (deadGold > 0) parts.push(`亡者 +${deadGold}💰/回合`);
+                }
                 if (state.engineeringMaintenance) parts.push(`人造工程维护 -${state.engineeringMaintenance}💰/回合`);
                 if (state.goldGrossIncome !== undefined && state.engineeringMaintenance) parts.push(`维护前金币收入 +${state.goldGrossIncome}💰`);
                 gainEl.title = parts.join('；');
             } else {
-                gainEl.title = villageTrade[k] ? '含村庄长期贸易' : '';
+                const parts = [];
+                if (villageTrade[k]) parts.push('含村庄长期贸易');
+                if (k === 'culture' && typeof getDeadCultureIncome === 'function') {
+                    const deadCulture = getDeadCultureIncome();
+                    if (deadCulture > 0) parts.push(`亡者 +${deadCulture}🎭/回合`);
+                }
+                gainEl.title = parts.join('；');
             }
         }
     }); 
@@ -5377,6 +5513,13 @@ function updateUI() {
     if (faithUnlockedEl) faithUnlockedEl.innerText = getActiveGods().size;
     if (typeof refreshEngineeringPanel === 'function') refreshEngineeringPanel();
     document.getElementById('res-population').innerText = state.resources.population;
+    const deadEl = document.getElementById('res-dead');
+    if (deadEl) deadEl.innerText = state.deadPopulation || 0;
+    const deadBox = document.getElementById('dead-box');
+    if (deadBox) {
+        if ((state.deadPopulation || 0) > 0) deadBox.classList.remove('opacity-50');
+        else deadBox.classList.add('opacity-50');
+    }
     
     // Season UI
     const s = SEASONS[state.season];
@@ -5471,13 +5614,10 @@ function updateUI() {
     const sacrificeGod = typeof getPopulationSacrificeGod === 'function' ? getPopulationSacrificeGod(activeGods) : null;
 
     // 普通时段：人口自动增长，隐藏手动按钮，显示「自动」标记
-    // 献祭神时段：自动增长暂停，按钮变为献祭动作；太阳神运转期显示「暂停」
-    const growthPaused = typeof isPopulationGrowthPaused === 'function' ? isPopulationGrowthPaused(activeGods) : false;
+    // 献祭神时段：自动增长暂停，按钮变为献祭动作，隐藏「自动」标记
     if (popAuto) {
-        popAuto.textContent = growthPaused && !sacrificeGod ? '暂停' : '自动';
-        popAuto.className = growthPaused && !sacrificeGod
-            ? 'text-[10px] px-1 py-0.5 rounded bg-amber-900/60 border border-amber-700 text-amber-300 font-bold'
-            : 'text-[10px] px-1 py-0.5 rounded bg-emerald-900/60 border border-emerald-700 text-emerald-300 font-bold';
+        popAuto.textContent = '自动';
+        popAuto.className = 'text-[10px] px-1 py-0.5 rounded bg-emerald-900/60 border border-emerald-700 text-emerald-300 font-bold';
         popAuto.classList.toggle('hidden', !!sacrificeGod);
     }
     if (btnBuyPop) {
@@ -5701,6 +5841,7 @@ function showPopTooltip(e) {
     const activeGods = getActiveGods();
     const flags = getGodFlags(activeGods);
     const sacrificeGod = typeof getPopulationSacrificeGod === 'function' ? getPopulationSacrificeGod(activeGods) : null;
+    const deadInfo = `<div class="text-xs text-amber-300 mt-1">🏺 亡者: ${state.deadPopulation || 0}（因饥饿或献祭损失的人口）</div>`;
 
     // 严霜之神：冬季献祭
     if (sacrificeGod === 'itztlacoliuhqui') {
@@ -5708,7 +5849,7 @@ function showPopTooltip(e) {
         <div class="text-sm">消耗: 1 人口</div>
         <div class="text-xs text-yellow-300 mt-1">获得: +20 永久回合金</div>
         <div class="text-xs text-gray-400 mt-1">每回合限一次 · 此时人口自动增长暂停</div>
-        ${state.sacrificedThisTurn ? '<div class="text-xs text-red-500 font-bold mt-1">本回合已献祭</div>' : ''}`;
+        ${state.sacrificedThisTurn ? '<div class="text-xs text-red-500 font-bold mt-1">本回合已献祭</div>' : ''}${deadInfo}`;
         return showTooltip(html, e.clientX, e.clientY);
     }
 
@@ -5718,16 +5859,16 @@ function showPopTooltip(e) {
         <div class="text-sm">消耗: 1 人口</div>
         <div class="text-xs text-green-300 mt-1">效果: 人口🔨/🔬/🎭产出+1</div>
         <div class="text-xs text-red-300">代价: 所有人口消耗食物+1</div>
-        <div class="text-xs text-gray-400 mt-1">此时人口自动增长暂停 · 当前已献祭次数: ${state.xipeSacrificeCount || 0}</div>`;
+        <div class="text-xs text-gray-400 mt-1">此时人口自动增长暂停 · 当前已献祭次数: ${state.xipeSacrificeCount || 0}</div>${deadInfo}`;
         return showTooltip(html, e.clientX, e.clientY);
     }
 
-    // 太阳神运转期：保留每回合 -1 人口的代价，自动增长暂停
+    // 太阳神运转期：祭品每回合 -1 人口，但人口仍会自然增长（食物足够时）
     if (flags.tonatiuh && state.goldenAge.active) {
         const html = `<div class="font-bold text-base mb-1 text-amber-400">太阳神运转中</div>
         <div class="text-xs text-gray-300">每回合自动 -1 人口以维持黄金时代</div>
-        <div class="text-xs text-gray-400 mt-1">此时人口自动增长暂停</div>
-        <div class="text-xs text-gray-300 mt-1">当前人口: ${state.resources.population}</div>`;
+        <div class="text-xs text-gray-400 mt-1">黄金时代期间人口仍会自动增长（食物足够时）</div>
+        <div class="text-xs text-gray-300 mt-1">当前人口: ${state.resources.population}</div>${deadInfo}`;
         return showTooltip(html, e.clientX, e.clientY);
     }
 
@@ -5743,7 +5884,7 @@ function showPopTooltip(e) {
     ${danuText}
     <div class="text-xs text-yellow-300 mt-1">收益: 每人口 +3🔨/3🔬/3🎭</div>
     <div class="text-xs text-rose-300">消耗: 每人口 -3🌾/回合</div>
-    <div class="text-xs text-gray-400 mt-1">献祭神时段（严霜之冬 / 剥皮之春）自动增长暂停</div>`;
+    <div class="text-xs text-gray-400 mt-1">献祭神时段（严霜之冬 / 剥皮之春）自动增长暂停</div>${deadInfo}`;
     showTooltip(html, e.clientX, e.clientY);
 }
 
@@ -5942,12 +6083,13 @@ const activeGods = getActiveGods();
 }
 
 function getMiracleGaTurns() {
-    return (state.miracleGaDuration ? 1 : 0) + (state.miracleGaDuration2 ? 1 : 0);
+    // 庆典 2 阶段已改为「黄金时代期间每个人口 +3💰」，不再延长回合
+    return state.miracleGaDuration ? 1 : 0;
 }
 
 function startGoldenAgeEffect(activeGods) {
     state.goldenAge.active = true;
-    // 柯罗诺斯缩短为3回合；庆典神迹每阶段 +1 回合
+    // 柯罗诺斯缩短为3回合；庆典神恩每阶段 +1 回合
     state.goldenAge.turnCount = getGoldenAgeDuration(activeGods) + getMiracleGaTurns();
     state.goldenAge.level++;
     state.faithPoints = (state.faithPoints || 0) + CONFIG.faith.goldenAgeGain;
@@ -6280,7 +6422,7 @@ function getTileYield(t, activeGodsCache = null) {
                 }
                 if (t.improvement === 'entertainment_complex') {
                     if (n.type === TERRAIN.COAST && n.improvement !== 'harbor') { adj.culture = (adj.culture||0) + 1; details.adjacencyBreakdown.push(`${nName}: +1🎭`); }
-                    if ([TERRAIN.AURORA_TOWER, TERRAIN.TOURIST_SPOT, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.SKI_RESORT, TERRAIN.ICE_SCULPTURE_PARK, TERRAIN.GEOPARK, TERRAIN.TREEHOUSE_RESORT, TERRAIN.HOT_SPRING_RESORT, TERRAIN.WINERY, TERRAIN.MANGROVE].includes(n.type)) { adj.culture = (adj.culture||0) + engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🎭`); }
+                    if ([TERRAIN.AURORA_TOWER, TERRAIN.TOURIST_SPOT, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.SKI_RESORT, TERRAIN.ICE_SCULPTURE_PARK, TERRAIN.GEOPARK, TERRAIN.TREEHOUSE_RESORT, TERRAIN.HOT_SPRING_RESORT, TERRAIN.WINERY].includes(n.type)) { adj.culture = (adj.culture||0) + engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🎭`); }
                     if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.culture = (adj.culture||0) + hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🎭`); }
                     const isReserveImprovement = ['swamp_reserve', 'lake_reserve', 'oasis_reserve'].includes(n.improvement);
                     const isReserveTerrain = [TERRAIN.MANGROVE_RESERVE, TERRAIN.PEAT_BOG_RESERVE].includes(n.type);
@@ -6306,19 +6448,16 @@ function getTileYield(t, activeGodsCache = null) {
     if (t.owner === 'player' && (t.improvement === 'farm' || volcanicTypes.includes(t.type))) { 
         const nbs = getNeighbors(t.q, t.r); 
         if (nbs.some(n => n.type === TERRAIN.VOLCANO)) { 
-            // === 修正后的代码 ===
             const baseVol = getVolcanoBase(activeGods);
             const ashLevel = t.volcanicAshLevel || 0;
-            const volBonus = baseVol + ashLevel; // 现在可以正确计算了
-            // ==================
-
+            // 基础火山灰由相邻火山共用一次；层数按每次喷发累计，每层 +2🌾
+            const volBonus = baseVol + ashLevel * 2;
             y.food = (y.food || 0) + volBonus; 
             details.volcano = volBonus; 
-            
             if (isPachamamaActive(activeGods)) {
-                details.adjacencyBreakdown.push(`帕查玛玛(火山灰+${ashLevel}): +${volBonus}🌾`); 
+                details.adjacencyBreakdown.push(`帕查玛玛(火山灰+${ashLevel}层): +${volBonus}🌾`); 
             } else {
-                details.adjacencyBreakdown.push(`火山灰(+${ashLevel}): +${volBonus}🌾`);
+                details.adjacencyBreakdown.push(`火山灰(+${ashLevel}层): +${volBonus}🌾`);
             }
         } 
     }
@@ -6341,13 +6480,9 @@ function getTileYield(t, activeGodsCache = null) {
         else if (t.improvement === 'entertainment_complex') { y.culture = (y.culture || 0) + 10; details.adjacencyBreakdown.push('因蒂(黄金加冕): +10🎭'); }
     }
 
-    if (state.volcanoEruptionBonus > 0 && t.owner === 'player') {
-        const eruptionYields = { farm: 'food', mine: 'industry', market: 'gold', campus: 'science', entertainment_complex: 'culture' };
-        const key = eruptionYields[t.improvement];
-        if (key) {
-            y[key] = (y[key] || 0) + state.volcanoEruptionBonus;
-            details.adjacencyBreakdown.push(`火山喷发祝福: +${state.volcanoEruptionBonus}${getResIcon(key)}`);
-        }
+    if (state.volcanoEruptionBonus > 0 && t.owner === 'player' && t.improvement === 'farm') {
+        y.food = (y.food || 0) + state.volcanoEruptionBonus;
+        details.adjacencyBreakdown.push(`火山喷发祝福: +${state.volcanoEruptionBonus}🌾`);
     }
 
     // 羊驼：把最终食物产量的一半转化为金币（必须等所有食物加成结算完）
@@ -6443,12 +6578,19 @@ function getPopulationSacrificeGod(activeGods) {
     return null;
 }
 
-// 自动增长暂停：献祭神时段（购买按钮改为献祭）+ 太阳神运转期（保留每回合 -1 人口的代价）
+// 自动增长暂停：仅献祭神时段（购买按钮改为献祭）。
+// 太阳神运转期不再暂停：每回合 -1 人口的祭品照常扣除，但人口仍可自然增长。
 function isPopulationGrowthPaused(activeGods) {
     const gods = activeGods || getActiveGods();
-    if (getPopulationSacrificeGod(gods)) return true;
-    const flags = getGodFlags(gods);
-    return !!(flags.tonatiuh && state.goldenAge.active);
+    return !!getPopulationSacrificeGod(gods);
+}
+
+// 亡者：因饥饿或被献祭而损失的人口；「安魂」神恩按亡者数量提供文化
+function recordDeadPopulation(count = 1) {
+    const n = Math.max(0, Math.floor(Number(count) || 0));
+    if (n <= 0) return 0;
+    state.deadPopulation = (state.deadPopulation || 0) + n;
+    return n;
 }
 
 function growPopulation(activeGods, silent = false) {
@@ -6461,6 +6603,7 @@ function growPopulation(activeGods, silent = false) {
         step: CONFIG.population.costStep,
         goldReward: 0,
         cultureReward: 0,
+        deadGain: 0,
         silent
     };
     fireGodEvent('onPopulationGain', gainCtx);
@@ -6469,7 +6612,8 @@ function growPopulation(activeGods, silent = false) {
     state.resources.population += gainCtx.gained;
     if (gainCtx.goldReward) state.resources.gold += gainCtx.goldReward;
     if (gainCtx.cultureReward) state.resources.culture += gainCtx.cultureReward;
-    return { cost: costBefore, gained: gainCtx.gained, gold: gainCtx.goldReward, culture: gainCtx.cultureReward };
+    if (gainCtx.deadGain) state.deadPopulation = (state.deadPopulation || 0) + gainCtx.deadGain;
+    return { cost: costBefore, gained: gainCtx.gained, gold: gainCtx.goldReward, culture: gainCtx.cultureReward, dead: gainCtx.deadGain };
 }
 
 // 自动增长：每回合结束，食物足够就连续增长，直到买不起下一次；与神冲突的时段暂停
@@ -6483,6 +6627,7 @@ function autoGrowPopulation() {
     let spent = 0;
     let goldReward = 0;
     let cultureReward = 0;
+    let deadGain = 0;
     while (buys < maxBuys && state.resources.food >= state.populationCost) {
         const result = growPopulation(activeGods, true);
         if (!result) break;
@@ -6491,9 +6636,10 @@ function autoGrowPopulation() {
         spent += result.cost;
         goldReward += result.gold || 0;
         cultureReward += result.culture || 0;
+        deadGain += result.dead || 0;
     }
     if (buys > 0) {
-        const bonus = `${goldReward ? ` +${goldReward}💰` : ''}${cultureReward ? ` +${cultureReward}🎭` : ''}`;
+        const bonus = `${goldReward ? ` +${goldReward}💰` : ''}${cultureReward ? ` +${cultureReward}🎭` : ''}${deadGain ? ` +${deadGain}亡者` : ''}`;
         showMsg(`👥 人口自动增长 +${gained}（花费 ${spent}🌾${bonus}）`, "success");
     }
     return gained;
@@ -6514,7 +6660,7 @@ function buyPopulation() {
         return;
     }
 
-    showMsg(`人口增加 (+${result.gained})! (花费 ${result.cost}🌾)`, "success");
+    showMsg(`人口增加 (+${result.gained})! (花费 ${result.cost}🌾${result.dead ? ` +${result.dead}亡者` : ''})`, "success");
     calculateIncome();
     updateUI();
     autoSave();
@@ -7178,7 +7324,7 @@ function renderFaithPanel() {
     const hintEl = document.getElementById('faith-tab-hint');
     if (hintEl) {
         hintEl.innerText = faithTab === 'miracles'
-            ? '神迹分 1/2 阶段，每阶段消耗 1 信仰点；2 阶段需先激活 1 阶段。'
+            ? '神恩分 1/2 阶段，每阶段消耗 1 信仰点；2 阶段需先激活 1 阶段。'
             : `每次游戏可选择 ${CONFIG.faith.maxGods} 位守护神，或选择 1 位排他性神祇。`;
     }
 
@@ -7239,6 +7385,7 @@ function isMiracleActive(key) {
     if (key === 'noMaintenance') return !!state.miracleNoMaintenance;
     if (key === 'seasonPopulation') return !!state.miracleSeasonPopulation;
     if (key === 'mountainFire') return !!state.miracleMountainFire;
+    if (key === 'deadCulture') return !!state.miracleDeadCulture;
     return false;
 }
 
@@ -7252,6 +7399,7 @@ function isMiracleStage2(key) {
     if (key === 'noMaintenance') return !!state.miracleNoMaintenance2;
     if (key === 'seasonPopulation') return !!state.miracleSeasonPopulation2;
     if (key === 'mountainFire') return !!state.miracleMountainFire2;
+    if (key === 'deadCulture') return !!state.miracleDeadCulture2;
     return false;
 }
 
@@ -7275,13 +7423,14 @@ function renderMiracleCards(container, activeGods) {
     const status = [];
     if (state.miracleDisasterDouble) status.push(state.miracleDisasterDouble2 ? '灾厄2 +30🎭' : '灾厄 ×2');
     if (state.miracleDisasterHalf) status.push(state.miracleDisasterHalf2 ? '庇护2 +30🎭' : '庇护 无灾害');
-    if (state.miracleGaDuration) status.push(state.miracleGaDuration2 ? '庆典 +2回合' : '庆典 +1回合');
+    if (state.miracleGaDuration) status.push(state.miracleGaDuration2 ? '庆典2 +1回合/人口+3💰' : '庆典 +1回合');
     if (state.miracleExplorerCapacity) status.push(state.miracleExplorerExtra ? '寻踪2 25%' : '寻踪 +1探险家');
-    if (state.miracleVillageFriendship) status.push(state.miracleVillageFriendship2 ? '归化2 吸纳150' : '归化 村庄100');
+    if (state.miracleVillageFriendship) status.push(state.miracleVillageFriendship2 ? '归化2 吸纳100' : '归化 村庄100');
     if (state.miracleAncientRuins) status.push(state.miracleAncientRuins2 ? '古墟2 奖励×2' : '古墟 5遗迹');
     if (state.miracleNoMaintenance) status.push(state.miracleNoMaintenance2 ? '免赋2 黄金+1💰' : '免赋 维护0');
     if (state.miracleSeasonPopulation) status.push(state.miracleSeasonPopulation2 ? '季礼2 +3人口/年' : '季礼 +1人口/季');
     if (state.miracleMountainFire) status.push(state.miracleMountainFire2 ? `山火2 喷发×3 +${state.volcanoEruptionBonus}` : `山火 免破坏 山→火${state.miracleMountainToVolcano} 火→山${state.miracleVolcanoToMountain}`);
+    if (state.miracleDeadCulture) status.push(state.miracleDeadCulture2 ? `安魂2 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭 +${(state.deadPopulation || 0) * 2}💰` : `安魂 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭`);
     if (status.length) {
         const bar = document.createElement('div');
         bar.className = 'col-span-full text-xs text-amber-200 bg-amber-950/40 border border-amber-800/60 rounded-lg px-3 py-2';
@@ -7307,8 +7456,8 @@ function renderMiracleCards(container, activeGods) {
                         <h3 class="font-bold text-amber-100 text-lg">${m.name}</h3>
                     </div>
                 </div>
-                <div class="text-[11px] text-gray-300 mb-1 leading-relaxed"><span class="${stage >= 1 ? 'text-emerald-300' : 'text-gray-500'}">1阶段：</span>${m.desc1}</div>
-                <div class="text-[11px] mb-3 leading-relaxed"><span class="${stage === 2 ? 'text-amber-300' : 'text-gray-500'}">2阶段：</span><span class="${stage === 2 ? 'text-amber-200' : 'text-gray-500'}">${m.desc2}</span></div>
+                <div class="text-[11px] text-white mb-1 leading-relaxed"><span class="${stage >= 1 ? 'text-emerald-300' : 'text-gray-500'}">1阶段：</span>${m.desc1}</div>
+                <div class="text-[11px] mb-3 leading-relaxed"><span class="${stage === 2 ? 'text-amber-300' : 'text-gray-500'}">2阶段：</span><span class="text-white">${m.desc2}</span></div>
             </div>
             ${btn}
         `;
@@ -7320,7 +7469,7 @@ function useMiracle(key) {
     const m = CONFIG.miracles[key];
     if (!m) return;
     const stage = getMiracleStage(key);
-    if (stage >= 2) return showMsg('该神迹已达到2阶段', 'warning');
+    if (stage >= 2) return showMsg('该神恩已达到2阶段', 'warning');
     if ((state.faithPoints || 0) < m.cost) return showMsg(`信仰点不足 (需 ${m.cost})`, "err");
     state.faithPoints -= m.cost;
 
@@ -7372,6 +7521,9 @@ function useMiracle(key) {
             state.miracleMountainToVolcano = 3;
             state.miracleVolcanoToMountain = 3;
             showMsg('🌋 山火1阶段：可选山脉/火山转换（各 3 次），火山喷发不再摧毁区域。', 'success');
+        } else if (key === 'deadCulture') {
+            state.miracleDeadCulture = true;
+            showMsg(`🏺 安魂1阶段：每个亡者每回合 +2🎭（当前亡者 ${state.deadPopulation || 0} 名）。`, 'success');
         }
     } else {
         if (key === 'disasterDouble') {
@@ -7382,14 +7534,13 @@ function useMiracle(key) {
             showMsg('🛡️ 庇护2阶段：每次阻挡灾害 +30🎭。', 'success');
         } else if (key === 'gaDuration') {
             state.miracleGaDuration2 = true;
-            if (state.goldenAge.active) state.goldenAge.turnCount += 1;
-            showMsg('✨ 庆典2阶段：黄金时代再 +1 回合（合计 +2）。', 'success');
+            showMsg('✨ 庆典2阶段：黄金时代期间每个人口 +3💰。', 'success');
         } else if (key === 'explorerExtra') {
             state.miracleExplorerExtra = true;
             showMsg('🧭 寻踪2阶段：探险家额外收藏进度 25%。', 'success');
         } else if (key === 'villageFriendship') {
             state.miracleVillageFriendship2 = true;
-            showMsg('🏘️ 归化2阶段：吸纳村庄费用减半（300→150🎭）。', 'success');
+            showMsg('🏘️ 归化2阶段：吸纳村庄费用减半（200→100🎭）。', 'success');
         } else if (key === 'ancientRuins') {
             state.miracleAncientRuins2 = true;
             showMsg('🗿 古墟2阶段：遗迹奖励翻倍。', 'success');
@@ -7402,6 +7553,9 @@ function useMiracle(key) {
         } else if (key === 'mountainFire') {
             state.miracleMountainFire2 = true;
             showMsg('🌋 山火2阶段：火山喷发概率翻3倍，喷发强化己方区域。', 'warning');
+        } else if (key === 'deadCulture') {
+            state.miracleDeadCulture2 = true;
+            showMsg(`🏺 安魂2阶段：每个亡者每回合额外 +2💰（当前亡者 ${state.deadPopulation || 0} 名）。`, 'success');
         }
     }
 
@@ -8556,6 +8710,7 @@ function nextTurn() {
     }
 
     fireGodEvent('onTurnTonatiuh', { activeGods });
+    fireGodEvent('onTurnOsiris', { activeGods });
 
     // 季节逻辑
     const seasonDuration = getSeasonDuration(activeGods);
@@ -8582,7 +8737,7 @@ function nextTurn() {
     fireGodEvent('onTurnSpring', { activeGods });
 
     if (state.goldenAge.active && isTonatiuhActive(activeGods)) {
-        state.goldenAge.cumulativeTurns += 2;
+        state.goldenAge.cumulativeTurns += 1;
     }
 
     calculateIncome();
@@ -8618,7 +8773,13 @@ function nextTurn() {
 
     fireGodEvent('onTurnWinter', { activeGods });
 
-    if (state.resources.food < 0) { state.resources.food = 0; state.resources.population = Math.max(1, state.resources.population - 1); showMsg("食物耗尽，人口减少！", "err"); }
+    if (state.resources.food < 0) {
+        state.resources.food = 0;
+        const popBeforeStarve = state.resources.population;
+        state.resources.population = Math.max(1, popBeforeStarve - 1);
+        recordDeadPopulation(popBeforeStarve - state.resources.population);
+        showMsg("食物耗尽，人口减少！", "err");
+    }
     if (state.resources.industry < 0) state.resources.industry = 0;
     if (state.resources.science < 0) state.resources.science = 0;
     if (state.resources.culture < 0) state.resources.culture = 0;

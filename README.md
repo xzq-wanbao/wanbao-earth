@@ -1,4 +1,4 @@
-# 丸宝导师的地球 · 诸神黄昏（网页版）
+# 地球-诸神の黄昏（网页版）
 
 在线游玩：**https://xzq-wanbao.github.io/wanbao-earth/**
 
