@@ -4410,7 +4410,6 @@ function calculateIncome() {
     state.plazaCount = 0; state.industrialCount = 0;
     const connected = getConnectedTileSet();
     let engineeringCount = 0;
-    let engineeringMaintenanceUnits = 0;
     state.map.forEach(t => {
         if (t.owner !== 'player') return;
         if (t.improvement === 'plaza') state.plazaCount++;
@@ -4421,11 +4420,7 @@ function calculateIncome() {
         state.income.food += y.food || 0; state.income.industry += y.industry || 0;
         state.income.science += y.science || 0; state.income.gold += y.gold || 0;
         state.income.culture += y.culture || 0;
-        if (isEngineering) {
-            engineeringCount++;
-            // 有金币产出的人造工程自己承担维护费，不再额外扣金币
-            if ((y.gold || 0) <= 0) engineeringMaintenanceUnits++;
-        }
+        if (isEngineering) engineeringCount++;
     });
 
     if (state.permanentGold > 0) state.income.gold += state.permanentGold;
@@ -4495,10 +4490,10 @@ function calculateIncome() {
         }
     }
 
-    // 5. 人造工程维护费：无金币产出的工程每座 1💰/回合；有金币产出的工程由自身金币抵扣
+    // 5. 人造工程维护费：每座 1💰/回合；+1💰 的工程正好用自身金币抵扣，净留下食物/工业等产出
     state.goldGrossIncome = state.income.gold;
     state.engineeringCount = engineeringCount;
-    state.engineeringMaintenance = getEngineeringMaintenanceForCount(engineeringMaintenanceUnits);
+    state.engineeringMaintenance = getEngineeringMaintenanceForCount(engineeringCount);
     state.income.gold -= state.engineeringMaintenance;
 }
 
