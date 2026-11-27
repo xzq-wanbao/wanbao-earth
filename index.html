@@ -813,11 +813,11 @@ const CONFIG = {
     minZoom: 0.3,
     maxZoom: 3
   },
-  start: { food: 0, industry: 200, science: 0, gold: 100, culture: 100, population: 0 },
+  start: { food: 0, industry: 300, science: 0, gold: 200, culture: 100, population: 0 },
   population: {
     baseCost: 20,
     costStep: 5,
-    xolotlStep: 10,
+    xolotlStep: 5, // 冥界代价：在基础涨价之外额外增加
     autoMaxPerTurn: 100,
     foodPerPop: 3,
     productionPerPop: 3
@@ -861,12 +861,12 @@ const CONFIG = {
     disasterDouble: {
       name: '灾厄', icon: '🌪️', cost: 1,
       desc1: '自然灾害触发概率翻倍',
-      desc2: '每次触发自然灾害时 +30🎭'
+      desc2: '每次触发自然灾害时 +50🎭'
     },
     disasterHalf: {
       name: '庇护', icon: '🛡️', cost: 1,
       desc1: '自然灾害不再触发',
-      desc2: '每次本应触发的灾害被庇护时 +30🎭'
+      desc2: '每次本应触发的灾害被庇护时 +50🎭'
     },
     gaDuration: {
       name: '庆典', icon: '✨', cost: 1,
@@ -1348,10 +1348,10 @@ const ENGINEERING_ACTIONS = ['make_terrace', 'build_mine', 'make_tunnel', 'make_
 const GODS = {
     'osiris': { 
         name: '丰饶之神——奥西里斯', 
-        desc: '【冥界恩典】：每3回合复活1名亡者\n【泛滥沃土】：农业区获得等级等量的额外🌾', 
+        desc: '【冥界恩典】：每3回合复活1名亡者\n【泛滥沃土】：农业区获得等级双倍的额外🌾', 
         icon: '⚖️',
         effects: {
-            yield: (t, y, list) => { if(t.improvement==='farm') { let v=t.level||1; y.food+=v; list.push(`奥西里斯: +${v}🌾`); } }
+            yield: (t, y, list) => { if(t.improvement==='farm') { let v=(t.level||1)*2; y.food+=v; list.push(`奥西里斯: +${v}🌾`); } }
         }
     },
     'ra': { 
@@ -1369,10 +1369,10 @@ const GODS = {
     },
     'bastet': { 
         name: '欢愉女神——巴斯特', 
-        desc: '【猫神守护】：娱乐区+2🎭\n【家庭欢愉】：✨黄金时代持续时间延长至10回合', 
+        desc: '【猫神守护】：娱乐区+3🎭\n【家庭欢愉】：✨黄金时代持续时间延长至10回合', 
         icon: '🐈',
         effects: {
-            yield: (t, y, list) => { if(t.improvement==='entertainment_complex') { y.culture+=2; list.push('巴斯特: +2🎭'); } }
+            yield: (t, y, list) => { if(t.improvement==='entertainment_complex') { y.culture+=3; list.push('巴斯特: +3🎭'); } }
         }
     },
     'hathor': { 
@@ -1417,7 +1417,7 @@ const GODS = {
     },
     'sobek': { 
         name: '沼泽之神——索贝克', 
-        desc: '【尼罗河神】：湖泊/沼泽上的浮田+2🌾，捕鱼场+2💰\n【湿地霸主】：允许在沼泽建造农业区且+3🌾', 
+        desc: '【尼罗河神】：湖泊/沼泽上的浮田+2🌾，捕鱼场+2💰\n【湿地霸主】：允许在沼泽建造农业区且+3🌾\n【沼泽馈赠】：人造沼泽花费变为 30💰', 
         icon: '🐊',
         effects: {
             yield: (t, y, list) => {
@@ -1429,7 +1429,7 @@ const GODS = {
     },
     'demeter': { 
         name: '四季女神——得墨忒耳', 
-        desc: '【丰收号角】：季节带来的加成效果翻三倍', 
+        desc: '【丰收号角】：季节带来的加成效果翻三倍\n【时序馈赠】：解锁「季礼」第一阶段（每个季节开启时 +1 人口）', 
         icon: '🍂' 
     },
     'zeus': { 
@@ -1543,7 +1543,7 @@ const GODS = {
     },
     'xolotl': { 
         name: '双生之神——肖洛特尔', 
-        desc: '【双生引导】：人口增长时，额外增加1名亡者\n【冥界代价】：每次购买人口🌾消耗增加10', 
+        desc: '【双生引导】：人口增长时，额外增加1名亡者\n【冥界代价】：每次人口增长🌾消耗额外增加5', 
         icon: '🐕' 
     },
     'tonatiuh': { 
@@ -1657,14 +1657,14 @@ const GODS = {
     },
     'dagda': { 
         name: '众神之父——达格达', 
-        desc: '【四季权柄】：可点击季节图标锁定/解锁季节\n【丰饶之釜】：锁春:+10🌾\n锁夏:+10🔨 | 锁秋:+10💰\n锁冬:+10🔬 | 未锁:+10🎭', 
+        desc: '【四季权柄】：可点击季节图标锁定/解锁季节\n【丰饶之釜】：锁春:+30🌾\n锁夏:+30🔨 | 锁秋:+30💰\n锁冬:+30🔬 | 未锁:+30🎭', 
         icon: '🪕',
         effects: {
             income: (state, inc) => { 
                 if(state.seasonLocked) {
-                    if(state.season===0) inc.food+=10; else if(state.season===1) inc.industry+=10;
-                    else if(state.season===2) inc.gold+=10; else if(state.season===3) inc.science+=10;
-                } else { inc.culture+=10; }
+                    if(state.season===0) inc.food+=30; else if(state.season===1) inc.industry+=30;
+                    else if(state.season===2) inc.gold+=30; else if(state.season===3) inc.science+=30;
+                } else { inc.culture+=30; }
             }
         }
     },
@@ -1684,7 +1684,7 @@ const GODS = {
     },
     'danu': { 
         name: '众神之母——达努', 
-        desc: '【达努之水】：购买人口时获得30🎭\n【部族繁荣】：✨黄金时代期间购买人口改为获得50💰', 
+        desc: '【达努之水】：人口增长时获得30🎭\n【部族繁荣】：✨黄金时代期间人口增长改为获得50💰', 
         icon: '🤱' 
     },
     'morrigan': { 
@@ -1735,7 +1735,7 @@ const GODS = {
     },
     'balor': {
         name: '魔眼之王——巴罗尔',
-        desc: '【死寂视界】：全图树林/草地退化为干草地，获得退化数量x3的🌾和🔨\n【灾厄魔眼】：每触发一次灾难+100🔬\n【深渊筑造】：区域固定花费350🔨，建造自动升至Lv3',
+        desc: '【死寂视界】：全图树林/草地退化为干草地，获得退化数量x3的🌾和🔨\n【灾厄魔眼】：每触发一次灾难+100🔬\n【深渊筑造】：区域固定花费300🔨，建造自动升至Lv3',
         icon: '👁️'
     },
     'cailleach': {
@@ -1822,7 +1822,7 @@ const SEASONS = [
 ];
 const IMPROVEMENT_ADJ_INFO = { 'harbor': '为周边所有区域提供+1对应产出', 'fishery': '为农业区/市场区提供相邻收益', 'lake_reserve': '为科研区/娱乐区提供相邻收益', 'swamp_reserve': '为科研区/娱乐区提供相邻收益', 'oasis_reserve': '为科研区/娱乐区提供相邻收益', 'oasis_cistern': '为农业区提供相邻收益', 'bridge': '为周边所有区域提供对应等级加成', 'sea_bridge': '为周边所有区域提供对应等级加成' };
 const BUILDINGS = {
-    'plaza': { name: '主广场', cost: 0, costType: 'culture', costValue: 100, icons: ['🏛️'], type: 'district', baseYield: { industry: 10 }, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.DESERT, TERRAIN.POLAR, TERRAIN.ROCKY, TERRAIN.TERRACE, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【主广场】\n花费: 100🎭\n基础: 10🔨\n功能: 内政中心\n限制: 最多建造3个(赫斯提亚+2)` },
+    'plaza': { name: '主广场', cost: 0, costType: 'culture', costValue: 100, icons: ['🏛️'], type: 'district', baseYield: { food: 10, industry: 10 }, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.DESERT, TERRAIN.POLAR, TERRAIN.ROCKY, TERRAIN.TERRACE, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【主广场】\n花费: 100🎭\n基础: 10🌾 10🔨\n功能: 内政中心\n限制: 最多建造3个(赫斯提亚+2)` },
     'farm': { name: '农业区', cost: 50, icons: ['🌽', '🚜', '🏢'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.JUNGLE, TERRAIN.TAIGA, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【农业区】\n人造相邻加成:\n+1/2/3🌾: 梯田, 坎儿井, 运河...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🌾: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🌾（无上限）` },
     'mine': { name: '工业区', cost: 50, icons: [MINE_GEAR_ICON, '🏗️', '🏭'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.JUNGLE, TERRAIN.ROCKY, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【工业区】\n人造相邻加成:\n+1/2/3🔨: 矿山, 伐木场, 泥炭提取场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🔨: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🔨（无上限）` },
     'market': { name: '市场区', cost: 50, icons: ['💰', '🏪', '🏦'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.TAIGA, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【市场区】\n人造相邻加成:\n+1/2/3💰: 隧道, 驯鹿牧场, 牧场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3💰: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1💰（无上限）` },
@@ -2168,6 +2168,7 @@ function isUrcuchillayActive(gods) { return hasGod(gods, 'urcuchillay'); }
 function isCailleachActive(gods) { return hasGod(gods, 'cailleach'); }
 function isSetActive(gods) { return hasGod(gods, 'set'); }
 function isHephaestusActive(gods) { return hasGod(gods, 'hephaestus'); }
+function isDemeterActive(gods) { return hasGod(gods, 'demeter'); }
 function isEponaActive(gods) { return hasGod(gods, 'epona'); }
 function isUrcaguaryActive(gods) { return hasGod(gods, 'urcaguary'); }
 function isGuibneProtected(gods, isEngineering) {
@@ -2186,6 +2187,10 @@ function canUseCultureForIndustry(gods, buildType, industry) {
 function isArtemisAnchor(tile, key, gods) {
   return hasGod(gods, 'artemis') && key === 'market'
     && (tile.type === TERRAIN.HUNTING_CAMP || tile.type === TERRAIN.SAFARI_CAMP);
+}
+function isArtemisMarketAnchor(tile, gods) {
+  if (!tile || tile.owner !== 'player' || tile.improvement !== 'market' || !hasGod(gods, 'artemis')) return false;
+  return getNeighbors(tile.q, tile.r).some(n => n.owner === 'player' && (n.type === TERRAIN.HUNTING_CAMP || n.type === TERRAIN.SAFARI_CAMP));
 }
 function getPyramidCost(gods) {
   const cost = { food: 0, industry: 0, gold: CONFIG.pyramid.gold, science: 0, culture: 0 };
@@ -2306,7 +2311,7 @@ GODS.balor.events = {  onSelect() {
     showMsg("👁️ 灾厄魔眼：汲取灾难能量 +100🔬", "success");
   },
   onCost(cost, key, info) {
-    if (info.isDistrict) cost.industry = 350;
+    if (info.isDistrict) cost.industry = 300;
   }
 };
 
@@ -2597,7 +2602,7 @@ GODS.xolotl.events = {
   onPopulationGain(ctx) {
     ctx.deadGain = (ctx.deadGain || 0) + 1;
     if (!ctx.silent) showMsg('肖洛特尔赐福: 额外 +1 亡者!', 'success');
-    ctx.step = CONFIG.population.xolotlStep;
+    ctx.step = CONFIG.population.costStep + CONFIG.population.xolotlStep;
   }
 };
 
@@ -2643,6 +2648,10 @@ GODS.cernunnos.events = {
 };
 
 GODS.sobek.events = {
+  onCost(cost, key) {
+    if (key !== 'make_swamp_savanna') return;
+    cost.food = 0; cost.industry = 0; cost.gold = 30;
+  },
   onBuildRules(ctx) {
     if (ctx.key === 'farm' && ctx.tile.type === TERRAIN.SWAMP) ctx.allowFarmOnSwamp = true;
   }
@@ -4426,11 +4435,12 @@ function isConnectionNode(t) {
 }
 
 // 从所有主广场出发做 BFS，返回与网络连通的玩家地块集合
-function getConnectedTileSet() {
+function getConnectedTileSet(gods = getActiveGods()) {
     const connected = new Set();
     const queue = [];
     state.map.forEach(t => {
-        if (t.owner === 'player' && t.improvement === 'plaza') {
+        if (t.owner !== 'player') return;
+        if (t.improvement === 'plaza' || isArtemisMarketAnchor(t, gods)) {
             connected.add(t);
             queue.push(t);
         }
@@ -4472,7 +4482,7 @@ function calculateIncome() {
 
     // 1. 基础地块产出（区域需连通；人造工程始终计入，且其金币产出可抵扣自身维护费）
     state.plazaCount = 0; state.industrialCount = 0;
-    const connected = getConnectedTileSet();
+    const connected = getConnectedTileSet(activeGods);
     let engineeringCount = 0;
     state.map.forEach(t => {
         if (t.owner !== 'player') return;
@@ -6615,7 +6625,7 @@ function showPopTooltip(e) {
     }
 
     const costInc = flags.xolotl ? 10 : 5;
-    const xolotlText = flags.xolotl ? '<div class="text-xs text-orange-400">肖洛特尔赐福: 增长时 50% 额外 +1 人口（涨价 +10）</div>' : '';
+    const xolotlText = flags.xolotl ? '<div class="text-xs text-orange-400">肖洛特尔赐福: 增长时额外 +1 亡者（额外涨价 +5，总计 +10）</div>' : '';
     const danuText = flags.danu ? '<div class="text-xs text-cyan-300">达努赐福: 增长时 +30🎭（黄金时代改为 +50💰）</div>' : '';
     const xipeCount = state.xipeSacrificeCount || 0;
     const perPopProd = (CONFIG.population.productionPerPop || 3) + xipeCount;
@@ -7167,8 +7177,11 @@ function getTileYield(t, activeGodsCache = null) {
         const demeterMult = getSeasonYieldMultiplier(activeGods);
         for(let k in sBuff) { if(sBuff[k] > 0) { const val = sBuff[k] * demeterMult; y[k] += val; details.adjacencyBreakdown.push(`季节(${SEASONS[s].name}${demeterMult > 1 ? '(三倍)' : ''}): +${val}${getResIcon(k)}`); } } 
         if (t.improvement === 'plaza') {
-            const add = { industry: 10*lvl };
-            for(let k in add) { y[k] += add[k]; details.building[k] = (details.building[k]||0) + add[k];
+            const plazaBase = BUILDINGS.plaza.baseYield || {};
+            for(let k in plazaBase) {
+                const val = plazaBase[k] * lvl;
+                y[k] += val;
+                details.building[k] = (details.building[k]||0) + val;
             }
             
             const policiesToProcess = [];
@@ -8084,7 +8097,7 @@ function showTileTooltip(t, clientX, clientY) {
 
 
 // ==================== src/17-plaza-faith.js：内政/信仰/神祇/悬浮详情 ====================
-// ==================== src/17-plaza-faith.js：内政/信仰/神祇/悬浮详情 ====================
+﻿// ==================== src/17-plaza-faith.js：内政/信仰/神祇/悬浮详情 ====================
 function togglePlaza() { 
     const t = state.selectedTile; 
     if (!t || t.improvement !== 'plaza') return; 
@@ -8366,20 +8379,23 @@ function getMiracleStage(key) {
     return 0;
 }
 
-// 锻造之神：解锁山火第一阶段（不消耗信仰点，也不重置已用的转换次数）
+// 神祇赐福：锻造之神解锁山火第一阶段；四季女神解锁季礼第一阶段
 function syncGodGrantedMiracles() {
-    if (!isHephaestusActive(getActiveGods())) return;
-    if (!state.miracleMountainFire) {
+    const gods = getActiveGods();
+    if (isHephaestusActive(gods) && !state.miracleMountainFire) {
         state.miracleMountainFire = true;
         if (!state.miracleMountainToVolcano) state.miracleMountainToVolcano = 1;
         if (!state.miracleVolcanoToMountain) state.miracleVolcanoToMountain = 3;
+    }
+    if (isDemeterActive(gods) && !state.miracleSeasonPopulation) {
+        state.miracleSeasonPopulation = true;
     }
 }
 
 function renderMiracleCards(container, activeGods) {
     const status = [];
-    if (state.miracleDisasterDouble) status.push(state.miracleDisasterDouble2 ? '灾厄2 +30🎭' : '灾厄 ×2');
-    if (state.miracleDisasterHalf) status.push(state.miracleDisasterHalf2 ? '庇护2 +30🎭' : '庇护 无灾害');
+    if (state.miracleDisasterDouble) status.push(state.miracleDisasterDouble2 ? '灾厄2 +50🎭' : '灾厄 ×2');
+    if (state.miracleDisasterHalf) status.push(state.miracleDisasterHalf2 ? '庇护2 +50🎭' : '庇护 无灾害');
     if (state.miracleGaDuration) status.push(state.miracleGaDuration2 ? '庆典2 +1回合/人口+2💰' : '庆典 +1回合');
     if (state.miracleExplorerCapacity) status.push(state.miracleExplorerExtra ? '寻踪2 50%' : '寻踪 +1探险家');
     if (state.miracleVillageFriendship) status.push(state.miracleVillageFriendship2 ? '归化2 吸纳100' : '归化 村庄100');
@@ -8485,10 +8501,10 @@ function useMiracle(key) {
     } else {
         if (key === 'disasterDouble') {
             state.miracleDisasterDouble2 = true;
-            showMsg('🌪️ 灾厄2阶段：每次触发自然灾害 +30🎭。', 'warning');
+            showMsg('🌪️ 灾厄2阶段：每次触发自然灾害 +50🎭。', 'warning');
         } else if (key === 'disasterHalf') {
             state.miracleDisasterHalf2 = true;
-            showMsg('🛡️ 庇护2阶段：每次阻挡灾害 +30🎭。', 'success');
+            showMsg('🛡️ 庇护2阶段：每次阻挡灾害 +50🎭。', 'success');
         } else if (key === 'gaDuration') {
             state.miracleGaDuration2 = true;
             showMsg('✨ 庆典2阶段：黄金时代期间每个人口 +2💰。', 'success');
@@ -8582,6 +8598,7 @@ function selectGod(key) {
     if ((state.faithPoints || 0) < cost) return showMsg(`信仰点不足 (需 ${cost})`, "err");
 
     const hadMountainFire = !!state.miracleMountainFire;
+    const hadSeasonPopulation = !!state.miracleSeasonPopulation;
     state.faithPoints -= cost;
     state.unlockedGods = state.unlockedGods || [];
     state.unlockedGods.push(key);
@@ -8591,6 +8608,9 @@ function selectGod(key) {
     showMsg(`已解锁 ${GODS[key].name}！`, "success");
     if (!hadMountainFire && key === 'hephaestus' && state.miracleMountainFire) {
         showMsg('🌋 锻造之神赐福：已解锁山火第一阶段（山→火 1 次、火→山 3 次，喷发不再摧毁区域）。', 'success');
+    }
+    if (!hadSeasonPopulation && key === 'demeter' && state.miracleSeasonPopulation) {
+        showMsg('🍂 四季女神赐福：已解锁季礼第一阶段（每个季节开启时人口 +1）。', 'success');
     }
     createParticlesAtPlaza('#f59e0b');
 
@@ -9174,7 +9194,7 @@ function resize() { resizeCanvas(); draw(); }
 
 
 // ==================== src/19-disasters.js：各类灾害 ====================
-// ==================== src/19-disasters.js：各类灾害 ====================
+﻿// ==================== src/19-disasters.js：各类灾害 ====================
 function getDisasterChanceMultiplier() {
     if (state.miracleDisasterHalf) return 0;
     if (state.miracleDisasterDouble) return 2;
@@ -9183,11 +9203,11 @@ function getDisasterChanceMultiplier() {
 
 function grantDisasterMiracleCulture(kind) {
     if (kind === 'blocked' && state.miracleDisasterHalf2) {
-        state.resources.culture += 30;
-        showMsg('🛡️ 庇护2阶段：灾害被阻止，文化 +30🎭。', 'success');
+        state.resources.culture += 50;
+        showMsg('🛡️ 庇护2阶段：灾害被阻止，文化 +50🎭。', 'success');
     } else if (kind === 'triggered' && state.miracleDisasterDouble2) {
-        state.resources.culture += 30;
-        showMsg('🌪️ 灾厄2阶段：灾害触发，文化 +30🎭。', 'warning');
+        state.resources.culture += 50;
+        showMsg('🌪️ 灾厄2阶段：灾害触发，文化 +50🎭。', 'warning');
     }
 }
 
