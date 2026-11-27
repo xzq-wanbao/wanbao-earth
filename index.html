@@ -1504,7 +1504,7 @@ const GODS = {
     },
     'tezcatlipoca': { 
         name: '黑暗之神——特斯卡特利波卡', 
-        desc: '【烟雾之镜】：排他性神祇。将✨黄金时代替换为🌑黑暗时代\n【黑暗试炼】：承受停滞与减产，换取永久产出提升', 
+        desc: '【烟雾之镜】：将✨黄金时代替换为🌑黑暗时代\n【黑暗试炼】：承受停滞与减产，换取永久产出提升', 
         icon: '🌑' 
     },
     'xolotl': { 
@@ -1529,7 +1529,7 @@ const GODS = {
     },
     'tlaloc': { 
         name: '雨神——特拉洛克', 
-        desc: '【雷雨交加】：排他性神祇。将✨黄金时代替换为🌧️特拉洛克之泪\n【雨露滋润】：消耗3人口开启，所有区域获得(等级x3)加成', 
+        desc: '【雷雨交加】：将✨黄金时代替换为🌧️特拉洛克之泪\n【雨露滋润】：消耗3人口开启，所有区域获得(等级x3)加成', 
         icon: '🌧️' 
     },
     'chicomecoatl': { 
@@ -2178,6 +2178,11 @@ const GOD_EXCLUSIVE = {
   axomama: ['mama_sara'],
   mama_sara: ['axomama']
 };
+
+function isExclusiveGod(key) {
+  const info = GOD_EXCLUSIVE[key];
+  return !!(info && info.exclusive);
+}
 
 function getGodDisabledReason(key, activeGods) {
   if (!GODS[key]) return '未知神祇';
@@ -8119,11 +8124,15 @@ function renderFaithPanel() {
             btnHtml = `<button onclick="selectGod('${key}')" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded transition border border-indigo-400 shadow-md hover:shadow-indigo-500/50">解锁 (-${cost} 信仰点)</button>`;
         }
 
+        const exclusiveBadge = isExclusiveGod(key)
+            ? '<span class="exclusive-badge ml-1 align-middle text-[10px] px-1 py-0.5 rounded bg-rose-900/60 border border-rose-500/60 text-rose-200 font-normal whitespace-nowrap">排他</span>'
+            : '';
+
         card.innerHTML = `
             <div>
                 <div class="flex items-center gap-3 mb-3 pb-2 border-b border-gray-700">
                     <div class="text-4xl filter drop-shadow-md">${g.icon}</div>
-                    <h3 class="font-bold text-amber-100 text-lg leading-tight">${g.name.split('——')[0]}<br><span class="text-xs text-amber-500 font-normal">${g.name.split('——')[1]||''}</span></h3>
+                    <h3 class="font-bold text-amber-100 text-lg leading-tight"><span class="align-middle">${g.name.split('——')[0]}</span>${exclusiveBadge}<br><span class="text-xs text-amber-500 font-normal">${g.name.split('——')[1]||''}</span></h3>
                 </div>
                 <div class="text-xs text-gray-300 mb-4 whitespace-pre-line leading-relaxed min-h-[50px]">${g.desc}</div>
             </div>
