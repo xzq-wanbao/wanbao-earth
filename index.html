@@ -1831,11 +1831,11 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'scorch': { name: '焦土', icon: ICONS.act_fire, tooltip: '<b>焦土</b><br>消耗: 30💰<br>效果: +10🌾, 变干草地', cost: { gold: 30 }, gain: { food: 10 }, reqTerrain: [TERRAIN.GRASS, TERRAIN.BRUSH], toTerrain: TERRAIN.DRY_GRASS_TEMP }, 
     'chop': { name: '伐木', icon: ICONS.act_chop, tooltip: '<b>伐木</b><br>消耗: 30💰<br>效果: +10🔨, 变干草地', cost: { gold: 30 }, gain: { industry: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TAIGA], toTerrain: TERRAIN.DRY_GRASS_TEMP },
     'burn_forest': { name: '放火烧林', icon: ICONS.act_fire, tooltip: '<b>放火烧林</b><br>消耗: 10💰<br>效果: 点燃森林/针叶林，2-3回合后变荒地并留下草木灰<br>之后建农业区可获永久 +1🌾<br>火势不会蔓延', cost: { gold: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.TAIGA] },
-    'make_wetland_grass': { name: '人工湿地', icon: WETLAND_ICON_SVG, tooltip: '<b>人工湿地</b><br>消耗: 20🔨 20💰<br>效果: 温带草地变湿地', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.GRASS], toTerrain: TERRAIN.WETLAND },
+    'make_wetland_grass': { name: '人造湿地', icon: WETLAND_ICON_SVG, tooltip: '<b>人造湿地</b><br>消耗: 20🔨 20💰<br>效果: 温带草地变湿地', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.GRASS], toTerrain: TERRAIN.WETLAND },
     'make_shrub_temp': { name: '种植灌木', icon: SHRUB_TEMP_ICON_SVG, tooltip: '<b>种植灌木</b><br>消耗: 5🌾 10💰<br>效果: 温带草地/干草地变灌木丛（温带）', cost: { food: 5, gold: 10 }, reqTerrain: [TERRAIN.GRASS, TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.SHRUB_TEMP },
     'make_shrub_trop': { name: '种植灌木', icon: SHRUB_TROP_ICON_SVG, tooltip: '<b>种植灌木</b><br>消耗: 5🌾 10💰<br>效果: 稀树草原/热带干草地变灌木丛（热带）', cost: { food: 5, gold: 10 }, reqTerrain: [TERRAIN.BRUSH, TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.SHRUB_TROP },
     'clear_shrub': { name: '清除灌丛', icon: ICONS.act_chop, tooltip: '<b>清除灌丛</b><br>消耗: 10💰<br>效果: +5🔨，变对应干草地', cost: { gold: 10 }, gain: { industry: 5 }, reqTerrain: [TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP], toTerrain: TERRAIN.DRY_GRASS_TEMP },
-    'make_swamp_savanna': { name: '人工沼泽', icon: ICONS.act_swamp, tooltip: '<b>人工沼泽</b><br>消耗: 20🔨 20💰<br>效果: 稀树草原变沼泽<br>(热带季节性湿地)', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.BRUSH], toTerrain: TERRAIN.SWAMP },
+    'make_swamp_savanna': { name: '人造沼泽', icon: ICONS.act_swamp, tooltip: '<b>人造沼泽</b><br>消耗: 20🔨 20💰<br>效果: 稀树草原变沼泽<br>(热带季节性湿地)', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.BRUSH], toTerrain: TERRAIN.SWAMP },
     'improve_soil_temp': { name: '温带改良', icon: ICONS.act_soil, tooltip: '<b>温带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(温)变草地', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.GRASS },
     'improve_soil_trop': { name: '热带改良', icon: ICONS.act_soil, tooltip: '<b>热带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(热)变稀树草原', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.BRUSH },
     'improve_tundra': { name: '苔原改良', icon: ICONS.act_soil, tooltip: '<b>苔原改良</b><br>消耗: 15🌾 15💰<br>效果: 苔原变干草地(寒)<br>使得可以种树', cost: { food: 15, gold: 15 }, reqTerrain: [TERRAIN.TUNDRA], toTerrain: TERRAIN.DRY_GRASS_COLD },
@@ -8543,7 +8543,7 @@ ttHeader.innerHTML = `<span class="${t.improvement ? 'text-yellow-300' : 'text-w
 const VOLCANIC_SOIL_EXCLUDED = [
     TERRAIN.MOUNTAIN, TERRAIN.LAKE, TERRAIN.ROCKY, TERRAIN.OCEAN,
     TERRAIN.COAST, TERRAIN.VOLCANO, TERRAIN.GEYSER, TERRAIN.ICE_FLOAT, TERRAIN.REEF,
-    TERRAIN.POLAR, TERRAIN.ICE_CAP, TERRAIN.SALT_MARSH, TERRAIN.WETLAND, TERRAIN.WETLAND_RESERVE
+    TERRAIN.POLAR, TERRAIN.ICE_CAP, TERRAIN.SALT_MARSH, TERRAIN.SALT_PAN, TERRAIN.SALT_PASTURE, TERRAIN.REED_BED, TERRAIN.WETLAND, TERRAIN.WETLAND_RESERVE
 ];
 
 function applyVolcanicFertileSoilAround(volcanoTile) {
