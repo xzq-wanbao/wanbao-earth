@@ -1,6 +1,6 @@
 # 地球-诸神の黄昏（网页版）
 
-在线游玩：**https://xzq-wanbao.github.io/wanbao-earth/?v=79b83f1**
+在线游玩：**https://xzq-wanbao.github.io/wanbao-earth/?v=baa08d7**
 
 这个仓库只放网页构建产物（`index.html` + `assets/`），由 GitHub Pages 托管。
 
