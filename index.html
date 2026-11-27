@@ -1828,7 +1828,7 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'drain': { name: '排水', icon: ICONS.act_water, tooltip: '<b>排水</b><br>消耗: 30💰<br>效果: 沼泽/泥炭/盐沼/湿地变干草地<br>(视纬度而定)', cost: { gold: 30 }, reqTerrain: [TERRAIN.SWAMP, TERRAIN.PEAT_BOG, TERRAIN.SALT_MARSH, TERRAIN.WETLAND], toTerrain: TERRAIN.DRY_GRASS_TEMP },
     'make_oasis_desert': { name: '人造绿洲(沙)', icon: ICONS.oasis, tooltip: '<b>人造绿洲</b><br>消耗: 30🔨 30💰<br>效果: 沙漠变绿洲<br>为农业区提供相邻收益', cost: { industry: 30, gold: 30 }, reqTerrain: [TERRAIN.DESERT], toTerrain: TERRAIN.OASIS },
     'make_oasis_dry': { name: '人造绿洲(干)', icon: ICONS.oasis, tooltip: '<b>人造绿洲</b><br>消耗: 30🔨 30💰<br>效果: 干草地(热)变绿洲<br>为农业区提供相邻收益', cost: { industry: 30, gold: 30 }, reqTerrain: [TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.OASIS }, 
-    'scorch': { name: '焦土', icon: ICONS.act_fire, tooltip: '<b>焦土</b><br>消耗: 30💰<br>效果: +10🌾, 变干草地', cost: { gold: 30 }, gain: { food: 10 }, reqTerrain: [TERRAIN.GRASS, TERRAIN.BRUSH], toTerrain: TERRAIN.DRY_GRASS_TEMP }, 
+    'scorch': { name: '焦土', icon: ICONS.act_fire, tooltip: '<b>焦土</b><br>消耗: 10💰<br>效果: +5🌾, 变干草地<br>之后建区域返还 +5🌾', cost: { gold: 10 }, gain: { food: 5 }, reqTerrain: [TERRAIN.GRASS, TERRAIN.BRUSH], toTerrain: TERRAIN.DRY_GRASS_TEMP }, 
     'chop': { name: '伐木', icon: ICONS.act_chop, tooltip: '<b>伐木</b><br>消耗: 30💰<br>效果: +10🔨, 变干草地', cost: { gold: 30 }, gain: { industry: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TAIGA], toTerrain: TERRAIN.DRY_GRASS_TEMP },
     'burn_forest': { name: '放火烧林', icon: ICONS.act_fire, tooltip: '<b>放火烧林</b><br>消耗: 10💰<br>效果: 点燃森林/针叶林，2-3回合后变荒地并留下草木灰<br>之后建农业区可获永久 +1🌾<br>火势不会蔓延', cost: { gold: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.TAIGA] },
     'make_wetland_grass': { name: '人造湿地', icon: WETLAND_ICON_SVG, tooltip: '<b>人造湿地</b><br>消耗: 20🔨 20💰<br>效果: 温带草地变湿地', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.GRASS], toTerrain: TERRAIN.WETLAND },
@@ -5361,6 +5361,10 @@ function build(key) {
             state.resources.industry += 5;
             harvestMsg = "清理灌丛: +5🔨";
             t.type = t.type === TERRAIN.SHRUB_TEMP ? TERRAIN.DRY_GRASS_TEMP : TERRAIN.DRY_GRASS_TROP;
+        } else if (t.isScorched) {
+            state.resources.food += 5;
+            harvestMsg = "焦土开垦: +5🌾";
+            t.isScorched = false;
         } else if ([TERRAIN.GRASS, TERRAIN.BRUSH].includes(t.type)) {
             state.resources.food += 10;
             harvestMsg = "除草开荒: +10🌾";
@@ -6891,7 +6895,7 @@ function performAction(key) {
     else if (key === 'burn_forest') { triggerForestFire(t); t.controlledBurn = true; }
     else if (key === 'drain') { if (lat > 0.44 && lat < 0.72) t.type = TERRAIN.DRY_GRASS_TROP; else t.type = dryGrassType; }
     else if (key === 'irrigate') { t.type = TERRAIN.DRY_GRASS_TROP; }
-    else if (key === 'scorch') { if (t.type === TERRAIN.BRUSH) t.type = TERRAIN.DRY_GRASS_TROP; else t.type = TERRAIN.DRY_GRASS_TEMP; }
+    else if (key === 'scorch') { if (t.type === TERRAIN.BRUSH) t.type = TERRAIN.DRY_GRASS_TROP; else t.type = TERRAIN.DRY_GRASS_TEMP; t.isScorched = true; }
     else if (key === 'plant') { if (t.type === TERRAIN.TUNDRA || t.type === TERRAIN.DRY_GRASS_COLD) t.type = TERRAIN.TAIGA; else if (t.type === TERRAIN.DRY_GRASS_TROP || t.type === TERRAIN.BRUSH) t.type = TERRAIN.JUNGLE; else t.type = TERRAIN.FOREST; }
     else if (key === 'landfill' || key === 'fill_water') { if (lat < 0.27 || lat > 0.86) t.type = TERRAIN.DRY_GRASS_COLD; else if (lat > 0.44 && lat < 0.72) t.type = TERRAIN.DRY_GRASS_TROP; else t.type = TERRAIN.DRY_GRASS_TEMP; }
     else if (key === 'dig_lake') { t.type = TERRAIN.LAKE; }
