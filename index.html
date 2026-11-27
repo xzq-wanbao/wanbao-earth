@@ -8379,7 +8379,7 @@ function applyVolcanicFertileSoilAround(volcanoTile) {
         if (n.eruptionRecoverTimer || n.originalTypeBeforeEruption) return;
         if (VOLCANIC_SOIL_EXCLUDED.includes(n.type)) return;
         if (n.type === TERRAIN.FERTILE_SOIL) return;
-        if (n.isRuin) { n.isRuin = false; n.miracleRuin = false; }
+        // 遗迹保留；火山只把地块变为沃土
         n.type = TERRAIN.FERTILE_SOIL;
         changed++;
     });
