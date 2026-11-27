@@ -4730,6 +4730,10 @@ function applySaveData(data) {
         if (!raw || typeof raw.q !== 'number' || typeof raw.r !== 'number' || typeof raw.type !== 'number') continue;
         const tile = { ...raw };
         delete tile.expedition;
+        // 旧存档兼容：河网与洪泛平原已移除
+        if (tile.type === 186) tile.type = TERRAIN.GRASS;
+        delete tile.riverEdges;
+        delete tile.riverMain;
         if (tile.village) {
             if (!VILLAGE_SPECIALTIES[tile.village.specialty]) {
                 tile.village.specialty = VILLAGE_SPECIALTY_ORDER[Math.abs(tile.q + tile.r) % VILLAGE_SPECIALTY_ORDER.length];
