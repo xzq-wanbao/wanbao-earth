@@ -5420,7 +5420,7 @@ function getRomanLabel(value) {
 }
 
 function getFertileSoilTier(t) {
-    return 1 + ((t && t.volcanicAshLevel) || 0);
+    return (t && t.volcanicAshLevel) || 0;
 }
 
 function drawLevelBadge(ctx, label, p, size) {
@@ -5446,7 +5446,9 @@ function drawDistrictLevelBadge(ctx, t, p, size) {
 
 function drawFertileSoilLevelBadge(ctx, t, p, size) {
     if (!t || t.type !== TERRAIN.FERTILE_SOIL || isLeveledDistrict(t)) return;
-    drawLevelBadge(ctx, getRomanLabel(getFertileSoilTier(t)), p, size);
+    const tier = getFertileSoilTier(t);
+    if (tier <= 0) return;
+    drawLevelBadge(ctx, getRomanLabel(tier), p, size);
 }
 
 function isInfrastructureTile(t) {
@@ -6803,12 +6805,13 @@ function getTileYield(t, activeGodsCache = null) {
             const volBonus = baseVol + ashLevel * 2;
             y.food = (y.food || 0) + volBonus; 
             details.volcano = volBonus; 
+            const ashLabel = ashLevel > 0 ? `+${ashLevel}层` : '';
             if (onFertile && !nearVolcano) {
-                details.adjacencyBreakdown.push(`沃土(火山灰${ashLevel > 0 ? '+' + ashLevel + '层' : ''}): +${volBonus}🌾`);
+                details.adjacencyBreakdown.push(`沃土(火山灰${ashLabel}): +${volBonus}🌾`);
             } else if (isPachamamaActive(activeGods)) {
-                details.adjacencyBreakdown.push(`帕查玛玛(火山灰+${ashLevel}层): +${volBonus}🌾`); 
+                details.adjacencyBreakdown.push(`帕查玛玛(火山灰${ashLabel}): +${volBonus}🌾`); 
             } else {
-                details.adjacencyBreakdown.push(`火山灰(+${ashLevel}层): +${volBonus}🌾`);
+                details.adjacencyBreakdown.push(`火山灰${ashLabel ? `(${ashLabel})` : ''}: +${volBonus}🌾`);
             }
         } 
     }
