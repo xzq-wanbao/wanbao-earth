@@ -1291,7 +1291,7 @@ const TRANSPORT_TERRAINS = [TERRAIN.CANAL, TERRAIN.TUNNEL];
 const TERRAIN_MOD_ACTIONS = [
     'plant_cactus', 'chop_cactus', 'drain', 'irrigate', 
     'make_oasis_desert', 'make_oasis_dry', 'scorch', 'chop', 'burn_forest', 
-    'make_swamp', 'improve_soil_temp', 'improve_soil_trop', 
+    'make_swamp', 'make_swamp_grass', 'improve_soil_temp', 'improve_soil_trop', 
     'improve_tundra', 'dig_lake', 'plant', 'landfill', 
     'fill_water', 'plant_mangrove', 'chop_mangrove', 
     'make_desert_set', 'make_coast_poseidon', 'make_ocean_manannan', 'make_mountain_cailleach',
@@ -1813,6 +1813,7 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'chop': { name: '伐木', icon: ICONS.act_chop, tooltip: '<b>伐木</b><br>消耗: 30💰<br>效果: +10🔨, 变干草地', cost: { gold: 30 }, gain: { industry: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TAIGA], toTerrain: TERRAIN.DRY_GRASS_TEMP },
     'burn_forest': { name: '放火烧林', icon: ICONS.act_fire, tooltip: '<b>放火烧林</b><br>消耗: 10💰<br>效果: 点燃森林/针叶林，2-3回合后变荒地并留下草木灰<br>之后建农业区可获永久 +1🌾<br>火势不会蔓延', cost: { gold: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.TAIGA] },
     'make_swamp': { name: '人工沼泽', icon: ICONS.act_swamp, tooltip: '<b>人工沼泽</b><br>消耗: 30🔨 30💰<br>效果: 干草地变沼泽', cost: { industry: 30, gold: 30 }, reqTerrain: ALL_DRY_GRASS, toTerrain: TERRAIN.SWAMP },
+    'make_swamp_grass': { name: '草地沼泽化', icon: ICONS.act_swamp, tooltip: '<b>草地沼泽化</b><br>消耗: 20🔨 20💰<br>效果: 草地变沼泽', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.GRASS], toTerrain: TERRAIN.SWAMP },
     'improve_soil_temp': { name: '温带改良', icon: ICONS.act_soil, tooltip: '<b>温带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(温)变草地', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.GRASS },
     'improve_soil_trop': { name: '热带改良', icon: ICONS.act_soil, tooltip: '<b>热带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(热)变稀树草原', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.BRUSH },
     'improve_tundra': { name: '苔原改良', icon: ICONS.act_soil, tooltip: '<b>苔原改良</b><br>消耗: 15🌾 15💰<br>效果: 苔原变干草地(寒)<br>使得可以种树', cost: { food: 15, gold: 15 }, reqTerrain: [TERRAIN.TUNDRA], toTerrain: TERRAIN.DRY_GRASS_COLD },
@@ -4405,18 +4406,26 @@ function calculateIncome() {
     const activeGods = getActiveGods();
     state.activeGods = activeGods; 
 
-    // 1. 基础地块产出（只有与主广场连通的区域才计入收入）
+    // 1. 基础地块产出（区域需连通；人造工程始终计入，且其金币产出可抵扣自身维护费）
     state.plazaCount = 0; state.industrialCount = 0;
     const connected = getConnectedTileSet();
+    let engineeringCount = 0;
+    let engineeringMaintenanceUnits = 0;
     state.map.forEach(t => {
         if (t.owner !== 'player') return;
         if (t.improvement === 'plaza') state.plazaCount++;
         if (t.improvement === 'mine') state.industrialCount++;
-        if (!connected.has(t)) return;
+        const isEngineering = isEngineeringTile(t);
+        if (!connected.has(t) && !isEngineering) return;
         const y = getTileYield(t, activeGods).total;
         state.income.food += y.food || 0; state.income.industry += y.industry || 0;
         state.income.science += y.science || 0; state.income.gold += y.gold || 0;
         state.income.culture += y.culture || 0;
+        if (isEngineering) {
+            engineeringCount++;
+            // 有金币产出的人造工程自己承担维护费，不再额外扣金币
+            if ((y.gold || 0) <= 0) engineeringMaintenanceUnits++;
+        }
     });
 
     if (state.permanentGold > 0) state.income.gold += state.permanentGold;
@@ -4486,10 +4495,10 @@ function calculateIncome() {
         }
     }
 
-    // 5. 人造工程维护费：每座 1💰/回合（区域不收费）；减赋1阶段减半，2阶段免费
+    // 5. 人造工程维护费：无金币产出的工程每座 1💰/回合；有金币产出的工程由自身金币抵扣
     state.goldGrossIncome = state.income.gold;
-    state.engineeringCount = countEngineeringTiles();
-    state.engineeringMaintenance = getEngineeringMaintenanceForCount(state.engineeringCount);
+    state.engineeringCount = engineeringCount;
+    state.engineeringMaintenance = getEngineeringMaintenanceForCount(engineeringMaintenanceUnits);
     state.income.gold -= state.engineeringMaintenance;
 }
 
@@ -6739,6 +6748,7 @@ function performAction(key) {
     else if (key === 'chop_cactus') { t.type = TERRAIN.DESERT; }
     else if (key.startsWith('make_oasis')) { t.type = TERRAIN.OASIS; }
     else if (key === 'make_swamp') { t.type = TERRAIN.SWAMP; }
+    else if (key === 'make_swamp_grass') { t.type = TERRAIN.SWAMP; }
     else if (key === 'make_terrace') { t.type = TERRAIN.TERRACE; }
     else if (key === 'build_mine') { t.type = TERRAIN.MINING_SITE; }
     else if (key === 'make_wind') { t.type = TERRAIN.WIND_FARM; }
