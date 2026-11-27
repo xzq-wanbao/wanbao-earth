@@ -5407,9 +5407,23 @@ function isLeveledDistrict(t) {
     return !!(t && t.improvement && LEVELED_DISTRICTS.includes(t.improvement));
 }
 
-function drawDistrictLevelBadge(ctx, t, p, size) {
-    if (!isLeveledDistrict(t)) return;
-    const label = getDistrictLevelRoman(t.level);
+function getRomanLabel(value) {
+    const num = Math.max(1, Math.round(Number(value) || 1));
+    if (num <= 3) return DISTRICT_LEVEL_ROMANS[num] || String(num);
+    const table = [[10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']];
+    let left = num;
+    let out = '';
+    for (const [v, s] of table) {
+        while (left >= v) { out += s; left -= v; }
+    }
+    return out || String(num);
+}
+
+function getFertileSoilTier(t) {
+    return 1 + ((t && t.volcanicAshLevel) || 0);
+}
+
+function drawLevelBadge(ctx, label, p, size) {
     const x = p.x;
     const y = p.y - size * 0.62;
     ctx.save();
@@ -5423,6 +5437,16 @@ function drawDistrictLevelBadge(ctx, t, p, size) {
     ctx.strokeText(label, x, y);
     ctx.fillText(label, x, y);
     ctx.restore();
+}
+
+function drawDistrictLevelBadge(ctx, t, p, size) {
+    if (!isLeveledDistrict(t)) return;
+    drawLevelBadge(ctx, getDistrictLevelRoman(t.level), p, size);
+}
+
+function drawFertileSoilLevelBadge(ctx, t, p, size) {
+    if (!t || t.type !== TERRAIN.FERTILE_SOIL || isLeveledDistrict(t)) return;
+    drawLevelBadge(ctx, getRomanLabel(getFertileSoilTier(t)), p, size);
 }
 
 function isInfrastructureTile(t) {
@@ -5708,6 +5732,7 @@ if (t.fireTurns > 0) {
 
     // 等级标记最后绘制，避免被灾害/迷雾等覆盖
     drawDistrictLevelBadge(ctx, t, p, size);
+    drawFertileSoilLevelBadge(ctx, t, p, size);
 }
 
 function drawTileYields(ctx, t, activeGods) {
