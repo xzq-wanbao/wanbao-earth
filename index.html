@@ -660,7 +660,8 @@ Check your Browserslist config to be sure that your targets are set up correctly
                             <li><b>改造地形：</b> 可花费资源永久改造部分地形，重塑地球生态圈。</li>
                             <li><b>冰盖：</b> 极地陆地会形成连片冰盖，不可建造农业区。</li>
                             <li><b>大湖：</b> 4块以上相连的湖泊会形成大湖，颜色与普通湖泊一致。</li>
-                            <li><b>盐沼：</b> 沿海低地会生成盐沼；盐沼上不能建造区域，但可以建造盐田（+2💰）、盐沼牧场（+1🌾+1💰）、芦苇场（+2🔨）。</li>
+                            <li><b>盐沼：</b> 沿海低地会生成盐沼；不能建造区域，但可建盐田（+2💰）、盐沼牧场（+1🌾+1💰）、芦苇场（+2🔨）；可排水成干草地，热带海边盐沼可种红树林。</li>
+                            <li><b>放火烧林：</b> 森林/针叶林可主动放火，2-3回合后变荒地并留下草木灰；之后建农业区永久 +1🌾，火势不会蔓延。</li>
                             <li><b>区域连接：</b> 所有新区域必须与 <span class="text-purple-400">主广场</span> 连接。可以通过隧道、桥梁、运河或已建成的区域进行延伸。区域只可跨一格非交通类人造工程进行建造，不可拆除连接点内的区域（拆除会导致其他区域与主广场断开）。</li>
                             <li><b>人口：</b> 食物足够时每回合结束自动 +1 人口（可连续增长，消耗递增）。每一人口+3🔨+3🔬+3🎭，但-3🌾。食物耗尽会导致人口减少；献祭神时段自动增长暂停（托纳季乌运转期不暂停，人口仍会自然增长）。</li>
                             <li><b>村庄：</b> 长期交换每回合 -30💰 换 20 对应资源，交换期间每回合 +10 友好度；友好度满 100 后交换提升为 20💰 换 30 对应资源，并可花费 200🎭 吸纳村庄（人口 +3）。</li>
@@ -1289,7 +1290,7 @@ const TRANSPORT_IMPROVEMENTS = ['bridge', 'sea_bridge'];
 const TRANSPORT_TERRAINS = [TERRAIN.CANAL, TERRAIN.TUNNEL];
 const TERRAIN_MOD_ACTIONS = [
     'plant_cactus', 'chop_cactus', 'drain', 'irrigate', 
-    'make_oasis_desert', 'make_oasis_dry', 'scorch', 'chop', 
+    'make_oasis_desert', 'make_oasis_dry', 'scorch', 'chop', 'burn_forest', 
     'make_swamp', 'improve_soil_temp', 'improve_soil_trop', 
     'improve_tundra', 'dig_lake', 'plant', 'landfill', 
     'fill_water', 'plant_mangrove', 'chop_mangrove', 
@@ -1805,11 +1806,12 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'plant_cactus': { name: '种仙人掌', icon: ICONS.act_cactus, tooltip: '<b>种仙人掌</b><br>消耗: 10🌾 10💰<br>效果: 沙漠变仙人掌群<br>为农业区提供相邻收益', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DESERT], toTerrain: TERRAIN.CACTUS_DESERT },
     'chop_cactus': { name: '砍伐', icon: ICONS.act_chop, tooltip: '<b>砍伐</b><br>消耗: 10💰<br>效果: 仙人掌群变沙漠', cost: { gold: 10 }, reqTerrain: [TERRAIN.CACTUS_DESERT], toTerrain: TERRAIN.DESERT },
     'irrigate': { name: '滴灌', icon: ICONS.act_water, tooltip: '<b>滴灌</b><br>消耗: 15🌾 15💰<br>效果: 沙漠变干草地(热)', cost: { food: 15, gold: 15 }, reqTerrain: [TERRAIN.DESERT], toTerrain: TERRAIN.DRY_GRASS_TROP },
-    'drain': { name: '排水', icon: ICONS.act_water, tooltip: '<b>排水</b><br>消耗: 30💰<br>效果: 沼泽/泥炭变干草地<br>(视纬度而定)', cost: { gold: 30 }, reqTerrain: [TERRAIN.SWAMP, TERRAIN.PEAT_BOG], toTerrain: TERRAIN.DRY_GRASS_TEMP },
+    'drain': { name: '排水', icon: ICONS.act_water, tooltip: '<b>排水</b><br>消耗: 30💰<br>效果: 沼泽/泥炭/盐沼变干草地<br>(视纬度而定)', cost: { gold: 30 }, reqTerrain: [TERRAIN.SWAMP, TERRAIN.PEAT_BOG, TERRAIN.SALT_MARSH], toTerrain: TERRAIN.DRY_GRASS_TEMP },
     'make_oasis_desert': { name: '人造绿洲(沙)', icon: ICONS.oasis, tooltip: '<b>人造绿洲</b><br>消耗: 30🔨 30💰<br>效果: 沙漠变绿洲<br>为农业区提供相邻收益', cost: { industry: 30, gold: 30 }, reqTerrain: [TERRAIN.DESERT], toTerrain: TERRAIN.OASIS },
     'make_oasis_dry': { name: '人造绿洲(干)', icon: ICONS.oasis, tooltip: '<b>人造绿洲</b><br>消耗: 30🔨 30💰<br>效果: 干草地(热)变绿洲<br>为农业区提供相邻收益', cost: { industry: 30, gold: 30 }, reqTerrain: [TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.OASIS }, 
     'scorch': { name: '焦土', icon: ICONS.act_fire, tooltip: '<b>焦土</b><br>消耗: 30💰<br>效果: +10🌾, 变干草地', cost: { gold: 30 }, gain: { food: 10 }, reqTerrain: [TERRAIN.GRASS, TERRAIN.BRUSH], toTerrain: TERRAIN.DRY_GRASS_TEMP }, 
     'chop': { name: '伐木', icon: ICONS.act_chop, tooltip: '<b>伐木</b><br>消耗: 30💰<br>效果: +10🔨, 变干草地', cost: { gold: 30 }, gain: { industry: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TAIGA], toTerrain: TERRAIN.DRY_GRASS_TEMP },
+    'burn_forest': { name: '放火烧林', icon: ICONS.act_fire, tooltip: '<b>放火烧林</b><br>消耗: 10💰<br>效果: 点燃森林/针叶林，2-3回合后变荒地并留下草木灰<br>之后建农业区可获永久 +1🌾<br>火势不会蔓延', cost: { gold: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.TAIGA] },
     'make_swamp': { name: '人工沼泽', icon: ICONS.act_swamp, tooltip: '<b>人工沼泽</b><br>消耗: 30🔨 30💰<br>效果: 干草地变沼泽', cost: { industry: 30, gold: 30 }, reqTerrain: ALL_DRY_GRASS, toTerrain: TERRAIN.SWAMP },
     'improve_soil_temp': { name: '温带改良', icon: ICONS.act_soil, tooltip: '<b>温带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(温)变草地', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.GRASS },
     'improve_soil_trop': { name: '热带改良', icon: ICONS.act_soil, tooltip: '<b>热带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(热)变稀树草原', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.BRUSH },
@@ -1818,7 +1820,7 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'plant': { name: '植树', icon: ICONS.act_plant, tooltip: '<b>植树</b><br>消耗: 10🌾 10💰<br>效果: 恢复树林', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH], toTerrain: TERRAIN.FOREST }, 
     'landfill': { name: '填海', icon: ICONS.act_fill, tooltip: '<b>填海</b><br>消耗: 30🔨 30💰<br>效果: 沿海变干草地', cost: { industry: 30, gold: 30 }, reqTerrain: [TERRAIN.COAST], toTerrain: TERRAIN.DRY_GRASS_TEMP },
     'fill_water': { name: '填平', icon: ICONS.act_fill, tooltip: '<b>填平水域</b><br>消耗: 20🔨 20💰<br>效果: 湖泊/绿洲变干草地', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.LAKE, TERRAIN.OASIS], toTerrain: TERRAIN.DRY_GRASS_TEMP },
-    'plant_mangrove': { name: '种红树林', icon: ICONS.act_plant, tooltip: '<b>种红树林</b><br>消耗: 20🌾 20💰<br>效果: 在热带沿海旁生成红树林', cost: { food: 20, gold: 20 }, reqTerrain: [TERRAIN.DRY_GRASS_TROP, TERRAIN.SWAMP, TERRAIN.BRUSH], toTerrain: TERRAIN.MANGROVE },
+    'plant_mangrove': { name: '种红树林', icon: ICONS.act_plant, tooltip: '<b>种红树林</b><br>消耗: 20🌾 20💰<br>效果: 在热带沿海旁生成红树林<br>可用于热带海边盐沼', cost: { food: 20, gold: 20 }, reqTerrain: [TERRAIN.DRY_GRASS_TROP, TERRAIN.SWAMP, TERRAIN.BRUSH, TERRAIN.SALT_MARSH], toTerrain: TERRAIN.MANGROVE },
     'chop_mangrove': { name: '砍伐', icon: ICONS.act_chop, tooltip: '<b>砍伐</b><br>消耗: 30💰<br>效果: 变干草地', cost: { gold: 30 }, gain: { industry: 10 }, reqTerrain: [TERRAIN.MANGROVE], toTerrain: TERRAIN.DRY_GRASS_TROP },
     'make_terrace': { name: '修筑梯田', icon: ICONS.act_terrace, tooltip: '<b>梯田</b><br>消耗: 30🔨<br>基础: 2🌾<br>加成: 为农业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.MOUNTAIN, TERRAIN.ROCKY], toTerrain: TERRAIN.TERRACE },
     'build_mine': { name: '建设矿山', icon: ICONS.act_mine, tooltip: '<b>矿山</b><br>消耗: 30🔨<br>基础: 2🔨<br>加成: 为工业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.MOUNTAIN], toTerrain: TERRAIN.MINING_SITE },
@@ -6661,6 +6663,9 @@ function performAction(key) {
     if (t.isRuin && ENGINEERING_ACTIONS.includes(key)) {
         return showMsg("无法在遗迹上动土 (需建造区域来探索)", "err");
     }
+    if (key === 'burn_forest' && (t.village || t.isRuin)) {
+        return showMsg("无法在村庄或遗迹上放火", "err");
+    }
 
     if (t.fireTurns > 0) {
         return showMsg("火势太猛，工匠无法进入！", "err");
@@ -6723,6 +6728,7 @@ function performAction(key) {
     }
 
     if (key === 'chop') { if (t.type === TERRAIN.TAIGA) t.type = TERRAIN.DRY_GRASS_COLD; else if (t.type === TERRAIN.JUNGLE) t.type = TERRAIN.DRY_GRASS_TROP; else t.type = TERRAIN.DRY_GRASS_TEMP; }
+    else if (key === 'burn_forest') { triggerForestFire(t); t.controlledBurn = true; }
     else if (key === 'drain') { if (lat > 0.44 && lat < 0.72) t.type = TERRAIN.DRY_GRASS_TROP; else t.type = dryGrassType; }
     else if (key === 'irrigate') { t.type = TERRAIN.DRY_GRASS_TROP; }
     else if (key === 'scorch') { if (t.type === TERRAIN.BRUSH) t.type = TERRAIN.DRY_GRASS_TROP; else t.type = TERRAIN.DRY_GRASS_TEMP; }
@@ -9003,6 +9009,7 @@ function nextTurn() {
 
         if (state.season === 3 && t.fireTurns > 0) {
             t.fireTurns = 0; // 立即熄灭
+            t.controlledBurn = false;
             createParticles(t.q, t.r, '#d1d5db'); 
         }
 
@@ -9014,6 +9021,7 @@ function nextTurn() {
             // A. 蔓延逻辑
             const nbs = getNeighbors(t.q, t.r);
             nbs.forEach(n => {
+                if (t.controlledBurn) return; // 玩家放火只烧当前地块，不蔓延
                 const isFlammableEng = [TERRAIN.LUMBER_MILL, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.DATE_PALM, TERRAIN.HUNTING_CAMP, TERRAIN.TREEHOUSE_RESORT].includes(n.type);
                 const isForest = [TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TAIGA].includes(n.type) || isFlammableEng;
                 const isDist = n.improvement === 'plaza' || DISTRICT_BUILDINGS.includes(n.improvement);
@@ -9054,6 +9062,7 @@ function nextTurn() {
 
             // C. 熄灭结算逻辑
             if (t.fireTurns <= 0) {
+                t.controlledBurn = false;
                 if (t.originalType) t.originalTypeForRegrowth = t.originalType;
                 else if (!t.originalTypeForRegrowth) t.originalTypeForRegrowth = t.type;
 
