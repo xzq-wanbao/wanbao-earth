@@ -5819,7 +5819,8 @@ if (t.isRuin && !t.improvement) {
         icon = '🏘️';
     }
 
-    // 盐沼/盐田/盐沼牧场/湿地使用无描边矢量图标，避免 emoji 黑边
+    // 盐沼/盐田/盐沼牧场/湿地/灌木丛使用无描边矢量图标；已有区域时优先使用区域图标
+    if (!t.improvement) {
     if (t.type === TERRAIN.SALT_MARSH) {
         drawSaltMarshIcon(ctx, p.x, p.y, size);
         icon = null;
@@ -5847,6 +5848,7 @@ if (t.isRuin && !t.improvement) {
     } else if (t.type === TERRAIN.RESIN_CAMP) {
         drawResinIcon(ctx, p.x, p.y, size);
         icon = null;
+    }
     }
 
     if (icon) {
