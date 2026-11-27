@@ -8320,7 +8320,7 @@ function generateIceCaps() {
 }
 
 // === 河流：源头在山脉，沿陆地流入海洋/湖泊/沼泽；河流画在六边形边上 ===
-const RIVER_SINK_TYPES = [TERRAIN.OCEAN, TERRAIN.COAST, TERRAIN.LAKE, TERRAIN.SWAMP, TERRAIN.PEAT_BOG];
+const RIVER_SINK_TYPES = [TERRAIN.OCEAN, TERRAIN.LAKE, TERRAIN.SWAMP, TERRAIN.PEAT_BOG];
 const RIVER_DIRS = [[1, 0], [1, -1], [0, -1], [-1, 0], [-1, 1], [0, 1]];
 const RIVER_DIR_EDGE = [5, 4, 3, 2, 1, 0];
 
@@ -8341,48 +8341,33 @@ function addRiverEdgeBetween(a, b) {
 }
 
 function findRiverPath(source) {
-    const queue = [source];
-    const parent = new Map();
-    const seen = new Set([`${source.q},${source.r}`]);
+    const queue = [{ t: source, inDir: -1, parent: null }];
+    const seen = new Set([`${source.q},${source.r},-1`]);
     while (queue.length) {
         const cur = queue.shift();
-        const nbs = getNeighbors(cur.q, cur.r).slice().sort(() => Math.random() - 0.5);
-        for (const n of nbs) {
+        for (const [dq, dr] of RIVER_DIRS) {
+            const d = RIVER_DIRS.findIndex(([x, y]) => x === dq && y === dr);
+            const n = state.map.get(`${cur.t.q + dq},${cur.t.r + dr}`);
+            if (!n) continue;
             if (RIVER_SINK_TYPES.includes(n.type)) {
                 const path = [n];
-                let p = cur;
-                while (p) {
-                    path.push(p);
-                    p = parent.get(`${p.q},${p.r}`);
-                }
+                let node = cur;
+                while (node) { path.push(node.t); node = node.parent; }
                 return path.reverse();
             }
-            const key = `${n.q},${n.r}`;
-            if (seen.has(key) || !riverTraversable(n)) continue;
+            if (!riverTraversable(n)) continue;
+            if (cur.inDir >= 0) {
+                const left = (cur.inDir + 1) % 6;
+                const right = (cur.inDir + 5) % 6;
+                if (d !== left && d !== right) continue;
+            }
+            const key = `${n.q},${n.r},${d}`;
+            if (seen.has(key)) continue;
             seen.add(key);
-            parent.set(key, cur);
-            queue.push(n);
+            queue.push({ t: n, inDir: d, parent: cur });
         }
     }
     return null;
-}
-
-function connectRiverEdgeChain(t) {
-    const edges = Array.from(new Set(t.riverEdges || [])).sort((a, b) => a - b);
-    if (edges.length < 2) return;
-    const result = new Set(edges);
-    const base = edges[0];
-    for (const target of edges.slice(1)) {
-        const forward = [];
-        let x = base;
-        while (x !== target) { x = (x + 1) % 6; forward.push(x); if (forward.length > 6) break; }
-        const backward = [];
-        x = base;
-        while (x !== target) { x = (x + 5) % 6; backward.push(x); if (backward.length > 6) break; }
-        const path = forward.length <= backward.length ? forward : backward;
-        path.forEach(e => result.add(e));
-    }
-    t.riverEdges = Array.from(result).sort((a, b) => a - b);
 }
 
 function generateRiversAndFloodplains() {
@@ -8393,10 +8378,12 @@ function generateRiversAndFloodplains() {
     const used = new Set();
     const paths = [];
     for (const source of sources) {
-        if (paths.length >= 5) break;
-        const path = findRiverPath(source);
+        if (paths.length >= 6) break;
+        let path = findRiverPath(source);
         if (!path || path.length < 3) continue;
-        if (path.some(t => used.has(`${t.q},${t.r}`) && !RIVER_SINK_TYPES.includes(t.type))) continue;
+        const mergeIndex = path.findIndex((t, i) => i > 1 && used.has(`${t.q},${t.r}`));
+        if (mergeIndex > 0) path = path.slice(0, mergeIndex + 1);
+        if (path.length < 2) continue;
         for (let i = 0; i < path.length - 1; i++) addRiverEdgeBetween(path[i], path[i + 1]);
         path.forEach(t => used.add(`${t.q},${t.r}`));
         paths.push(path);
@@ -8406,7 +8393,6 @@ function generateRiversAndFloodplains() {
         if (!t || RIVER_SINK_TYPES.includes(t.type)) return;
         if (floodable.includes(t.type) && Math.random() < chance) t.type = TERRAIN.FLOODPLAIN;
     };
-    state.map.forEach(t => { if (t.riverEdges) connectRiverEdgeChain(t); });
     paths.forEach(path => path.forEach((t, i) => {
         if (i === 0 || RIVER_SINK_TYPES.includes(t.type)) return;
         flood(t, 0.7);
