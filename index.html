@@ -660,7 +660,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                             <li><b>改造地形：</b> 可花费资源永久改造部分地形，重塑地球生态圈。</li>
                             <li><b>区域连接：</b> 所有新区域必须与 <span class="text-purple-400">主广场</span> 连接。可以通过隧道、桥梁、运河或已建成的区域进行延伸。区域只可跨一格非交通类人造工程进行建造，不可拆除连接点内的区域（拆除会导致其他区域与主广场断开）。</li>
                             <li><b>人口：</b> 食物足够时每回合结束自动 +1 人口（可连续增长，消耗递增）。每一人口+3🔨+3🔬+3🎭，但-3🌾。食物耗尽会导致人口减少；献祭神时段自动增长暂停（托纳季乌运转期不暂停，人口仍会自然增长）。</li>
-                            <li><b>村庄：</b> 长期交换每回合 -30💰 换 20 对应资源，交换期间每回合 +10 友好度；友好度满 100 后交换提升为 30💰 换 30 对应资源，并可花费 200🎭 吸纳村庄（人口 +3）。</li>
+                            <li><b>村庄：</b> 长期交换每回合 -30💰 换 20 对应资源，交换期间每回合 +10 友好度；友好度满 100 后交换提升为 20💰 换 30 对应资源，并可花费 200🎭 吸纳村庄（人口 +3）。</li>
                             <li><b>存档：</b> 左下角 🗂️ 打开存档管理，可保存、读取或删除槽位；每回合结束、建造与关闭页面时会自动存档。</li>
                         </ul>
                     </section>
@@ -742,7 +742,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                         <h3 class="text-red-400 font-bold text-lg mb-2">🌪️ 自然灾害</h3>
                         <p class="mb-1 text-xs text-gray-400">因为自然灾害摧毁的人造工程与区域会返还部分🔨，LV2/Lv3区域以及交通类人造工程不会被火山以外的自然灾害摧毁，但仍然会获得收益减半的效果</p>
                         <div class="space-y-2 text-gray-300">
-                            <p><b>🌋 火山：</b> 爆发摧毁周围区域与人造工程，将地形变为焦土。恢复后形成高产火山灰（火山灰基础 +2🌾；每次喷发使火山灰再+2🌾）。</p>
+                            <p><b>🌋 火山：</b> 爆发摧毁周围区域与人造工程，将地形变为焦土。形成高产火山灰（火山灰基础 +2🌾；每次喷发使火山灰再+2🌾）。</p>
                             <p><b>❄️ 暴风雪：</b> 冬季-寒带产生，向温带扩散。覆盖区域产出减半（可被山脉，针叶林阻挡）。</p>
                             <p><b>🌪️ 沙尘暴：</b> 沙漠产生，随机移动。覆盖区域产出减半（可通过滴灌沙漠阻止产生）（可被树林阻挡，但阻挡的树林有几率被摧毁变为干草地）。</p>
                             <p><b>🐘 兽潮迁徙：</b> 稀树草原产生，会优先朝区域移动。覆盖区域产出减半（可通过焦土稀树草原阻止产生）。</p>
@@ -756,9 +756,9 @@ Check your Browserslist config to be sure that your targets are set up correctly
                     <section>
                         <h3 class="text-purple-400 font-bold text-lg mb-2">⚡ 信仰</h3>
                         <ul class="list-disc pl-5 space-y-1 text-gray-300">
-                            <li><b>信仰点：</b> 初始 1 点；每建造 1 个主广场 +1，每次开启黄金时代 +1；也可用文化兑换（150🎭 起）。用于解锁守护神或升级神恩。</li>
-                            <li><b>守护神：</b> 消耗 2 信仰点解锁，提供独特被动能力；一局最多 2 位，<b>优先推荐先选守护神</b>。</li>
-                            <li><b>神恩：</b> 消耗 1 信仰点解锁 1 阶段、再 1 点升至 2 阶段，提供永久加成；建议在守护神之后投入。</li>
+                            <li><b>信仰点：</b> 初始 1 点；每建造 1 个主广场 +1，每次开启黄金时代 +1；也可用文化兑换。用于解锁守护神或升级神恩。</li>
+                            <li><b>守护神：</b> 消耗 2 信仰点解锁，提供独特被动能力；一局最多 2 位，<b>推荐先选守护神</b>。</li>
+                            <li><b>神恩：</b> 消耗 1 信仰点解锁 1 阶段、再消耗 1 点升至 2 阶段，提供永久加成；建议在守护神之后投入。</li>
                         </ul>
                     </section>
                 </div>
@@ -846,17 +846,17 @@ const CONFIG = {
     gaDuration: {
       name: '庆典', icon: '✨', cost: 1,
       desc1: '黄金时代持续时间 +1 回合',
-      desc2: '黄金时代期间，每个人口 +3💰'
+      desc2: '黄金时代期间，每个人口 +2💰'
     },
     explorerExtra: {
       name: '寻踪', icon: '🧭', cost: 1,
       desc1: '探险家数量 +1',
-      desc2: '每个探险家每回合有 25% 几率额外 +1 收藏进度'
+      desc2: '每个探险家每回合有 50% 几率额外 +1 收藏进度'
     },
     villageFriendship: {
       name: '归化', icon: '🏘️', cost: 1,
       desc1: '所有村庄友好度立即变为 100',
-      desc2: '吸纳村庄文化费用减半（200→100）'
+      desc2: '吸纳村庄文化费用减半'
     },
     ancientRuins: {
       name: '古墟', icon: '🗿', cost: 1,
@@ -864,9 +864,9 @@ const CONFIG = {
       desc2: '遗迹奖励翻倍'
     },
     noMaintenance: {
-      name: '免赋', icon: '📜', cost: 1,
-      desc1: '人造工程不再消耗维护费',
-      desc2: '黄金时代期间，每个人造工程 +1💰'
+      name: '轻徭', icon: '📜', cost: 1,
+      desc1: '人造工程维护费减半',
+      desc2: '人造工程不再消耗维护费'
     },
     seasonPopulation: {
       name: '季礼', icon: '🍂', cost: 1,
@@ -881,7 +881,7 @@ const CONFIG = {
     deadCulture: {
       name: '安魂', icon: '🏺', cost: 1,
       desc1: '每个亡者每回合 +2🎭',
-      desc2: '每个亡者每回合额外 +2💰'
+      desc2: '每个亡者每回合 +2💰'
     }
   },
   village: {
@@ -902,7 +902,9 @@ const CONFIG = {
       '蓝色': { culture: 1 },
       '紫色': { culture: 2 },
       '金色': { culture: 3 }
-    }
+    },
+    explorerExtraChance: 0.5,
+    completeFaithReward: 2
   },
   save: { autoIntervalMs: 1500, slots: 3 },
   render: { maxDpr: 2 }
@@ -1050,6 +1052,8 @@ const EMOJI_ALT = EMOJI_SORTED_KEYS.map(s => s.replace(/[.*+?^${}()|[\]\\]/g, '\
 const EMOJI_TEST_RE = new RegExp(`(?:${EMOJI_ALT})`, 'u');
 const EMOJI_SPLIT_RE = new RegExp(`(${EMOJI_ALT})`, 'u');
 const EMOJI_SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'OPTION', 'TITLE']);
+// 个别深色图标在灰色工程底/亮黄高亮卡上偏暗，绘制与 DOM 显示时统一提亮
+const EMOJI_ICON_FILTERS = { '⚓': 'brightness(1.9)' };
 
 function getEmojiImage(icon) {
   if (!EMOJI_IMAGES[icon] || typeof Image === 'undefined') return null;
@@ -1067,7 +1071,15 @@ function drawEmojiIcon(ctx, icon, x, y, size) {
   const img = getEmojiImage(icon);
   if (img && img.complete) {
     if (img.naturalWidth > 0) {
-      ctx.drawImage(img, x - size / 2, y - size / 2, size, size);
+      const filter = EMOJI_ICON_FILTERS[icon];
+      if (filter) {
+        ctx.save();
+        ctx.filter = filter;
+        ctx.drawImage(img, x - size / 2, y - size / 2, size, size);
+        ctx.restore();
+      } else {
+        ctx.drawImage(img, x - size / 2, y - size / 2, size, size);
+      }
       return true;
     }
     return false; // 图片加载失败时退回文字，至少不空白
@@ -1085,6 +1097,7 @@ function emojiImageNode(char) {
   img.alt = char;
   img.className = 'emoji-img';
   img.draggable = false;
+  if (EMOJI_ICON_FILTERS[char]) img.style.filter = EMOJI_ICON_FILTERS[char];
   return img;
 }
 
@@ -1196,7 +1209,8 @@ const TERRAIN = {
     CLOUDBERRY_PLANTATION: 181,
     PEAT_BOG_RESERVE: 182,
     ALPACA_RANCH: 183,
-    WINERY: 184
+    WINERY: 184,
+    FERTILE_SOIL: 185
 };
 
 const ADJ_INFO = {
@@ -1225,6 +1239,43 @@ const NATURAL_ADJ_TERRAINS = [TERRAIN.LAKE, TERRAIN.SWAMP, TERRAIN.OASIS, TERRAI
 const ENGINEERING_TERRAINS = Object.keys(ADJ_INFO).map(k => parseInt(k)).filter(k => !NATURAL_ADJ_TERRAINS.includes(k));
 const SPECIAL_ENGINEERING_BUILDINGS = ['harbor', 'fishery', 'lake_reserve', 'swamp_reserve', 'bridge', 'sea_bridge', 'oasis_reserve', 'oasis_cistern'];
 const DISTRICT_BUILDINGS = ['plaza', 'farm', 'mine', 'market', 'campus', 'entertainment_complex'];
+
+// ==================== 人造工程相邻加成（建造面板黄色高亮用） ====================
+// ADJ_INFO 的标签 → 区域 key：区域 key 与 BUILDINGS 保持一致
+const ADJ_INFO_DISTRICT_KEYWORDS = {
+    farm: '农业',
+    mine: '工业',
+    market: '市场',
+    campus: '科研',
+    entertainment_complex: '娱乐'
+};
+// 特殊人造工程建筑（ADJ_INFO 只覆盖工程地形，建筑单独列一份）
+const ENGINEERING_BUILDING_ADJ_DISTRICTS = {
+    harbor: ['farm', 'mine', 'market', 'campus', 'entertainment_complex'],
+    fishery: ['farm', 'market'],
+    lake_reserve: ['campus', 'entertainment_complex'],
+    swamp_reserve: ['campus', 'entertainment_complex'],
+    oasis_reserve: ['campus', 'entertainment_complex'],
+    oasis_cistern: ['farm'],
+    bridge: ['market'],
+    sea_bridge: ['market']
+};
+
+// 工程地形可加成的区域列表（按 ADJ_INFO 标签推导，避免三处重复维护）
+function getTerrainAdjacentDistricts(terrainType) {
+    const info = ADJ_INFO[terrainType];
+    if (!info) return [];
+    return Object.keys(ADJ_INFO_DISTRICT_KEYWORDS).filter(k => info.includes(ADJ_INFO_DISTRICT_KEYWORDS[k]));
+}
+
+// 返回建设项（ENGINEERING_ACTIONS 的行动 key 或工程建设 key）可加成的区域 key 列表
+function getEngineeringAdjacentDistricts(key) {
+    const b = BUILDINGS[key];
+    if (b && b.type === 'engineering') return (ENGINEERING_BUILDING_ADJ_DISTRICTS[key] || []).slice();
+    const act = ACTIONS[key];
+    if (act && act.toTerrain !== undefined) return getTerrainAdjacentDistricts(act.toTerrain);
+    return [];
+}
 const TRANSPORT_IMPROVEMENTS = ['bridge', 'sea_bridge'];
 const TRANSPORT_TERRAINS = [TERRAIN.CANAL, TERRAIN.TUNNEL];
 const TERRAIN_MOD_ACTIONS = [
@@ -1245,7 +1296,7 @@ const ENGINEERING_ACTIONS = ['make_terrace', 'build_mine', 'make_tunnel', 'make_
 const GODS = {
     'osiris': { 
         name: '丰饶之神——奥西里斯', 
-        desc: '【冥界恩典】：每3回合复活1名亡者（亡者-1，人口+1）\n【泛滥沃土】：农业区获得等级等量的额外🌾', 
+        desc: '【冥界恩典】：每3回合复活1名亡者\n【泛滥沃土】：农业区获得等级等量的额外🌾', 
         icon: '⚖️',
         effects: {
             yield: (t, y, list) => { if(t.improvement==='farm') { let v=t.level||1; y.food+=v; list.push(`奥西里斯: +${v}🌾`); } }
@@ -1274,7 +1325,7 @@ const GODS = {
     },
     'hathor': { 
         name: '音乐之神——哈索尔', 
-        desc: '【醉酒狂欢】：将✨黄金时代替换为🍺欢愉啤酒节，消耗🌾开启\n【爱之乐章】：啤酒节期间若🔨不足可用🎭建造区域', 
+        desc: '【醉酒狂欢】：将✨黄金时代替换为🍺欢愉啤酒节，消耗🌾开启；只有啤酒节期间人口才会增长\n【爱之乐章】：啤酒节期间若🔨不足可用🎭建造区域', 
         icon: '🍺' 
     },
     'ptah': { 
@@ -1689,11 +1740,11 @@ const MAMA_SARA_CROPS = {
 };
 
 const PLAZA_POLICIES = { 'agriculture': { name: '农业补贴', desc: '每回合花费50金钱，获得40食物', cost: 50, yield: { food: 40 }, icon: '🌾' }, 'industry': { name: '工业动员', desc: '每回合花费50金钱，获得40工业', cost: 50, yield: { industry: 40 }, icon: '🔨' }, 'science': { name: '科学资助', desc: '每回合花费50金钱，获得40科研', cost: 50, yield: { science: 40 }, icon: '🔬' }, 'culture': { name: '文化庆典', desc: '每回合花费50金钱，获得40文化', cost: 50, yield: { culture: 40 }, icon: '🎭' } };
-const TERRAIN_INFO = { [TERRAIN.OCEAN]: { name: '深海', yield: {} }, [TERRAIN.COAST]: { name: '沿海', yield: {} }, [TERRAIN.POLAR]: { name: '极地 (寒带)', yield: {} }, [TERRAIN.TUNDRA]: { name: '苔原 (寒带)', yield: {} }, [TERRAIN.TAIGA]: { name: '针叶林 (寒带)', yield: {} }, [TERRAIN.GRASS]: { name: '草地 (温带)', yield: {} }, [TERRAIN.FOREST]: { name: '森林 (温带)', yield: {} }, [TERRAIN.BRUSH]: { name: '稀树草原 (热带)', yield: {} }, [TERRAIN.DESERT]: { name: '沙漠 (热带)', yield: {} }, [TERRAIN.JUNGLE]: { name: '雨林 (热带)', yield: {} }, [TERRAIN.SWAMP]: { name: '沼泽 (湿地)', yield: {} }, [TERRAIN.MOUNTAIN]: { name: '山脉', yield: {} }, [TERRAIN.VOLCANO]: { name: '火山', yield: {} }, [TERRAIN.LAKE]: { name: '湖泊', yield: {} }, [TERRAIN.OASIS]: { name: '绿洲', yield: {} }, [TERRAIN.WASTELAND]: { name: '荒地', yield: {} }, [TERRAIN.ROCKY]: { name: '岩地', yield: {} }, [TERRAIN.CACTUS_DESERT]: { name: '仙人掌沙漠', yield: {} }, [TERRAIN.DRY_GRASS_COLD]: { name: '干草地 (寒带)', yield: {} }, [TERRAIN.DRY_GRASS_TEMP]: { name: '干草地 (温带)', yield: {} }, [TERRAIN.DRY_GRASS_TROP]: { name: '干草地 (热带)', yield: {} }, [TERRAIN.ICE_FLOAT]: { name: '浮冰', yield: {} }, [TERRAIN.REEF]: { name: '礁石', yield: {} }, [TERRAIN.MANGROVE]: { name: '红树林', yield: {} }, [TERRAIN.GEYSER]: { name: '间歇泉', yield: {} }, [TERRAIN.CAVE]: { name: '洞穴', yield: {} }, [TERRAIN.PEAT_BOG]: { name: '泥炭沼泽', yield: {} }, [TERRAIN.TERRACE]: { name: '梯田', yield: { food: 2 } }, [TERRAIN.CANAL]: { name: '运河', yield: { gold: 1 } }, [TERRAIN.WIND_FARM]: { name: '海上风电', yield: { industry: 2 } }, [TERRAIN.MINING_SITE]: { name: '矿山', yield: { industry: 2} }, [TERRAIN.TUNNEL]: { name: '开山隧道', yield: { gold: 2 } }, [TERRAIN.OBSERVATORY]: { name: '天文台', yield: { science: 2 } }, [TERRAIN.TOURIST_SPOT]: { name: '旅游景区', yield: { culture: 2 } }, [TERRAIN.SOLAR_FARM]: { name: '太阳能站', yield: { industry: 2 } }, [TERRAIN.KAREZ]: { name: '坎儿井', yield: { food: 2} }, [TERRAIN.POLAR_STATION]: { name: '极地科考站', yield: { science: 2 } }, [TERRAIN.AURORA_TOWER]: { name: '极光观察塔', yield: { science: 1, culture: 1 } }, [TERRAIN.REINDEER_PASTURE]: { name: '驯鹿牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.PEAT_MINE]: { name: '泥炭提取场', yield: { food: 1, industry: 1 } }, [TERRAIN.PASTURE]: { name: '牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.LUMBER_MILL]: { name: '伐木场', yield: { industry: 2} }, [TERRAIN.CAMEL_RANCH]: { name: '骆驼牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.DATE_PALM]: { name: '椰枣树林', yield: { industry: 1, gold: 1 } }, [TERRAIN.SILT_PLANT]: { name: '淤泥采集厂', yield: { industry: 2 } }, [TERRAIN.HUNTING_CAMP]: { name: '狩猎营地', yield: { gold: 2 } }, [TERRAIN.ORCHARD]: { name: '果园', yield: { food: 1, gold: 1 } }, [TERRAIN.PLANTATION]: { name: '种植园', yield: { food: 1, gold: 1 } }, [TERRAIN.FLOATING_GARDEN]: { name: '浮田', yield: { food: 2 } }, [TERRAIN.BOG_IRON]: { name: '沼铁采集厂', yield: { industry: 2 } }, [TERRAIN.COASTAL_FISHERY]: { name: '沿海捕鱼场', yield: { food: 1, gold: 1 } }, [TERRAIN.WINDMILL_FIELD]: { name: '风车田', yield: { industry: 2 } }, [TERRAIN.RACECOURSE]: { name: '赛马场', yield: { culture: 1, gold: 1 } }, [TERRAIN.SAFARI_CAMP]: { name: '游猎营地', yield: { culture: 1, gold: 1 } }, [TERRAIN.FLOATING_RESORT]: { name: '海上度假屋', yield: { culture: 1, gold: 1 } }, [TERRAIN.ETERNA_PYRAMID]: { name: '永恒金字塔', yield: { culture: 100 } }, [TERRAIN.SKI_RESORT]: { name: '滑雪场', yield: { culture: 2 } }, [TERRAIN.ICE_SCULPTURE_PARK]: { name: '冰雕公园', yield: { culture: 2 } }, [TERRAIN.PALEONTOLOGY_DIG]: { name: '冻土挖掘场', yield: { science: 2 } }, [TERRAIN.QUARRY]: { name: '采石场', yield: { industry: 2 } }, [TERRAIN.GEOPARK]: { name: '地质公园', yield: { science: 1, culture: 1 } }, [TERRAIN.TREEHOUSE_RESORT]: { name: '树屋度假村', yield: { culture: 1, gold: 1 } }, [TERRAIN.CRAB_FARM]: { name: '蟹类养殖场', yield: { food: 1, gold: 1 } }, [TERRAIN.MANGROVE_KILN]: { name: '红树林炭窑', yield: { industry: 2 } }, [TERRAIN.MANGROVE_RESERVE]: { name: '红树林保护区', yield: { science: 1, culture: 1 } }, [TERRAIN.GEOTHERMAL_PLANT]: { name: '地热发电站', yield: { industry: 2 } }, [TERRAIN.HOT_SPRING_RESORT]: { name: '温泉度假村', yield: { gold: 1, culture: 1 } }, [TERRAIN.THERMOPHILE_LAB]: { name: '嗜热菌实验室', yield: { science: 2 } }, [TERRAIN.CELLAR_VAULT]: { name: '地窖陈酿库', yield: { food: 1, gold: 1 } }, [TERRAIN.FUNGAL_FARM]: { name: '真菌农场', yield: { food: 2 } }, [TERRAIN.DEEP_EARTH_LAB]: { name: '深地实验室', yield: { science: 2 } }, [TERRAIN.CLOUDBERRY_PLANTATION]: { name: '云莓种植园', yield: { food: 1, gold: 1 } }, [TERRAIN.PEAT_BOG_RESERVE]: { name: '泥炭沼泽保护区', yield: { science: 1, culture: 1 } }, [TERRAIN.ALPACA_RANCH]: { name: '羊驼牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.WINERY]: { name: '酿酒厂', yield: { gold: 2, culture: 2 } } };
-const COLORS = { [TERRAIN.OCEAN]: '#1e3a8a', [TERRAIN.COAST]: '#38bdf8', [TERRAIN.POLAR]: '#f8fafc', [TERRAIN.TUNDRA]: '#94a3b8', [TERRAIN.TAIGA]: '#334155', [TERRAIN.GRASS]: '#4ade80', [TERRAIN.FOREST]: '#166534', [TERRAIN.BRUSH]: '#84cc16', [TERRAIN.DESERT]: '#fbbf24', [TERRAIN.JUNGLE]: '#064e3b', [TERRAIN.SWAMP]: '#5f6c58', [TERRAIN.MOUNTAIN]: '#64748b', [TERRAIN.VOLCANO]: '#7f1d1d', [TERRAIN.LAKE]: '#3b82f6', [TERRAIN.OASIS]: '#10b981', [TERRAIN.WASTELAND]: '#292524', [TERRAIN.ROCKY]: '#78716c', [TERRAIN.CACTUS_DESERT]: '#d97706', [TERRAIN.DRY_GRASS_COLD]: '#cbe6a5', [TERRAIN.DRY_GRASS_TEMP]: '#d9f99d', [TERRAIN.DRY_GRASS_TROP]: '#fef08a', [TERRAIN.ICE_FLOAT]: '#e0f2fe', [TERRAIN.REEF]: '#0ea5e9', [TERRAIN.TERRACE]: '#84cc16', [TERRAIN.CANAL]: '#0ea5e9', [TERRAIN.WIND_FARM]: '#0284c7', [TERRAIN.MINING_SITE]: '#525252', [TERRAIN.TUNNEL]: '#4b5563', [TERRAIN.OBSERVATORY]: '#e0e7ff', [TERRAIN.TOURIST_SPOT]: '#c084fc', [TERRAIN.SOLAR_FARM]: '#0f172a', [TERRAIN.KAREZ]: '#7dd3fc', [TERRAIN.POLAR_STATION]: '#e2e8f0', [TERRAIN.AURORA_TOWER]: '#818cf8', [TERRAIN.REINDEER_PASTURE]: '#a8a29e', [TERRAIN.PEAT_MINE]: '#57534e', [TERRAIN.PASTURE]: '#86efac', [TERRAIN.LUMBER_MILL]: '#3f6212', [TERRAIN.CAMEL_RANCH]: '#d4b483', [TERRAIN.DATE_PALM]: '#166534', [TERRAIN.SILT_PLANT]: '#78716c', [TERRAIN.HUNTING_CAMP]: '#44403c', [TERRAIN.ORCHARD]: '#65a30d', [TERRAIN.PLANTATION]: '#15803d', [TERRAIN.FLOATING_GARDEN]: '#4ade80', [TERRAIN.BOG_IRON]: '#78350f', [TERRAIN.COASTAL_FISHERY]: '#38bdf8', [TERRAIN.WINDMILL_FIELD]: '#e5e7eb', [TERRAIN.RACECOURSE]: '#a3e635', [TERRAIN.SAFARI_CAMP]: '#84cc16', [TERRAIN.FLOATING_RESORT]: '#22d3ee', [TERRAIN.ETERNA_PYRAMID]: '#fbbf24', [TERRAIN.SKI_RESORT]: '#c084fc', [TERRAIN.ICE_SCULPTURE_PARK]: '#cbd5e1', [TERRAIN.PALEONTOLOGY_DIG]: '#57534e', [TERRAIN.QUARRY]: '#57534e', [TERRAIN.GEOPARK]: '#a1a1aa', [TERRAIN.TREEHOUSE_RESORT]: '#166534', [TERRAIN.MANGROVE]: '#065f46', [TERRAIN.GEYSER]: '#a5f3fc', [TERRAIN.CAVE]: '#1f2937', [TERRAIN.CRAB_FARM]: '#fca5a5', [TERRAIN.MANGROVE_KILN]: '#4b5563', [TERRAIN.MANGROVE_RESERVE]: '#059669', [TERRAIN.GEOTHERMAL_PLANT]: '#ef4444', [TERRAIN.HOT_SPRING_RESORT]: '#f472b6', [TERRAIN.THERMOPHILE_LAB]: '#8b5cf6', [TERRAIN.CELLAR_VAULT]: '#78350f', [TERRAIN.FUNGAL_FARM]: '#a8a29e', [TERRAIN.DEEP_EARTH_LAB]: '#374151', [TERRAIN.PEAT_BOG]: '#5d4037', [TERRAIN.CLOUDBERRY_PLANTATION]: '#be123c', [TERRAIN.PEAT_BOG_RESERVE]: '#8d6e63', [TERRAIN.ALPACA_RANCH]: '#9ca3af', [TERRAIN.WINERY]: '#86198f', border: 'rgba(0,0,0,0.1)', selected: 'rgba(250, 204, 21, 0.5)' };
+const TERRAIN_INFO = { [TERRAIN.OCEAN]: { name: '深海', yield: {} }, [TERRAIN.COAST]: { name: '沿海', yield: {} }, [TERRAIN.POLAR]: { name: '极地 (寒带)', yield: {} }, [TERRAIN.TUNDRA]: { name: '苔原 (寒带)', yield: {} }, [TERRAIN.TAIGA]: { name: '针叶林 (寒带)', yield: {} }, [TERRAIN.GRASS]: { name: '草地 (温带)', yield: {} }, [TERRAIN.FOREST]: { name: '森林 (温带)', yield: {} }, [TERRAIN.BRUSH]: { name: '稀树草原 (热带)', yield: {} }, [TERRAIN.DESERT]: { name: '沙漠 (热带)', yield: {} }, [TERRAIN.JUNGLE]: { name: '雨林 (热带)', yield: {} }, [TERRAIN.SWAMP]: { name: '沼泽 (湿地)', yield: {} }, [TERRAIN.MOUNTAIN]: { name: '山脉', yield: {} }, [TERRAIN.VOLCANO]: { name: '火山', yield: {} }, [TERRAIN.LAKE]: { name: '湖泊', yield: {} }, [TERRAIN.OASIS]: { name: '绿洲', yield: {} }, [TERRAIN.WASTELAND]: { name: '荒地', yield: {} }, [TERRAIN.ROCKY]: { name: '岩地', yield: {} }, [TERRAIN.CACTUS_DESERT]: { name: '仙人掌沙漠', yield: {} }, [TERRAIN.DRY_GRASS_COLD]: { name: '干草地 (寒带)', yield: {} }, [TERRAIN.DRY_GRASS_TEMP]: { name: '干草地 (温带)', yield: {} }, [TERRAIN.DRY_GRASS_TROP]: { name: '干草地 (热带)', yield: {} }, [TERRAIN.ICE_FLOAT]: { name: '浮冰', yield: {} }, [TERRAIN.REEF]: { name: '礁石', yield: {} }, [TERRAIN.MANGROVE]: { name: '红树林', yield: {} }, [TERRAIN.GEYSER]: { name: '间歇泉', yield: {} }, [TERRAIN.CAVE]: { name: '洞穴', yield: {} }, [TERRAIN.PEAT_BOG]: { name: '泥炭沼泽', yield: {} }, [TERRAIN.TERRACE]: { name: '梯田', yield: { food: 2 } }, [TERRAIN.CANAL]: { name: '运河', yield: { gold: 1 } }, [TERRAIN.WIND_FARM]: { name: '海上风电', yield: { industry: 2 } }, [TERRAIN.MINING_SITE]: { name: '矿山', yield: { industry: 2} }, [TERRAIN.TUNNEL]: { name: '开山隧道', yield: { gold: 2 } }, [TERRAIN.OBSERVATORY]: { name: '天文台', yield: { science: 2 } }, [TERRAIN.TOURIST_SPOT]: { name: '旅游景区', yield: { culture: 2 } }, [TERRAIN.SOLAR_FARM]: { name: '太阳能站', yield: { industry: 2 } }, [TERRAIN.KAREZ]: { name: '坎儿井', yield: { food: 2} }, [TERRAIN.POLAR_STATION]: { name: '极地科考站', yield: { science: 2 } }, [TERRAIN.AURORA_TOWER]: { name: '极光观察塔', yield: { science: 1, culture: 1 } }, [TERRAIN.REINDEER_PASTURE]: { name: '驯鹿牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.PEAT_MINE]: { name: '泥炭提取场', yield: { food: 1, industry: 1 } }, [TERRAIN.PASTURE]: { name: '牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.LUMBER_MILL]: { name: '伐木场', yield: { industry: 2} }, [TERRAIN.CAMEL_RANCH]: { name: '骆驼牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.DATE_PALM]: { name: '椰枣树林', yield: { industry: 1, gold: 1 } }, [TERRAIN.SILT_PLANT]: { name: '淤泥采集厂', yield: { industry: 2 } }, [TERRAIN.HUNTING_CAMP]: { name: '狩猎营地', yield: { gold: 2 } }, [TERRAIN.ORCHARD]: { name: '果园', yield: { food: 1, gold: 1 } }, [TERRAIN.PLANTATION]: { name: '种植园', yield: { food: 1, gold: 1 } }, [TERRAIN.FLOATING_GARDEN]: { name: '浮田', yield: { food: 2 } }, [TERRAIN.BOG_IRON]: { name: '沼铁采集厂', yield: { industry: 2 } }, [TERRAIN.COASTAL_FISHERY]: { name: '沿海捕鱼场', yield: { food: 1, gold: 1 } }, [TERRAIN.WINDMILL_FIELD]: { name: '风车田', yield: { industry: 2 } }, [TERRAIN.RACECOURSE]: { name: '赛马场', yield: { culture: 1, gold: 1 } }, [TERRAIN.SAFARI_CAMP]: { name: '游猎营地', yield: { culture: 1, gold: 1 } }, [TERRAIN.FLOATING_RESORT]: { name: '海上度假屋', yield: { culture: 1, gold: 1 } }, [TERRAIN.ETERNA_PYRAMID]: { name: '永恒金字塔', yield: { culture: 100 } }, [TERRAIN.SKI_RESORT]: { name: '滑雪场', yield: { culture: 2 } }, [TERRAIN.ICE_SCULPTURE_PARK]: { name: '冰雕公园', yield: { culture: 2 } }, [TERRAIN.PALEONTOLOGY_DIG]: { name: '冻土挖掘场', yield: { science: 2 } }, [TERRAIN.QUARRY]: { name: '采石场', yield: { industry: 2 } }, [TERRAIN.GEOPARK]: { name: '地质公园', yield: { science: 1, culture: 1 } }, [TERRAIN.TREEHOUSE_RESORT]: { name: '树屋度假村', yield: { culture: 1, gold: 1 } }, [TERRAIN.CRAB_FARM]: { name: '蟹类养殖场', yield: { food: 1, gold: 1 } }, [TERRAIN.MANGROVE_KILN]: { name: '红树林炭窑', yield: { industry: 2 } }, [TERRAIN.MANGROVE_RESERVE]: { name: '红树林保护区', yield: { science: 1, culture: 1 } }, [TERRAIN.GEOTHERMAL_PLANT]: { name: '地热发电站', yield: { industry: 2 } }, [TERRAIN.HOT_SPRING_RESORT]: { name: '温泉度假村', yield: { gold: 1, culture: 1 } }, [TERRAIN.THERMOPHILE_LAB]: { name: '嗜热菌实验室', yield: { science: 2 } }, [TERRAIN.CELLAR_VAULT]: { name: '地窖陈酿库', yield: { food: 1, gold: 1 } }, [TERRAIN.FUNGAL_FARM]: { name: '真菌农场', yield: { food: 2 } }, [TERRAIN.DEEP_EARTH_LAB]: { name: '深地实验室', yield: { science: 2 } }, [TERRAIN.CLOUDBERRY_PLANTATION]: { name: '云莓种植园', yield: { food: 1, gold: 1 } }, [TERRAIN.PEAT_BOG_RESERVE]: { name: '泥炭沼泽保护区', yield: { science: 1, culture: 1 } }, [TERRAIN.ALPACA_RANCH]: { name: '羊驼牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.WINERY]: { name: '酿酒厂', yield: { gold: 2, culture: 2 } }, [TERRAIN.FERTILE_SOIL]: { name: '沃土', yield: {} } };
+const COLORS = { [TERRAIN.OCEAN]: '#1e3a8a', [TERRAIN.COAST]: '#38bdf8', [TERRAIN.POLAR]: '#f8fafc', [TERRAIN.TUNDRA]: '#94a3b8', [TERRAIN.TAIGA]: '#334155', [TERRAIN.GRASS]: '#4ade80', [TERRAIN.FOREST]: '#166534', [TERRAIN.BRUSH]: '#84cc16', [TERRAIN.DESERT]: '#fbbf24', [TERRAIN.JUNGLE]: '#064e3b', [TERRAIN.SWAMP]: '#5f6c58', [TERRAIN.MOUNTAIN]: '#64748b', [TERRAIN.VOLCANO]: '#7f1d1d', [TERRAIN.LAKE]: '#3b82f6', [TERRAIN.OASIS]: '#10b981', [TERRAIN.WASTELAND]: '#292524', [TERRAIN.ROCKY]: '#78716c', [TERRAIN.CACTUS_DESERT]: '#d97706', [TERRAIN.DRY_GRASS_COLD]: '#cbe6a5', [TERRAIN.DRY_GRASS_TEMP]: '#d9f99d', [TERRAIN.DRY_GRASS_TROP]: '#fef08a', [TERRAIN.ICE_FLOAT]: '#e0f2fe', [TERRAIN.REEF]: '#0ea5e9', [TERRAIN.TERRACE]: '#84cc16', [TERRAIN.CANAL]: '#0ea5e9', [TERRAIN.WIND_FARM]: '#0284c7', [TERRAIN.MINING_SITE]: '#525252', [TERRAIN.TUNNEL]: '#4b5563', [TERRAIN.OBSERVATORY]: '#e0e7ff', [TERRAIN.TOURIST_SPOT]: '#c084fc', [TERRAIN.SOLAR_FARM]: '#0f172a', [TERRAIN.KAREZ]: '#7dd3fc', [TERRAIN.POLAR_STATION]: '#e2e8f0', [TERRAIN.AURORA_TOWER]: '#818cf8', [TERRAIN.REINDEER_PASTURE]: '#a8a29e', [TERRAIN.PEAT_MINE]: '#57534e', [TERRAIN.PASTURE]: '#86efac', [TERRAIN.LUMBER_MILL]: '#3f6212', [TERRAIN.CAMEL_RANCH]: '#d4b483', [TERRAIN.DATE_PALM]: '#166534', [TERRAIN.SILT_PLANT]: '#78716c', [TERRAIN.HUNTING_CAMP]: '#44403c', [TERRAIN.ORCHARD]: '#65a30d', [TERRAIN.PLANTATION]: '#15803d', [TERRAIN.FLOATING_GARDEN]: '#4ade80', [TERRAIN.BOG_IRON]: '#78350f', [TERRAIN.COASTAL_FISHERY]: '#38bdf8', [TERRAIN.WINDMILL_FIELD]: '#e5e7eb', [TERRAIN.RACECOURSE]: '#a3e635', [TERRAIN.SAFARI_CAMP]: '#84cc16', [TERRAIN.FLOATING_RESORT]: '#22d3ee', [TERRAIN.ETERNA_PYRAMID]: '#fbbf24', [TERRAIN.SKI_RESORT]: '#c084fc', [TERRAIN.ICE_SCULPTURE_PARK]: '#cbd5e1', [TERRAIN.PALEONTOLOGY_DIG]: '#57534e', [TERRAIN.QUARRY]: '#57534e', [TERRAIN.GEOPARK]: '#a1a1aa', [TERRAIN.TREEHOUSE_RESORT]: '#166534', [TERRAIN.MANGROVE]: '#065f46', [TERRAIN.GEYSER]: '#a5f3fc', [TERRAIN.CAVE]: '#1f2937', [TERRAIN.CRAB_FARM]: '#fca5a5', [TERRAIN.MANGROVE_KILN]: '#4b5563', [TERRAIN.MANGROVE_RESERVE]: '#059669', [TERRAIN.GEOTHERMAL_PLANT]: '#ef4444', [TERRAIN.HOT_SPRING_RESORT]: '#f472b6', [TERRAIN.THERMOPHILE_LAB]: '#8b5cf6', [TERRAIN.CELLAR_VAULT]: '#78350f', [TERRAIN.FUNGAL_FARM]: '#a8a29e', [TERRAIN.DEEP_EARTH_LAB]: '#374151', [TERRAIN.PEAT_BOG]: '#5d4037', [TERRAIN.CLOUDBERRY_PLANTATION]: '#be123c', [TERRAIN.PEAT_BOG_RESERVE]: '#8d6e63', [TERRAIN.ALPACA_RANCH]: '#9ca3af', [TERRAIN.WINERY]: '#86198f', [TERRAIN.FERTILE_SOIL]: '#6b4f2f', border: 'rgba(0,0,0,0.1)', selected: 'rgba(250, 204, 21, 0.5)' };
 // 工业区 Lv1 图标：⚙️ + 额外变体选择符，作为独立 key 映射到橙色齿轮；设置按钮仍用普通灰色 ⚙️
 const MINE_GEAR_ICON = '\u2699\uFE0F\uFE0F';
-const ICONS = { plaza: '🏛️', zoo: '🦁', bridge: '🌉', tree: '🌲', broadleaf: '🌳', palm: '🌴', cactus: '🌵', grass: '🌿', mountain: '⛰️', snow: '❄️', brush: '🌾', volcano: '🌋', oasis: '🏝️', wasteland: '☠️', rock: '🪨', sec_tree: '🌱', swamp: '🐊', ice: '🧊', reef: '🪸', terrace: '🪜', canal: '🛶', wind: '🌬️', mining: '⛏️', tunnel: '🚇', obs: '🔭', fishery: '🐟', lake_res: '🦆', swamp_res: '🐸', tourist: '📸', entertainment: '🎡', solar: '☀️', karez: '💧', oasis_res: '🌴', oasis_cistern: '🏺', polar_st: '📡', aurora: '🌌', reindeer: '🦌', peat: '🧱', pasture: '🐄', lumber: '🪵', camel: '🐪', date: '🌴', silt: '🧱', hunting: '🏹', orchard: '🍎', plantation: '🍌', act_chop: '🪓', act_water: '💧', act_fire: '🔥', act_plant: '🌱', act_fill: '🚜', act_cactus: '🌵', act_terrace: '🪜', act_canal: '🏗️', act_wind: '⚙️', act_mine: '⛏️', act_swamp: '🐊', act_tunnel: '🚇', act_obs: '🔭', act_tourist: '📸', act_solar: '☀️', act_karez: '💧', act_polar: '📡', act_aurora: '🌌', act_reindeer: '🦌', act_peat: '🧱', act_pasture: '🐄', act_soil: '🚜', act_lumber: '🪚', act_camel: '🐪', act_date: '🌴', act_silt: '🧱', act_hunting: '🏹', act_orchard: '🍎', act_plantation: '🍌', act_float: '🥬', act_bog: '🔩', act_coastal: '🎣', floating_garden: '🥬', bog_iron: '🔩', coastal_fishery: '🎣', act_windmill: '🌬️', act_race: '🐎', act_safari: '🦁', windmill: '🌬️', racecourse: '🐎', safari: '🦁', act_floating_resort: '🏖️', floating_resort: '🏖️', act_pyramid: '🔺', pyramid: '🔺', ski_resort: '🎿', act_ice_sculpture: '🧊', ice_sculpture: '🧊', act_paleontology: '🦣', paleontology: '🦣', act_quarry: '⚒️', quarry: '⚒️', act_geopark: '🏞️', geopark: '🏞️', act_treehouse: '🛖', treehouse_resort: '🛖', mangrove: '🌿', geyser: '⛲', cave: '🕳️', act_crab: '🦀', crab_farm: '🦀', act_kiln: '🔥', mangrove_kiln: '🔥', act_mangrove_res: '🏞️', mangrove_reserve: '🏞️', act_geothermal: '⚡', geothermal_plant: '⚡', act_hotspring: '♨️', hot_spring_resort: '♨️', act_thermophile: '🦠', thermophile_lab: '🦠', act_cellar: '🍷', cellar_vault: '🍷', act_fungal: '🍄', fungal_farm: '🍄', act_deep_lab: '🦇', deep_earth_lab: '🦇', peat_bog: '🦆', act_cloudberry: '🫐', cloudberry_plantation: '🫐', act_peat_reserve: '🏞️', peat_reserve: '🏞️', act_alpaca: '🦙', alpaca_ranch: '🦙', act_set_desert: '🌪️', act_poseidon: '🌊', act_winery: '🍷', winery: '🍷', harbor: '⚓' , ruin: '🗿' };
+const ICONS = { plaza: '🏛️', zoo: '🦁', bridge: '🌉', tree: '🌲', broadleaf: '🌳', palm: '🌴', cactus: '🌵', grass: '🌿', mountain: '⛰️', snow: '❄️', brush: '🌾', volcano: '🌋', oasis: '🏝️', wasteland: '☠️', rock: '🪨', sec_tree: '🌱', fertile: '🌱', swamp: '🐊', ice: '🧊', reef: '🪸', terrace: '🪜', canal: '🛶', wind: '🌬️', mining: '⛏️', tunnel: '🚇', obs: '🔭', fishery: '🐟', lake_res: '🦆', swamp_res: '🐸', tourist: '📸', entertainment: '🎡', solar: '☀️', karez: '💧', oasis_res: '🌴', oasis_cistern: '🏺', polar_st: '📡', aurora: '🌌', reindeer: '🦌', peat: '🧱', pasture: '🐄', lumber: '🪵', camel: '🐪', date: '🌴', silt: '🧱', hunting: '🏹', orchard: '🍎', plantation: '🍌', act_chop: '🪓', act_water: '💧', act_fire: '🔥', act_plant: '🌱', act_fill: '🚜', act_cactus: '🌵', act_terrace: '🪜', act_canal: '🏗️', act_wind: '⚙️', act_mine: '⛏️', act_swamp: '🐊', act_tunnel: '🚇', act_obs: '🔭', act_tourist: '📸', act_solar: '☀️', act_karez: '💧', act_polar: '📡', act_aurora: '🌌', act_reindeer: '🦌', act_peat: '🧱', act_pasture: '🐄', act_soil: '🚜', act_lumber: '🪚', act_camel: '🐪', act_date: '🌴', act_silt: '🧱', act_hunting: '🏹', act_orchard: '🍎', act_plantation: '🍌', act_float: '🥬', act_bog: '🔩', act_coastal: '🎣', floating_garden: '🥬', bog_iron: '🔩', coastal_fishery: '🎣', act_windmill: '🌬️', act_race: '🐎', act_safari: '🦁', windmill: '🌬️', racecourse: '🐎', safari: '🦁', act_floating_resort: '🏖️', floating_resort: '🏖️', act_pyramid: '🔺', pyramid: '🔺', ski_resort: '🎿', act_ice_sculpture: '🧊', ice_sculpture: '🧊', act_paleontology: '🦣', paleontology: '🦣', act_quarry: '⚒️', quarry: '⚒️', act_geopark: '🏞️', geopark: '🏞️', act_treehouse: '🛖', treehouse_resort: '🛖', mangrove: '🌿', geyser: '⛲', cave: '🕳️', act_crab: '🦀', crab_farm: '🦀', act_kiln: '🔥', mangrove_kiln: '🔥', act_mangrove_res: '🏞️', mangrove_reserve: '🏞️', act_geothermal: '⚡', geothermal_plant: '⚡', act_hotspring: '♨️', hot_spring_resort: '♨️', act_thermophile: '🦠', thermophile_lab: '🦠', act_cellar: '🍷', cellar_vault: '🍷', act_fungal: '🍄', fungal_farm: '🍄', act_deep_lab: '🦇', deep_earth_lab: '🦇', peat_bog: '🦆', act_cloudberry: '🫐', cloudberry_plantation: '🫐', act_peat_reserve: '🏞️', peat_reserve: '🏞️', act_alpaca: '🦙', alpaca_ranch: '🦙', act_set_desert: '🌪️', act_poseidon: '🌊', act_winery: '🍷', winery: '🍷', harbor: '⚓' , ruin: '🗿' };
 const SEASONS = [
     { name: '春', icon: '🌸', desc: '<b>春季</b><br>寒带: 科研区+1🔬, 娱乐区+1🎭<br>温带: 农业区+1🌾, 娱乐区+1🎭<br>热带: 农业区+1🌾, 科研区+1🔬' },
     { name: '夏', icon: '☀️', desc: '<b>夏季</b><br>寒带: 农业区+1🌾, 工业区+1🔨<br>温带: 工业区+1🔨<br>热带: 工业区+1🔨' },
@@ -1702,12 +1753,12 @@ const SEASONS = [
 ];
 const IMPROVEMENT_ADJ_INFO = { 'harbor': '为周边所有区域提供+1对应产出', 'fishery': '为农业区/市场区提供相邻收益', 'lake_reserve': '为科研区/娱乐区提供相邻收益', 'swamp_reserve': '为科研区/娱乐区提供相邻收益', 'oasis_reserve': '为科研区/娱乐区提供相邻收益', 'oasis_cistern': '为农业区提供相邻收益', 'bridge': '为市场区提供相邻收益', 'sea_bridge': '为市场区提供相邻收益' };
 const BUILDINGS = {
-    'plaza': { name: '主广场', cost: 0, costType: 'culture', costValue: 100, icons: ['🏛️'], type: 'district', baseYield: { industry: 10 }, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.DESERT, TERRAIN.POLAR, TERRAIN.ROCKY, TERRAIN.TERRACE, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT], desc: `【主广场】\n花费: 100🎭\n基础: 10🔨\n功能: 内政中心\n限制: 最多建造3个(赫斯提亚+2)` },
-    'farm': { name: '农业区', cost: 50, icons: ['🌽', '🚜', '🏢'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT], desc: `【农业区】\n人造相邻加成:\n+1/2/3🌾: 梯田, 坎儿井, 运河...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🌾: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🌾（无上限）` },
-    'mine': { name: '工业区', cost: 50, icons: [MINE_GEAR_ICON, '🏗️', '🏭'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.JUNGLE, TERRAIN.ROCKY, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT], desc: `【工业区】\n人造相邻加成:\n+1/2/3🔨: 矿山, 伐木场, 泥炭提取场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🔨: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🔨（无上限）` },
-    'market': { name: '市场区', cost: 50, icons: ['💰', '🏪', '🏦'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.FOREST, TERRAIN.TAIGA, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT], desc: `【市场区】\n人造相邻加成:\n+1/2/3💰: 隧道, 驯鹿牧场, 牧场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3💰: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1💰（无上限）` },
-    'campus': { name: '科研区', cost: 50, icons: ['📖', '🏫', '⚛️'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.POLAR, TERRAIN.ROCKY, TERRAIN.JUNGLE, TERRAIN.FOREST, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT], desc: `【科研区】\n人造相邻加成:\n+1/2/3🔬: 极低科考站, 极光观察塔...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🔬: 同类区域 (随等级提升)\n<span class="text-red-400">注意: Lv3不获得科技储备加成(除非托特信仰)</span>` },
-    'entertainment_complex': { name: '娱乐区', cost: 50, icons: ['🎡', '🎢', '🏰'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT], desc: `【娱乐区】\n自然相邻加成: +1🎭 沿海 (非港口)\n人造相邻加成:\n+1/2/3🎭: 旅游景区, 滑雪场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🎭: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🎭（无上限）` },
+    'plaza': { name: '主广场', cost: 0, costType: 'culture', costValue: 100, icons: ['🏛️'], type: 'district', baseYield: { industry: 10 }, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.DESERT, TERRAIN.POLAR, TERRAIN.ROCKY, TERRAIN.TERRACE, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【主广场】\n花费: 100🎭\n基础: 10🔨\n功能: 内政中心\n限制: 最多建造3个(赫斯提亚+2)` },
+    'farm': { name: '农业区', cost: 50, icons: ['🌽', '🚜', '🏢'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【农业区】\n人造相邻加成:\n+1/2/3🌾: 梯田, 坎儿井, 运河...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🌾: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🌾（无上限）` },
+    'mine': { name: '工业区', cost: 50, icons: [MINE_GEAR_ICON, '🏗️', '🏭'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.JUNGLE, TERRAIN.ROCKY, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【工业区】\n人造相邻加成:\n+1/2/3🔨: 矿山, 伐木场, 泥炭提取场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🔨: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🔨（无上限）` },
+    'market': { name: '市场区', cost: 50, icons: ['💰', '🏪', '🏦'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.FOREST, TERRAIN.TAIGA, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【市场区】\n人造相邻加成:\n+1/2/3💰: 隧道, 驯鹿牧场, 牧场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3💰: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1💰（无上限）` },
+    'campus': { name: '科研区', cost: 50, icons: ['📖', '🏫', '⚛️'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.POLAR, TERRAIN.ROCKY, TERRAIN.JUNGLE, TERRAIN.FOREST, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【科研区】\n人造相邻加成:\n+1/2/3🔬: 极低科考站, 极光观察塔...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🔬: 同类区域 (随等级提升)\n<span class="text-red-400">注意: Lv3不获得科技储备加成(除非托特信仰)</span>` },
+    'entertainment_complex': { name: '娱乐区', cost: 50, icons: ['🎡', '🎢', '🏰'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【娱乐区】\n自然相邻加成: +1🎭 沿海 (非港口)\n人造相邻加成:\n+1/2/3🎭: 旅游景区, 滑雪场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🎭: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🎭（无上限）` },
     'harbor': { name: '港口', cost: 30, icons: ['⚓'], type: 'engineering', baseYield: { gold: 1 }, reqTerrain: [TERRAIN.COAST, TERRAIN.WIND_FARM], desc: `【港口】\n花费: 30🔨 (沿海工程)\n基础: 1💰\n效果:\n为周边区域提供对应等级加成\n(Lv1+1, Lv2+2, Lv3+3)\n波塞冬: 加成翻倍\n限制: 禁止建在湖泊` },
     'sea_bridge': { name: '跨海大桥', cost: 30, icons: ['🌉'], type: 'engineering', baseYield: { gold: 2 }, reqTerrain: [TERRAIN.OCEAN, TERRAIN.OCEAN, TERRAIN.COAST, TERRAIN.ICE_FLOAT, TERRAIN.REEF], desc: `【跨海大桥】\n花费: 30🔨\n基础: 2💰\n加成: 为市场区提供相邻收益\n连接陆地与岛屿` },
     'bridge': { name: '跨湖大桥', cost: 30, icons: ['🌉', '🌉', '🌉'], type: 'engineering', baseYield: { gold: 2 }, reqTerrain: [TERRAIN.LAKE], desc: `【跨湖大桥】\n花费: 30🔨\n基础: 2💰\n加成: 为市场区提供相邻收益` },
@@ -2876,6 +2927,7 @@ function createInitialState() {
         plants: [],
         explorerAssignments: [],
         convertedExplorers: 0,
+        zooCompleteFaithRewarded: false,
         eponaLastRacecourseTurn: null,
         absorbedVillages: 0
     };
@@ -2893,13 +2945,14 @@ let lastTouchDist = 0;
 // ==================== src/04b-villages.js：可互动村庄与长期贸易 ====================
 // ==================== src/04b-villages.js：可互动村庄与长期贸易 ====================
 const VILLAGE_TRADE_GOLD = 30;
+const VILLAGE_TRADE_GOLD_MAX = 20;
 const VILLAGE_TRADE_AMOUNT = 20;
 const VILLAGE_TRADE_AMOUNT_MAX = 30;
 
 const VILLAGE_SPECIALTIES = {
-  food: { key: 'food', name: '粮食交换', icon: '🌾', resource: 'food', label: '食物', color: '#a3e635', desc: `每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT}🌾（好感满后 ${VILLAGE_TRADE_AMOUNT_MAX}🌾）` },
-  industry: { key: 'industry', name: '工业交换', icon: '🔨', resource: 'industry', label: '工业', color: '#b45309', desc: `每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT}🔨（好感满后 ${VILLAGE_TRADE_AMOUNT_MAX}🔨）` },
-  science: { key: 'science', name: '科研交换', icon: '🔬', resource: 'science', label: '科研', color: '#3b82f6', desc: `每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT}🔬（好感满后 ${VILLAGE_TRADE_AMOUNT_MAX}🔬）` }
+  food: { key: 'food', name: '粮食交换', icon: '🌾', resource: 'food', label: '食物', color: '#a3e635', desc: `每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT}🌾（好感满后 ${VILLAGE_TRADE_GOLD_MAX}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX}🌾）` },
+  industry: { key: 'industry', name: '工业交换', icon: '🔨', resource: 'industry', label: '工业', color: '#b45309', desc: `每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT}🔨（好感满后 ${VILLAGE_TRADE_GOLD_MAX}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX}🔨）` },
+  science: { key: 'science', name: '科研交换', icon: '🔬', resource: 'science', label: '科研', color: '#3b82f6', desc: `每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT}🔬（好感满后 ${VILLAGE_TRADE_GOLD_MAX}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX}🔬）` }
 };
 const VILLAGE_SPECIALTY_ORDER = ['food', 'industry', 'science'];
 
@@ -2943,11 +2996,22 @@ function getVillageTile(q, r) {
   return t && t.village ? t : null;
 }
 
+function getVillageTiles() {
+  return Array.from(state.map.values())
+    .filter(t => t.village)
+    .sort((a, b) => VILLAGE_SPECIALTY_ORDER.indexOf(a.village.specialty) - VILLAGE_SPECIALTY_ORDER.indexOf(b.village.specialty));
+}
+
 function getVillageSpecialty(village) {
   return VILLAGE_SPECIALTIES[village && village.specialty] || VILLAGE_SPECIALTIES.food;
 }
 
-// 好感度满后，同样的 30💰 可换到更多对应资源（20 → 30）
+// 好感度满后，交换金币从 30 降到 20，同时资源量 20 → 30
+function getVillageTradeGold(village) {
+  const friendship = (village && village.friendship) || 0;
+  return friendship >= CONFIG.village.maxFriendship ? VILLAGE_TRADE_GOLD_MAX : VILLAGE_TRADE_GOLD;
+}
+
 function getVillageTradeAmount(village) {
   const friendship = (village && village.friendship) || 0;
   return friendship >= CONFIG.village.maxFriendship ? VILLAGE_TRADE_AMOUNT_MAX : VILLAGE_TRADE_AMOUNT;
@@ -2965,11 +3029,12 @@ function selectVillageTrade(q, r) {
   if (!t || t.village.activeTrade) return;
   t.village.activeTrade = true;
   const spec = getVillageSpecialty(t.village);
+  const gold = getVillageTradeGold(t.village);
   const amount = getVillageTradeAmount(t.village);
-  const maxNote = amount < VILLAGE_TRADE_AMOUNT_MAX ? `（好感满后 +${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}）` : '';
-  showMsg(`🤝 与 ${t.village.name} 建立长期交换：每回合 -${VILLAGE_TRADE_GOLD}💰 +${amount}${spec.icon}${maxNote}`, "success");
-  renderVillageModal(t);
-  updateSelectionUI(t);
+  const maxNote = amount < VILLAGE_TRADE_AMOUNT_MAX ? `（好感满后 ${VILLAGE_TRADE_GOLD_MAX}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}）` : '';
+  showMsg(`🤝 与 ${t.village.name} 建立长期交换：每回合 -${gold}💰 +${amount}${spec.icon}${maxNote}`, "success");
+  refreshVillageView(t);
+  if (state.selectedTile === t) updateSelectionUI(t);
   updateUI();
   autoSave();
 }
@@ -2980,8 +3045,8 @@ function cancelVillageTrade(q, r) {
   t.village.activeTrade = false;
   t.village.friendship = Math.max(0, t.village.friendship - 10);
   showMsg(`🚫 已取消与 ${t.village.name} 的交换：友好度 -10`, "warning");
-  renderVillageModal(t);
-  updateSelectionUI(t);
+  refreshVillageView(t);
+  if (state.selectedTile === t) updateSelectionUI(t);
   updateUI();
   autoSave();
 }
@@ -3015,7 +3080,8 @@ function absorbVillage(q, r) {
 
   showMsg(`🤝 已吸纳 ${name}：人口 +${CONFIG.village.absorbPopulation}`, "success");
   createParticles(t.q, t.r, '#fbbf24');
-  closeVillageModal();
+  if (villageOverviewOpen) renderVillageOverview();
+  else closeVillageModal();
   resetBuildMenu();
   calculateIncome();
   updateUI();
@@ -3028,7 +3094,7 @@ function getVillageTradeIncome() {
   state.map.forEach(t => {
     if (!t.village || !t.village.activeTrade) return;
     const spec = getVillageSpecialty(t.village);
-    mod.gold -= VILLAGE_TRADE_GOLD;
+    mod.gold -= getVillageTradeGold(t.village);
     mod[spec.resource] += getVillageTradeAmount(t.village);
   });
   return mod;
@@ -3042,7 +3108,8 @@ function processVillageTrades() {
 
   state.map.forEach(t => {
     if (!t.village || !t.village.activeTrade) return;
-    if (state.resources.gold < VILLAGE_TRADE_GOLD) {
+    const goldCost = getVillageTradeGold(t.village);
+    if (state.resources.gold < goldCost) {
       t.village.activeTrade = false;
       t.village.friendship = Math.max(0, t.village.friendship - 10);
       cancelled.push(t.village.name);
@@ -3050,13 +3117,13 @@ function processVillageTrades() {
     }
     const spec = getVillageSpecialty(t.village);
     const amount = getVillageTradeAmount(t.village);
-    state.resources.gold -= VILLAGE_TRADE_GOLD;
+    state.resources.gold -= goldCost;
     state.resources[spec.resource] += amount;
     t.village.friendship = Math.min(
       CONFIG.village.maxFriendship,
       t.village.friendship + CONFIG.village.friendshipPerTurn
     );
-    totalGold += VILLAGE_TRADE_GOLD;
+    totalGold += goldCost;
     gain[spec.resource] += amount;
     count++;
   });
@@ -3074,8 +3141,11 @@ function processVillageTrades() {
 }
 
 // === 村庄界面 ===
+let villageOverviewOpen = false;
+
 function openVillageModal(t) {
   if (!t || !t.village) return;
+  villageOverviewOpen = false;
   state.selectedTile = t;
   renderVillageModal(t);
   updateSelectionUI(t);
@@ -3089,9 +3159,23 @@ function openVillageModalAt(q, r) {
   if (t) openVillageModal(t);
 }
 
+// 顾问提示入口：3 个村庄合并到一个面板统一管理
+function openVillageOverview() {
+  villageOverviewOpen = true;
+  renderVillageOverview();
+  const modal = document.getElementById('village-modal');
+  if (modal) modal.classList.remove('hidden');
+}
+
 function closeVillageModal() {
+  villageOverviewOpen = false;
   const modal = document.getElementById('village-modal');
   if (modal) modal.classList.add('hidden');
+}
+
+function refreshVillageView(t) {
+  if (villageOverviewOpen) renderVillageOverview();
+  else if (t && t.village) renderVillageModal(t);
 }
 
 function renderVillageModal(t) {
@@ -3109,7 +3193,10 @@ function renderVillageModal(t) {
     <div class="flex items-start gap-3 border-b border-gray-700 pb-3 mb-4 pr-8">
       <span class="text-4xl">🏘️</span>
       <div class="flex-1">
-        <h2 class="text-xl font-bold text-amber-300">${v.name}</h2>
+        <div class="flex items-center gap-2">
+          <h2 class="text-xl font-bold text-amber-300">${v.name}</h2>
+          <button onclick="openVillageOverview()" class="ml-auto px-2 py-0.5 rounded border border-slate-600 text-[11px] text-gray-300 hover:text-white hover:border-slate-400 whitespace-nowrap">全部村庄</button>
+        </div>
         <p class="text-xs text-gray-400 mt-1">中立村庄 · 坐标 ${t.q}, ${t.r} · ${spec.name}</p>
       </div>
     </div>
@@ -3122,7 +3209,7 @@ function renderVillageModal(t) {
       <div class="h-2.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
         <div class="h-full bg-gradient-to-r from-amber-500 to-emerald-400" style="width:${friendship}%"></div>
       </div>
-      <p class="text-[11px] text-gray-500 mt-1">交换期间每回合 +${CONFIG.village.friendshipPerTurn}；手动取消或金币不足自动取消时，友好度 -10。好感度满 ${CONFIG.village.maxFriendship} 后，交换量提升为 ${VILLAGE_TRADE_GOLD}💰 → ${VILLAGE_TRADE_AMOUNT_MAX} 对应资源。</p>
+      <p class="text-[11px] text-gray-500 mt-1">交换期间每回合 +${CONFIG.village.friendshipPerTurn}；手动取消或金币不足自动取消时，友好度 -10。好感度满 ${CONFIG.village.maxFriendship} 后，交换提升为 ${VILLAGE_TRADE_GOLD_MAX}💰 → ${VILLAGE_TRADE_AMOUNT_MAX} 对应资源。</p>
     </div>
 
     <div class="bg-slate-800 border ${active ? 'border-emerald-500' : 'border-slate-700'} rounded-lg p-3 flex items-center justify-between gap-3">
@@ -3130,9 +3217,9 @@ function renderVillageModal(t) {
         <div class="font-bold text-slate-100">${spec.icon} ${spec.name}</div>
         <div class="text-xs text-gray-400 mt-0.5">${spec.desc}</div>
       </div>
-      <button onclick="selectVillageTrade(${t.q},${t.r})" class="px-3 py-1.5 rounded border text-xs font-bold whitespace-nowrap ${active ? 'bg-emerald-800 text-emerald-200 border-emerald-600 cursor-default' : 'bg-indigo-700 hover:bg-indigo-600 text-white border-indigo-500'}" ${active ? 'disabled' : ''}>${active ? `当前交换 (${VILLAGE_TRADE_GOLD}→${getVillageTradeAmount(v)})` : '建立交换'}</button>
+      <button onclick="selectVillageTrade(${t.q},${t.r})" class="px-3 py-1.5 rounded border text-xs font-bold whitespace-nowrap ${active ? 'bg-emerald-800 text-emerald-200 border-emerald-600 cursor-default' : 'bg-indigo-700 hover:bg-indigo-600 text-white border-indigo-500'}" ${active ? 'disabled' : ''}>${active ? `当前交换 (${getVillageTradeGold(v)}→${getVillageTradeAmount(v)})` : '建立交换'}</button>
     </div>
-    <p class="text-[11px] mt-1.5 ${friendship >= CONFIG.village.maxFriendship ? 'text-emerald-300' : 'text-gray-400'}">${friendship >= CONFIG.village.maxFriendship ? `好感度已满：每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}。` : `好感度满 ${CONFIG.village.maxFriendship} 后：每回合 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}（现在换 ${VILLAGE_TRADE_AMOUNT}${spec.icon}）。`}</p>
+    <p class="text-[11px] mt-1.5 ${friendship >= CONFIG.village.maxFriendship ? 'text-emerald-300' : 'text-gray-400'}">${friendship >= CONFIG.village.maxFriendship ? `好感度已满：每回合 ${VILLAGE_TRADE_GOLD_MAX}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}。` : `好感度满 ${CONFIG.village.maxFriendship} 后：每回合 ${VILLAGE_TRADE_GOLD_MAX}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}（现在 ${VILLAGE_TRADE_GOLD}💰 换 ${VILLAGE_TRADE_AMOUNT}${spec.icon}）。`}</p>
 
     <div class="mt-4 pt-3 border-t border-gray-700 flex flex-wrap items-center gap-2">
       ${active ? `<button onclick="cancelVillageTrade(${t.q},${t.r})" class="px-3 py-2 rounded bg-red-800 hover:bg-red-700 text-white text-sm font-bold">取消交换 (-10友好度)</button>` : ''}
@@ -3141,6 +3228,117 @@ function renderVillageModal(t) {
     </div>
   `;
 }
+
+// 3 个村庄合并面板：统一建立/取消交换与吸纳
+function renderVillageOverview() {
+  const body = document.getElementById('village-body');
+  if (!body) return;
+  const tiles = getVillageTiles();
+  if (!tiles.length) { closeVillageModal(); return; }
+
+  const activeTiles = tiles.filter(t => t.village.activeTrade);
+  const goldPerTurn = activeTiles.reduce((sum, t) => sum + getVillageTradeGold(t.village), 0);
+  const gains = { food: 0, industry: 0, science: 0 };
+  activeTiles.forEach(t => { gains[getVillageSpecialty(t.village).resource] += getVillageTradeAmount(t.village); });
+  const gainText = [
+    gains.food ? `+${gains.food}🌾` : '',
+    gains.industry ? `+${gains.industry}🔨` : '',
+    gains.science ? `+${gains.science}🔬` : ''
+  ].filter(Boolean).join(' ') || '—';
+  const idleCount = tiles.length - activeTiles.length;
+  const absorbCost = getVillageAbsorbCost();
+
+  body.innerHTML = `
+    <div class="flex items-start gap-3 border-b border-gray-700 pb-3 mb-3 pr-8">
+      <span class="text-4xl">🏘️</span>
+      <div class="flex-1">
+        <h2 class="text-xl font-bold text-amber-300">村庄管理</h2>
+        <p class="text-xs text-gray-400 mt-1">${tiles.length} 个中立村庄 · 统一建立交换、取消与吸纳</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-2 mb-3">
+      <div class="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-center">
+        <div class="text-[10px] text-gray-400">交换中</div>
+        <div class="font-bold text-emerald-300">${activeTiles.length}/${tiles.length}</div>
+      </div>
+      <div class="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-center">
+        <div class="text-[10px] text-gray-400">金币/回合</div>
+        <div class="font-bold text-amber-300">-${goldPerTurn}💰</div>
+      </div>
+      <div class="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-center">
+        <div class="text-[10px] text-gray-400">资源/回合</div>
+        <div class="font-bold text-cyan-300 text-[11px]">${gainText}</div>
+      </div>
+    </div>
+
+    <div class="flex gap-2 mb-3">
+      <button onclick="tradeAllVillages()" class="flex-1 px-2 py-1.5 rounded border text-xs font-bold ${idleCount ? 'bg-indigo-700 hover:bg-indigo-600 text-white border-indigo-500' : 'bg-gray-800 text-gray-500 border-gray-700 cursor-not-allowed'}" ${idleCount ? '' : 'disabled'}>全部建立交换</button>
+      <button onclick="cancelAllVillageTrades()" class="flex-1 px-2 py-1.5 rounded border text-xs font-bold ${activeTiles.length ? 'bg-red-800 hover:bg-red-700 text-white border-red-600' : 'bg-gray-800 text-gray-500 border-gray-700 cursor-not-allowed'}" ${activeTiles.length ? '' : 'disabled'}>全部取消交换</button>
+    </div>
+
+    ${tiles.map(t => {
+      const v = t.village;
+      const spec = getVillageSpecialty(v);
+      const friendship = Math.min(CONFIG.village.maxFriendship, v.friendship || 0);
+      const active = !!v.activeTrade;
+      const gold = getVillageTradeGold(v);
+      const amount = getVillageTradeAmount(v);
+      const canAbsorb = friendship >= CONFIG.village.maxFriendship && state.resources.culture >= absorbCost;
+      return `<div data-village-row class="bg-slate-800/80 border ${active ? 'border-emerald-600' : 'border-slate-700'} rounded-lg p-2.5 mb-2">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl leading-none">${spec.icon}</span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-amber-200 truncate">${v.name}</span>
+              <span class="text-[10px] text-gray-400 whitespace-nowrap">${spec.name} · (${t.q},${t.r})</span>
+            </div>
+            <div class="flex items-center gap-2 mt-1">
+              <div class="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-amber-500 to-emerald-400" style="width:${friendship}%"></div>
+              </div>
+              <span class="text-[10px] font-bold ${friendship >= CONFIG.village.maxFriendship ? 'text-emerald-300' : 'text-amber-300'}">${friendship}/${CONFIG.village.maxFriendship}</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 mt-2">
+          <button onclick="selectVillageTrade(${t.q},${t.r})" class="px-2 py-1 rounded border text-[11px] font-bold whitespace-nowrap ${active ? 'bg-emerald-800 text-emerald-200 border-emerald-600 cursor-default' : 'bg-indigo-700 hover:bg-indigo-600 text-white border-indigo-500'}" ${active ? 'disabled' : ''}>${active ? `交换中 ${gold}💰→${amount}${spec.icon}` : '建立交换'}</button>
+          ${active ? `<button onclick="cancelVillageTrade(${t.q},${t.r})" class="px-2 py-1 rounded bg-red-800 hover:bg-red-700 text-white border border-red-600 text-[11px] font-bold whitespace-nowrap">取消</button>` : ''}
+          <button onclick="absorbVillage(${t.q},${t.r})" class="px-2 py-1 rounded border text-[11px] font-bold whitespace-nowrap ml-auto ${canAbsorb ? 'bg-amber-600 hover:bg-amber-500 text-black border-amber-300' : 'bg-gray-800 text-gray-500 border-gray-700 cursor-not-allowed'}" ${canAbsorb ? '' : 'disabled'}>吸纳 ${absorbCost}🎭</button>
+        </div>
+        <div class="text-[10px] text-gray-500 mt-1">${active ? `每回合 ${gold}💰 → ${amount}${spec.icon}` : `建立后每回合 ${gold}💰 → ${amount}${spec.icon}`} · ${friendship >= CONFIG.village.maxFriendship ? `好感已满（${VILLAGE_TRADE_GOLD_MAX}💰 → ${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}）` : `满好感 ${VILLAGE_TRADE_GOLD_MAX}💰 → ${VILLAGE_TRADE_AMOUNT_MAX}${spec.icon}`}</div>
+      </div>`;
+    }).join('')}
+
+    <p class="text-[11px] text-gray-500 mt-1">交换期间每回合 +${CONFIG.village.friendshipPerTurn} 友好度；取消交换 -10。好感满 ${CONFIG.village.maxFriendship} 后，交换变为 ${VILLAGE_TRADE_GOLD_MAX}💰 换 ${VILLAGE_TRADE_AMOUNT_MAX} 对应资源。</p>
+  `;
+}
+
+function tradeAllVillages() {
+  const targets = getVillageTiles().filter(t => !t.village.activeTrade);
+  if (!targets.length) return;
+  targets.forEach(t => { t.village.activeTrade = true; });
+  showMsg(`🤝 与 ${targets.length} 个村庄建立长期交换`, "success");
+  renderVillageOverview();
+  calculateIncome();
+  updateUI();
+  autoSave();
+}
+
+function cancelAllVillageTrades() {
+  const targets = getVillageTiles().filter(t => t.village.activeTrade);
+  if (!targets.length) return;
+  targets.forEach(t => {
+    t.village.activeTrade = false;
+    t.village.friendship = Math.max(0, t.village.friendship - 10);
+  });
+  showMsg(`🚫 已取消 ${targets.length} 个村庄的交换：友好度 -10`, "warning");
+  renderVillageOverview();
+  calculateIncome();
+  updateUI();
+  autoSave();
+}
+
 
 
 // ==================== src/04c-animals.js：动物图鉴数据（自动生成） ====================
@@ -3474,6 +3672,23 @@ function isContinentComplete(continent) {
   return getContinentRemaining(continent).length === 0;
 }
 
+// 帝国宝藏全部收集（动物图鉴 + 植物图鉴）完成时，一次性奖励信仰点
+function isTreasureCollectionComplete() {
+  const ownedAnimals = new Set(state.animals || []);
+  const ownedPlants = new Set(state.plants || []);
+  return ANIMALS.every(a => ownedAnimals.has(a.id)) && PLANTS.every(p => ownedPlants.has(p.id));
+}
+
+function grantTreasureCompletionFaith() {
+  if (state.zooCompleteFaithRewarded) return 0;
+  if (!isTreasureCollectionComplete()) return 0;
+  const reward = CONFIG.zoo.completeFaithReward || 2;
+  state.zooCompleteFaithRewarded = true;
+  state.faithPoints = (state.faithPoints || 0) + reward;
+  showMsg(`🎉 帝国宝藏全部收集完成：+${reward} 信仰点！`, "success");
+  return reward;
+}
+
 function getContinentProgress(continent) {
   const animals = ANIMALS.filter(a => a.continent === continent);
   const plants = PLANTS.filter(p => p.continent === continent);
@@ -3537,8 +3752,8 @@ function processExplorers() {
     }
     const pick = pool[Math.floor(Math.random() * pool.length)];
     const picks = [pick];
-    // 寻踪神恩：每名探险家每回合 25% 概率额外 +1 收藏进度
-    if (state.miracleExplorerExtra && Math.random() < 0.25) {
+    // 寻踪神恩：每名探险家每回合有概率额外 +1 收藏进度
+    if (state.miracleExplorerExtra && Math.random() < CONFIG.zoo.explorerExtraChance) {
       const extraPool = getContinentRemaining(continent)
         .filter(target => !(target.kind === pick.kind && target.id === pick.id));
       if (extraPool.length > 0) picks.push(extraPool[Math.floor(Math.random() * extraPool.length)]);
@@ -3564,6 +3779,9 @@ function processExplorers() {
       showMsg(`🎉 ${continent}的动物与植物全部收集完成！`, "success");
     }
   }
+
+  // 帝国宝藏全部收集完成：一次性 +2 信仰点
+  grantTreasureCompletionFaith();
 
   // 没有位置可派的探险家（含完成大洲后回归的、以及容量溢出的空闲探险家）
   // 全部转为人口；convertedExplorers 会永久从当前探险家容量中扣除，避免重复转换。
@@ -3878,7 +4096,7 @@ function renderExpeditionModal() {
       <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">空闲</div><div class="text-lg font-bold ${idle > 0 ? 'text-emerald-300' : 'text-gray-400'}">${idle}</div></div>
     </div>
     <div class="space-y-2">${renderExpeditionRows()}</div>
-    <p class="text-[11px] text-gray-500 mt-3">来源：每有 1 个主广场 +1，寻踪神恩额外 +1（吸纳村庄不提供探险家）。动物与植物按稀有度每回合提供 +1~+3🎭，黄金时代期间会转化为💰。完成大洲后若没有可派位置，所有多余探险家都会转为人口。</p>
+    <p class="text-[11px] text-gray-500 mt-3">来源：每有 1 个主广场 +1，寻踪神恩额外 +1（吸纳村庄不提供探险家）。动物与植物按稀有度每回合提供 +1~+3🎭，黄金时代期间会转化为💰。完成大洲后若没有可派位置，所有多余探险家都会转为人口。全部动物与植物收集完成后额外 +${CONFIG.zoo.completeFaithReward || 2} 信仰点。</p>
   `;
 }
 
@@ -3937,10 +4155,38 @@ function getAbsorbableVillages() {
 }
 
 function getTradableVillages() {
-  if (state.resources.gold < VILLAGE_TRADE_GOLD) return [];
   return Array.from(state.map.values()).filter(t =>
-    t.village && !t.village.activeTrade
+    t.village && !t.village.activeTrade && state.resources.gold >= getVillageTradeGold(t.village)
   );
+}
+
+// 可建设主广场：未达上限、资源足够、存在合法空地（并尊重神祇 UI 过滤）
+function findPlazaBuildSite(activeGods) {
+  const reqTerrain = BUILDINGS.plaza.reqTerrain || [];
+  let fallback = null;
+  let nearOwn = null;
+  for (const t of state.map.values()) {
+    if (t.improvement || t.isRuin || t.village) continue;
+    if (!reqTerrain.includes(t.type)) continue;
+    if (getUiRules(t, 'plaza', 'building', activeGods).hide) continue;
+    if (!fallback) fallback = t;
+    const near = getNeighbors(t.q, t.r).some(n =>
+      n.owner === 'player' && (n.improvement === 'plaza' || (n.improvement && DISTRICT_BUILDINGS.includes(n.improvement)))
+    );
+    if (near) { nearOwn = t; break; }
+  }
+  return nearOwn || fallback;
+}
+
+function getPlazaBuildOpportunity() {
+  const activeGods = getActiveGods();
+  const limit = getPlazaLimit(activeGods);
+  if ((state.plazaCount || 0) >= limit) return null;
+  const cost = getBuildCost('plaza');
+  if (!cost || !canPayCost(cost)) return null;
+  const site = findPlazaBuildSite(activeGods);
+  if (!site) return null;
+  return { limit, costText: costToText(cost), site };
 }
 
 function updateAdvisorBox() {
@@ -3952,6 +4198,7 @@ function updateAdvisorBox() {
   const villages = getAbsorbableVillages();
   const tradableVillages = getTradableVillages();
   const goldenAge = getGoldenAgeOpportunity();
+  const plazaOpportunity = getPlazaBuildOpportunity();
   const idleExplorers = typeof getIdleExplorers === 'function' ? getIdleExplorers() : 0;
   const rows = [];
 
@@ -3980,6 +4227,14 @@ function updateAdvisorBox() {
       action: 'advisorOpenGoldenAge()'
     });
   }
+  if (plazaOpportunity) {
+    rows.push({
+      icon: '🏛️',
+      title: '可建设主广场',
+      detail: `${state.plazaCount || 0}/${plazaOpportunity.limit} 座 · ${plazaOpportunity.costText} · 建成 +${CONFIG.faith.plazaGain} 信仰点`,
+      action: 'advisorOpenPlaza()'
+    });
+  }
   if (villages.length > 0) {
     rows.push({
       icon: '🏘️',
@@ -3992,7 +4247,7 @@ function updateAdvisorBox() {
     rows.push({
       icon: '🤝',
       title: '村庄可交换',
-      detail: `${tradableVillages.length} 个 · ${VILLAGE_TRADE_GOLD}💰/回合（满好感 30💰→30资源）`,
+      detail: `${tradableVillages.length} 个 · ${VILLAGE_TRADE_GOLD}💰/回合（满好感 ${VILLAGE_TRADE_GOLD_MAX}💰→${VILLAGE_TRADE_AMOUNT_MAX}资源）`,
       action: 'advisorOpenVillageTrade()'
     });
   }
@@ -4032,14 +4287,27 @@ function advisorOpenGoldenAge() {
   activateGoldenAge();
 }
 
+// 点击提示：定位到一块可建主广场的空地，直接展开建造面板
+function advisorOpenPlaza() {
+  const activeGods = getActiveGods();
+  const site = findPlazaBuildSite(activeGods);
+  if (!site) { showMsg('暂无可建造主广场的空地', 'warning'); return; }
+  state.selectedTile = site;
+  if (state.camera.zoom < 1.2) state.camera.zoom = 1.2;
+  const p = hexToPixel(site.q, site.r);
+  state.camera.x += window.innerWidth / 2 - p.x;
+  state.camera.y += window.innerHeight / 2 - p.y;
+  updateSelectionUI(site);
+  draw();
+  updateUI();
+}
+
 function advisorOpenVillage() {
-  const village = getAbsorbableVillages()[0];
-  if (village) openVillageModal(village);
+  openVillageOverview();
 }
 
 function advisorOpenVillageTrade() {
-  const village = getTradableVillages()[0];
-  if (village) openVillageModal(village);
+  openVillageOverview();
 }
 
 function advisorOpenExplorers() {
@@ -4100,6 +4368,14 @@ function getDeadGoldIncome() {
     if (!state.miracleDeadCulture2) return 0;
     return (state.deadPopulation || 0) * 2;
 }
+
+function getEngineeringMaintenanceForCount(count) {
+    let maintenance = (Number(count) || 0) * (CONFIG.economy.engineeringMaintenance || 0);
+    if (state.miracleNoMaintenance2) return 0;
+    if (state.miracleNoMaintenance) return Math.floor(maintenance / 2);
+    return maintenance;
+}
+
 
 function calculateIncome() {
     state.income = { food: 0, industry: 0, science: 0, gold: 0, culture: 0 };
@@ -4180,21 +4456,18 @@ function calculateIncome() {
                 state.income.gold += state.income.industry;
                 state.income.industry = 0;
             }
-            // 庆典2阶段：黄金时代期间每个人口 +3💰
+            // 庆典2阶段：黄金时代期间每个人口 +2💰
             if (state.miracleGaDuration2) {
-                state.income.gold += state.resources.population * 3;
+                state.income.gold += state.resources.population * 2;
             }
         }
     }
 
-    // 5. 人造工程维护费：每座 1💰/回合（区域不收费）
+    // 5. 人造工程维护费：每座 1💰/回合（区域不收费）；轻徭1阶段减半，2阶段免费
     state.goldGrossIncome = state.income.gold;
     state.engineeringCount = countEngineeringTiles();
-    state.engineeringMaintenance = state.miracleNoMaintenance ? 0 : state.engineeringCount * CONFIG.economy.engineeringMaintenance;
+    state.engineeringMaintenance = getEngineeringMaintenanceForCount(state.engineeringCount);
     state.income.gold -= state.engineeringMaintenance;
-    if (state.miracleNoMaintenance2 && state.goldenAge.active) {
-        state.income.gold += state.engineeringCount;
-    }
 }
 
 // === 统一造价：UI 预览 / 实际扣费共用同一份数据，避免三处口径漂移 ===
@@ -4332,6 +4605,7 @@ function buildSaveData() {
         plants: [...(state.plants || [])],
         explorerAssignments: [...(state.explorerAssignments || [])],
         convertedExplorers: state.convertedExplorers || 0,
+        zooCompleteFaithRewarded: !!state.zooCompleteFaithRewarded,
         eponaLastRacecourseTurn: state.eponaLastRacecourseTurn ?? null,
         faithPoints: state.faithPoints || 0,
         cultureExchangeCount: state.cultureExchangeCount || 0,
@@ -4416,6 +4690,7 @@ function applySaveData(data) {
         : [];
     next.absorbedVillages = data.absorbedVillages || 0;
     next.convertedExplorers = data.convertedExplorers || 0;
+    next.zooCompleteFaithRewarded = !!data.zooCompleteFaithRewarded;
     next.eponaLastRacecourseTurn = data.eponaLastRacecourseTurn ?? null;
     next.faithPoints = data.faithPoints != null ? data.faithPoints : CONFIG.faith.start;
     next.cultureExchangeCount = data.cultureExchangeCount || 0;
@@ -4490,6 +4765,11 @@ function applySaveData(data) {
     next.selectedTile = data.selected ? (next.map.get(`${data.selected.q},${data.selected.r}`) || null) : null;
 
     state = next;
+    // 旧存档兼容：仙人掌沙漠上的农业区补转为热带干草地；火山周围补齐沃土
+    state.map.forEach(t => {
+        if (t.improvement === 'farm' && t.type === TERRAIN.CACTUS_DESERT) t.type = TERRAIN.DRY_GRASS_TROP;
+    });
+    applyVolcanicFertileSoilToMap();
     syncGodGrantedMiracles();
     syncExplorerAssignments();
     particles = [];
@@ -5023,6 +5303,10 @@ function build(key) {
             state.resources.food += 10;
             harvestMsg = "除草开荒: +10🌾";
             t.type = t.type === TERRAIN.BRUSH ? TERRAIN.DRY_GRASS_TROP : TERRAIN.DRY_GRASS_TEMP;
+        } else if (t.type === TERRAIN.CACTUS_DESERT) {
+            // 仙人掌沙漠开垦后变为热带干草地（否则农业区会一直留在仙人掌沙漠上）
+            t.type = TERRAIN.DRY_GRASS_TROP;
+            harvestMsg = "沙地开垦: 变为干草地(热带)";
         }
     }
 
@@ -5218,7 +5502,7 @@ function drawHex(ctx, q, r, t, activeGods = null, phase = 'all') {
         else if (BUILDINGS[t.improvement]) { const b = BUILDINGS[t.improvement]; const lvl = (t.level || 1) - 1; if (b.icons && b.icons[lvl]) icon = b.icons[lvl]; else if (b.icons) icon = b.icons[0]; }
     }
     if (!icon) {
-        if (t.type === TERRAIN.FOREST) icon = ICONS.broadleaf; else if (t.type === TERRAIN.TAIGA) icon = ICONS.tree; else if (t.type === TERRAIN.JUNGLE) icon = ICONS.palm; else if (t.type === TERRAIN.DESERT) icon = null; else if (t.type === TERRAIN.MOUNTAIN) icon = ICONS.mountain; else if (t.type === TERRAIN.POLAR) icon = ICONS.snow; else if (t.type === TERRAIN.VOLCANO) icon = ICONS.volcano; else if (t.type === TERRAIN.OASIS) icon = ICONS.oasis; else if (t.type === TERRAIN.ROCKY) icon = ICONS.rock; else if (t.type === TERRAIN.WASTELAND) icon = ICONS.wasteland; else if (t.type === TERRAIN.SWAMP) icon = ICONS.swamp;
+        if (t.type === TERRAIN.FOREST) icon = ICONS.broadleaf; else if (t.type === TERRAIN.TAIGA) icon = ICONS.tree; else if (t.type === TERRAIN.JUNGLE) icon = ICONS.palm; else if (t.type === TERRAIN.DESERT) icon = null; else if (t.type === TERRAIN.MOUNTAIN) icon = ICONS.mountain; else if (t.type === TERRAIN.POLAR) icon = ICONS.snow; else if (t.type === TERRAIN.VOLCANO) icon = ICONS.volcano; else if (t.type === TERRAIN.OASIS) icon = ICONS.oasis; else if (t.type === TERRAIN.ROCKY) icon = ICONS.rock; else if (t.type === TERRAIN.WASTELAND) icon = ICONS.wasteland; else if (t.type === TERRAIN.FERTILE_SOIL) icon = ICONS.fertile; else if (t.type === TERRAIN.SWAMP) icon = ICONS.swamp;
         else if (t.type === TERRAIN.CACTUS_DESERT) icon = ICONS.act_cactus; else if (t.type === TERRAIN.ICE_FLOAT) icon = ICONS.ice; else if (t.type === TERRAIN.REEF) icon = ICONS.reef; else if (t.type === TERRAIN.TERRACE) icon = ICONS.terrace; else if (t.type === TERRAIN.CANAL) icon = ICONS.canal; else if (t.type === TERRAIN.WIND_FARM) icon = ICONS.wind; else if (t.type === TERRAIN.MINING_SITE) icon = ICONS.mining; else if (t.type === TERRAIN.TUNNEL) icon = ICONS.tunnel; else if (t.type === TERRAIN.OBSERVATORY) icon = ICONS.obs; else if (t.type === TERRAIN.TOURIST_SPOT) icon = ICONS.tourist; else if (t.type === TERRAIN.SOLAR_FARM) icon = ICONS.solar; else if (t.type === TERRAIN.KAREZ) icon = ICONS.karez;
         else if (t.type === TERRAIN.POLAR_STATION) icon = ICONS.polar_st; else if (t.type === TERRAIN.AURORA_TOWER) icon = ICONS.aurora; else if (t.type === TERRAIN.REINDEER_PASTURE) icon = ICONS.reindeer; else if (t.type === TERRAIN.PEAT_MINE) icon = ICONS.peat; else if (t.type === TERRAIN.PASTURE) icon = ICONS.pasture; else if (t.type === TERRAIN.LUMBER_MILL) icon = ICONS.lumber; else if (t.type === TERRAIN.CAMEL_RANCH) icon = ICONS.camel; else if (t.type === TERRAIN.DATE_PALM) icon = ICONS.date; else if (t.type === TERRAIN.SILT_PLANT) icon = ICONS.silt; else if (t.type === TERRAIN.HUNTING_CAMP) icon = ICONS.hunting; else if (t.type === TERRAIN.ORCHARD) icon = ICONS.orchard; else if (t.type === TERRAIN.PLANTATION) icon = ICONS.plantation; else if (t.type === TERRAIN.FLOATING_GARDEN) icon = ICONS.floating_garden; else if (t.type === TERRAIN.BOG_IRON) icon = ICONS.bog_iron; else if (t.type === TERRAIN.COASTAL_FISHERY) icon = ICONS.coastal_fishery; else if (t.type === TERRAIN.WINDMILL_FIELD) icon = ICONS.windmill; else if (t.type === TERRAIN.RACECOURSE) icon = ICONS.racecourse; else if (t.type === TERRAIN.SAFARI_CAMP) icon = ICONS.safari; else if (t.type === TERRAIN.FLOATING_RESORT) icon = ICONS.floating_resort; else if (t.type === TERRAIN.ETERNA_PYRAMID) icon = ICONS.pyramid; else if (t.type === TERRAIN.SKI_RESORT) icon = ICONS.ski_resort; else if (t.type === TERRAIN.ICE_SCULPTURE_PARK) icon = ICONS.ice_sculpture; else if (t.type === TERRAIN.PALEONTOLOGY_DIG) icon = ICONS.paleontology; else if (t.type === TERRAIN.QUARRY) icon = ICONS.quarry; else if (t.type === TERRAIN.GEOPARK) icon = ICONS.geopark; else if (t.type === TERRAIN.TREEHOUSE_RESORT) icon = ICONS.treehouse_resort; else if (t.type === TERRAIN.MANGROVE) icon = ICONS.mangrove; else if (t.type === TERRAIN.GEYSER) icon = ICONS.geyser; else if (t.type === TERRAIN.CAVE) icon = ICONS.cave; else if (t.type === TERRAIN.CRAB_FARM) icon = ICONS.crab_farm; else if (t.type === TERRAIN.MANGROVE_KILN) icon = ICONS.mangrove_kiln; else if (t.type === TERRAIN.MANGROVE_RESERVE) icon = ICONS.mangrove_reserve; else if (t.type === TERRAIN.GEOTHERMAL_PLANT) icon = ICONS.geothermal_plant; else if (t.type === TERRAIN.HOT_SPRING_RESORT) icon = ICONS.hot_spring_resort; else if (t.type === TERRAIN.THERMOPHILE_LAB) icon = ICONS.thermophile_lab; else if (t.type === TERRAIN.CELLAR_VAULT) icon = ICONS.cellar_vault; else if (t.type === TERRAIN.FUNGAL_FARM) icon = ICONS.fungal_farm; else if (t.type === TERRAIN.DEEP_EARTH_LAB) icon = ICONS.deep_earth_lab; else if (t.type === TERRAIN.PEAT_BOG) icon = ICONS.peat_bog; else if (t.type === TERRAIN.CLOUDBERRY_PLANTATION) icon = ICONS.cloudberry_plantation; else if (t.type === TERRAIN.PEAT_BOG_RESERVE) icon = ICONS.peat_reserve; else if (t.type === TERRAIN.ALPACA_RANCH) icon = ICONS.alpaca_ranch; else if (t.type === TERRAIN.WINERY) icon = ICONS.winery;
         else if (t.type === TERRAIN.LAKE) { 
@@ -5617,13 +5901,25 @@ function updateUI() {
     const btnBuyPop = document.getElementById('btn-buy-pop');
     const popAuto = document.getElementById('pop-auto');
     const sacrificeGod = typeof getPopulationSacrificeGod === 'function' ? getPopulationSacrificeGod(activeGods) : null;
+    const hathorGrowthLocked = typeof isHathorGrowthLocked === 'function' && isHathorGrowthLocked(activeGods);
 
     // 普通时段：人口自动增长，隐藏手动按钮，显示「自动」标记
     // 献祭神时段：自动增长暂停，按钮变为献祭动作，隐藏「自动」标记
+    // 哈索尔非啤酒节：人口不增长，标记改为「🍺节」
     if (popAuto) {
-        popAuto.textContent = '自动';
-        popAuto.className = 'text-[10px] px-1 py-0.5 rounded bg-emerald-900/60 border border-emerald-700 text-emerald-300 font-bold';
-        popAuto.classList.toggle('hidden', !!sacrificeGod);
+        if (sacrificeGod) {
+            popAuto.classList.add('hidden');
+        } else if (hathorGrowthLocked) {
+            popAuto.textContent = '啤酒';
+            popAuto.title = '哈索尔：只有啤酒节期间人口才会增长';
+            popAuto.className = 'text-[10px] px-1 py-0.5 rounded bg-amber-900/60 border border-amber-700 text-amber-300 font-bold';
+            popAuto.classList.remove('hidden');
+        } else {
+            popAuto.textContent = '自动';
+            popAuto.title = '';
+            popAuto.className = 'text-[10px] px-1 py-0.5 rounded bg-emerald-900/60 border border-emerald-700 text-emerald-300 font-bold';
+            popAuto.classList.remove('hidden');
+        }
     }
     if (btnBuyPop) {
         if (sacrificeGod === 'itztlacoliuhqui') {
@@ -5894,11 +6190,14 @@ function showPopTooltip(e) {
         ? '剥皮之春：第二年春季可献祭人口，且人口停止增长'
         : flags.itztlacoliuhqui
         ? '严霜之冬：冬季可献祭人口，自动增长暂停'
+        : flags.hathor
+        ? (state.goldenAge.active ? '🍺 啤酒节期间：人口正常自动增长（食物足够时）' : '🍺 哈索尔：只有啤酒节期间人口才会增长')
         : '当前无献祭神时段，人口正常自动增长';
+    const hathorGrowthLocked = flags.hathor && !state.goldenAge.active;
 
     const html = `<div class="font-bold text-base mb-1">人口自动增长</div>
     <div class="text-sm">下一个人口: <span class="text-rose-400 font-bold">${state.populationCost}🌾</span></div>
-    <div class="text-xs text-gray-400 mt-1">每回合结束时，食物足够就会连续增长，直到买不起下一次<br>每增长 1 人口，消耗增加 ${costInc}🌾</div>
+    <div class="text-xs text-gray-400 mt-1">${hathorGrowthLocked ? '🍺 啤酒节未开启：人口暂停增长' : `每回合结束时，食物足够就会连续增长，直到买不起下一次<br>每增长 1 人口，消耗增加 ${costInc}🌾`}</div>
     <div class="text-xs text-gray-300 mt-1">当前人口: ${state.resources.population}</div>
     ${xolotlText}
     ${danuText}
@@ -6005,13 +6304,15 @@ function showGoldenAgeTooltip(e) {
             <div class="text-xs text-green-300">效果:</div>
             <div class="text-xs text-gray-300">• 全产出 +${currentBonus}</div>
             <div class="text-xs text-purple-300 font-bold">• 工业不足时，可消耗等量文化进行建造</div>
-            <div class="text-xs text-gray-300">• 文化值转化为金币</div>`;
+            <div class="text-xs text-gray-300">• 文化值转化为金币</div>
+            <div class="text-xs text-emerald-300">• 啤酒节期间人口自动增长</div>`;
         } else {
             html += `<div class="text-xs text-white mb-2">花费: ${costText}</div>
             <div class="text-xs text-green-300">开启效果 (持续5回合):</div>
             <div class="text-xs text-gray-300">• 全产出 +${nextBonus}(🌾🔨💰🔬)</div>
             <div class="text-xs text-purple-300 font-bold">• 工业不足时，可消耗等量文化进行建造</div>
             <div class="text-xs text-gray-300">• 文化值转化为金币</div>
+            <div class="text-xs text-amber-300">• 只有啤酒节期间人口才会增长</div>
             <div class="text-xs text-gray-500 mt-2">每次开启消耗增加100🌾</div>`;
         }
     } else {
@@ -6104,7 +6405,7 @@ const activeGods = getActiveGods();
 }
 
 function getMiracleGaTurns() {
-    // 庆典 2 阶段已改为「黄金时代期间每个人口 +3💰」，不再延长回合
+    // 庆典 2 阶段已改为「黄金时代期间每个人口 +2💰」，不再延长回合
     return state.miracleGaDuration ? 1 : 0;
 }
 
@@ -6350,7 +6651,7 @@ function getTileYield(t, activeGodsCache = null) {
 
     fireGodEvent('onYield', { tile: t, y, details, activeGods });
 
-    const volcanicTypes = [TERRAIN.GRASS, TERRAIN.BRUSH, TERRAIN.TERRACE, TERRAIN.FLOATING_GARDEN];
+    const volcanicTypes = [TERRAIN.GRASS, TERRAIN.BRUSH, TERRAIN.TERRACE, TERRAIN.FLOATING_GARDEN, TERRAIN.FERTILE_SOIL];
     
     if ((t.type === TERRAIN.TOURIST_SPOT || t.type === TERRAIN.SKI_RESORT) && t.owner === 'player') { const nbs = getNeighbors(t.q, t.r); if (nbs.some(n => n.improvement === 'swamp_reserve' || n.improvement === 'lake_reserve' || n.improvement === 'oasis_reserve')) { y.culture = (y.culture || 0) + 1; details.adjacencyBreakdown.push(`保护区: +1🎭`); } }
     
@@ -6468,14 +6769,18 @@ function getTileYield(t, activeGodsCache = null) {
     
     if (t.owner === 'player' && (t.improvement === 'farm' || volcanicTypes.includes(t.type))) { 
         const nbs = getNeighbors(t.q, t.r); 
-        if (nbs.some(n => n.type === TERRAIN.VOLCANO)) { 
-            const baseVol = getVolcanoBase(activeGods);
+        const nearVolcano = nbs.some(n => n.type === TERRAIN.VOLCANO);
+        const onFertile = t.type === TERRAIN.FERTILE_SOIL;
+        if (nearVolcano || onFertile) { 
+            const baseVol = nearVolcano ? getVolcanoBase(activeGods) : 2;
             const ashLevel = t.volcanicAshLevel || 0;
             // 基础火山灰由相邻火山共用一次；层数按每次喷发累计，每层 +2🌾
             const volBonus = baseVol + ashLevel * 2;
             y.food = (y.food || 0) + volBonus; 
             details.volcano = volBonus; 
-            if (isPachamamaActive(activeGods)) {
+            if (onFertile && !nearVolcano) {
+                details.adjacencyBreakdown.push(`沃土(火山灰${ashLevel > 0 ? '+' + ashLevel + '层' : ''}): +${volBonus}🌾`);
+            } else if (isPachamamaActive(activeGods)) {
                 details.adjacencyBreakdown.push(`帕查玛玛(火山灰+${ashLevel}层): +${volBonus}🌾`); 
             } else {
                 details.adjacencyBreakdown.push(`火山灰(+${ashLevel}层): +${volBonus}🌾`);
@@ -6599,11 +6904,16 @@ function getPopulationSacrificeGod(activeGods) {
     return null;
 }
 
-// 自动增长暂停：仅献祭神时段（购买按钮改为献祭）。
+// 自动增长暂停：献祭神时段（购买按钮改为献祭），以及哈索尔的非啤酒节时段。
 // 太阳神运转期不再暂停：每回合 -1 人口的祭品照常扣除，但人口仍可自然增长。
+function isHathorGrowthLocked(activeGods) {
+    const gods = activeGods || getActiveGods();
+    return !!getGodFlags(gods).hathor && !state.goldenAge.active;
+}
+
 function isPopulationGrowthPaused(activeGods) {
     const gods = activeGods || getActiveGods();
-    return !!getPopulationSacrificeGod(gods);
+    return !!getPopulationSacrificeGod(gods) || isHathorGrowthLocked(gods);
 }
 
 // 亡者：因饥饿或被献祭而损失的人口；「安魂」神恩按亡者数量提供文化
@@ -6788,12 +7098,47 @@ function applyMist() {
 
 // ==================== src/16-selection-ui.js：底部选择面板与长按详情 ====================
 // ==================== src/16-selection-ui.js：底部选择面板与长按详情 ====================
+// QOL：当前地块若与人造工程可加成的区域相邻，建造面板里的对应工程变黄
+function getAdjacentBonusDistricts(t, key) {
+    const targets = getEngineeringAdjacentDistricts(key);
+    if (!targets.length) return [];
+    const hit = [];
+    getNeighbors(t.q, t.r).forEach(n => {
+        if (n.owner !== 'player' || !n.improvement) return;
+        if (targets.includes(n.improvement) && !hit.includes(n.improvement)) hit.push(n.improvement);
+    });
+    return hit;
+}
+
+// QOL：区域卡片——相邻同类区域 / 荷鲁斯任意区域 / 可为该区域加成的人造工程
+function getDistrictAdjacencySources(t, key, activeGods) {
+    if (!DISTRICT_BUILDINGS.includes(key) || key === 'plaza') return [];
+    const horus = hasHorusAdjacency(activeGods);
+    const sources = [];
+    const push = (name) => { if (!sources.includes(name)) sources.push(name); };
+    getNeighbors(t.q, t.r).forEach(n => {
+        if (n.village || n.isRuin) return;
+        if (n.improvement) {
+            if (n.improvement === key) { push('同类' + BUILDINGS[key].name); return; }
+            if (horus && DISTRICT_BUILDINGS.includes(n.improvement) && n.improvement !== 'plaza') { push(BUILDINGS[n.improvement].name); return; }
+        }
+        if (!isEngineeringTile(n)) return;
+        const targets = (n.improvement && BUILDINGS[n.improvement] && BUILDINGS[n.improvement].type === 'engineering')
+            ? (ENGINEERING_BUILDING_ADJ_DISTRICTS[n.improvement] || [])
+            : getTerrainAdjacentDistricts(n.type);
+        if (!targets.includes(key)) return;
+        push((n.improvement && BUILDINGS[n.improvement]) ? BUILDINGS[n.improvement].name
+            : (TERRAIN_INFO[n.type] ? TERRAIN_INFO[n.type].name : '人造工程'));
+    });
+    return sources;
+}
+
 function updateSelectionUI(t) {
     hideTooltip();
 
     const buildMenu = document.getElementById('build-menu');
     if (!document.getElementById('terraform-list')) {
-        buildMenu.innerHTML = `<div class="flex justify-between items-center mb-0.5 px-1"><h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider">建设与工程</h2><div id="selection-info" class="text-sm text-blue-300">请选择一个地块</div></div><div id="recommendation-info" class="text-xs text-yellow-400 mb-1 px-1 font-bold hidden"></div><div id="upgrade-panel" class="hidden mb-1 p-1 bg-slate-800 rounded border border-slate-600"></div><div id="tm-container" class="w-full mb-1"><h3 class="text-xs font-bold text-green-400 mb-1 border-b border-green-900/50 pb-1">🍃 改造地形</h3><div class="flex gap-2 overflow-x-auto pb-1" id="terraform-list"></div></div><div id="eng-container" class="w-full mb-1"><h3 class="text-xs font-bold text-blue-400 mb-1 border-b border-blue-900/50 pb-1">🏗️ 人造工程</h3><div class="flex gap-2 overflow-x-auto pb-1" id="engineering-list"></div></div><div id="dist-container" class="w-full"><h3 class="text-xs font-bold text-purple-400 mb-1 border-b border-purple-900/50 pb-1">🏙️ 区域建设</h3><div class="flex gap-2 overflow-x-auto pb-1" id="district-list"></div></div>`;
+        buildMenu.innerHTML = `<div class="flex justify-between items-center mb-0.5 px-1"><h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider">建设与工程</h2><div id="selection-info" class="text-sm text-blue-300">请选择一个地块</div></div><div id="recommendation-info" class="text-xs text-yellow-400 mb-1 px-1 font-bold hidden"></div><div id="upgrade-panel" class="hidden mb-1 p-1 bg-slate-800 rounded border border-slate-600"></div><div id="tm-container" class="w-full mb-1"><h3 class="text-xs font-bold text-green-400 mb-1 border-b border-green-900/50 pb-1">🍃 改造地形</h3><div class="flex gap-2 overflow-x-auto pb-1" id="terraform-list"></div></div><div id="eng-container" class="w-full mb-1"><h3 class="text-xs font-bold text-blue-400 mb-1 border-b border-blue-900/50 pb-1">🏗️ 人造工程<span id="eng-adj-legend" class="hidden ml-1 text-[10px] font-normal text-yellow-300">✨ 黄框 = 可为相邻区域加成</span></h3><div class="flex gap-2 overflow-x-auto pb-1" id="engineering-list"></div></div><div id="dist-container" class="w-full"><h3 class="text-xs font-bold text-purple-400 mb-1 border-b border-purple-900/50 pb-1">🏙️ 区域建设<span id="dist-adj-legend" class="hidden ml-1 text-[10px] font-normal text-yellow-300">✨ 黄框 = 相邻加成</span></h3><div class="flex gap-2 overflow-x-auto pb-1" id="district-list"></div></div>`;
     }
 
     const tmList = document.getElementById('terraform-list'); const engList = document.getElementById('engineering-list'); const distList = document.getElementById('district-list');
@@ -6968,6 +7313,8 @@ function updateSelectionUI(t) {
     else if (lat >= 0.44 && lat <= 0.72) zone = 'tropical';
 
     let allItems = [];
+    let engAdjacentCardCount = 0;
+    let distAdjacentCardCount = 0;
     for (let k in ACTIONS) allItems.push({ key: k, type: 'action', data: ACTIONS[k] });
     for (let k in BUILDINGS) allItems.push({ key: k, type: 'building', data: BUILDINGS[k] });
     
@@ -7077,10 +7424,30 @@ function updateSelectionUI(t) {
 
 
         if (isValid && targetList) {
-            let bgClass = targetList === tmList ? 'bg-green-900/80 border-green-600' : (targetList === engList ? 'bg-blue-900/80 border-blue-600' : 'bg-purple-900/80 border-purple-600');
-            if (!canAfford) { bgClass = 'bg-gray-800 border-gray-600'; }
+            // QOL：相邻加成契合检测（黄色高亮）
+            const bonusDistricts = targetList === engList ? getAdjacentBonusDistricts(t, k) : [];
+            const districtSources = targetList === distList ? getDistrictAdjacencySources(t, k, activeGods) : [];
+            if (bonusDistricts.length) {
+                engAdjacentCardCount++;
+                const names = bonusDistricts.map(dk => BUILDINGS[dk].name).join('、');
+                tooltipText += `<br><span class="text-yellow-300">✨ 相邻${names}：建成后为相邻区域提供加成</span>`;
+            }
+            if (districtSources.length) {
+                distAdjacentCardCount++;
+                tooltipText += `<br><span class="text-yellow-300">✨ 相邻${districtSources.join('、')}：可获得相邻加成</span>`;
+            }
+            const highlighted = bonusDistricts.length > 0 || districtSources.length > 0;
+            let bgClass = targetList === tmList ? 'bg-green-900/80' : (targetList === engList ? 'bg-blue-900/80' : 'bg-purple-900/80');
+            let borderClass = targetList === tmList ? 'border-green-600' : (targetList === engList ? 'border-blue-600' : 'border-purple-600');
+            let glowClass = '';
+            if (highlighted) {
+                borderClass = 'border-yellow-300';
+                glowClass = 'shadow-[inset_0_0_12px_rgba(250,204,21,0.6)]';
+            } else if (!canAfford) {
+                bgClass = 'bg-gray-800'; borderClass = 'border-gray-600';
+            }
             const div = document.createElement('div');
-            div.className = `build-option flex flex-col items-center p-0.5 md:p-2 border rounded cursor-pointer w-[58px] md:w-[88px] flex-none ${bgClass} hover:opacity-80 ${!canAfford ? 'opacity-50 cursor-not-allowed' : ''}`;
+            div.className = `build-option flex flex-col items-center p-0.5 md:p-2 border rounded cursor-pointer w-[58px] md:w-[88px] flex-none ${bgClass} ${borderClass} ${glowClass} hover:opacity-80 ${!canAfford ? 'opacity-50 cursor-not-allowed' : ''}`;
             div.innerHTML += `<div class="text-lg md:text-xl">${iconChar}</div><div class="text-[10px] md:text-xs mt-1 font-bold whitespace-nowrap">${nameText}</div><div class="text-[10px] md:text-xs text-yellow-300">${costText}</div>`;
             div.onmouseenter = (e) => showTooltip(`<div class="text-sm text-left">${tooltipText}</div>`, e.clientX, e.clientY);
             div.onmouseleave = () => hideTooltip();
@@ -7091,6 +7458,16 @@ function updateSelectionUI(t) {
     if (tmList.children.length === 0) tmList.innerHTML = `<div class="text-xs text-gray-500 italic p-1">不可用</div>`;
     if (engList.children.length === 0) engList.innerHTML = `<div class="text-xs text-gray-500 italic p-1">不可用</div>`;
     if (distList.children.length === 0) distList.innerHTML = `<div class="text-xs text-gray-500 italic p-1">不可用</div>`;
+    const engLegend = document.getElementById('eng-adj-legend');
+    if (engLegend) {
+        if (engAdjacentCardCount > 0) engLegend.classList.remove('hidden');
+        else engLegend.classList.add('hidden');
+    }
+    const distLegend = document.getElementById('dist-adj-legend');
+    if (distLegend) {
+        if (distAdjacentCardCount > 0) distLegend.classList.remove('hidden');
+        else distLegend.classList.add('hidden');
+    }
 }
 
 // === 新增：显示地块详情独立函数 (供长按调用) ===
@@ -7444,11 +7821,11 @@ function renderMiracleCards(container, activeGods) {
     const status = [];
     if (state.miracleDisasterDouble) status.push(state.miracleDisasterDouble2 ? '灾厄2 +30🎭' : '灾厄 ×2');
     if (state.miracleDisasterHalf) status.push(state.miracleDisasterHalf2 ? '庇护2 +30🎭' : '庇护 无灾害');
-    if (state.miracleGaDuration) status.push(state.miracleGaDuration2 ? '庆典2 +1回合/人口+3💰' : '庆典 +1回合');
-    if (state.miracleExplorerCapacity) status.push(state.miracleExplorerExtra ? '寻踪2 25%' : '寻踪 +1探险家');
+    if (state.miracleGaDuration) status.push(state.miracleGaDuration2 ? '庆典2 +1回合/人口+2💰' : '庆典 +1回合');
+    if (state.miracleExplorerCapacity) status.push(state.miracleExplorerExtra ? '寻踪2 50%' : '寻踪 +1探险家');
     if (state.miracleVillageFriendship) status.push(state.miracleVillageFriendship2 ? '归化2 吸纳100' : '归化 村庄100');
     if (state.miracleAncientRuins) status.push(state.miracleAncientRuins2 ? '古墟2 奖励×2' : '古墟 5遗迹');
-    if (state.miracleNoMaintenance) status.push(state.miracleNoMaintenance2 ? '免赋2 黄金+1💰' : '免赋 维护0');
+    if (state.miracleNoMaintenance) status.push(state.miracleNoMaintenance2 ? '轻徭2 维护0' : '轻徭 维护减半');
     if (state.miracleSeasonPopulation) status.push(state.miracleSeasonPopulation2 ? '季礼2 +3人口/年' : '季礼 +1人口/季');
     if (state.miracleMountainFire) status.push(state.miracleMountainFire2 ? `山火2 喷发×3 +${state.volcanoEruptionBonus}` : `山火 免破坏 山→火${state.miracleMountainToVolcano} 火→山${state.miracleVolcanoToMountain}`);
     if (state.miracleDeadCulture) status.push(state.miracleDeadCulture2 ? `安魂2 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭 +${(state.deadPopulation || 0) * 2}💰` : `安魂 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭`);
@@ -7533,7 +7910,7 @@ function useMiracle(key) {
             showMsg(`🗿 古墟1阶段：地图上生成了 ${count} 个遗迹。`, 'success');
         } else if (key === 'noMaintenance') {
             state.miracleNoMaintenance = true;
-            showMsg('📜 免赋1阶段：人造工程维护费归零。', 'success');
+            showMsg('📜 轻徭1阶段：人造工程维护费减半。', 'success');
         } else if (key === 'seasonPopulation') {
             state.miracleSeasonPopulation = true;
             showMsg('🍂 季礼1阶段：每个季节开启时人口 +1。', 'success');
@@ -7555,10 +7932,10 @@ function useMiracle(key) {
             showMsg('🛡️ 庇护2阶段：每次阻挡灾害 +30🎭。', 'success');
         } else if (key === 'gaDuration') {
             state.miracleGaDuration2 = true;
-            showMsg('✨ 庆典2阶段：黄金时代期间每个人口 +3💰。', 'success');
+            showMsg('✨ 庆典2阶段：黄金时代期间每个人口 +2💰。', 'success');
         } else if (key === 'explorerExtra') {
             state.miracleExplorerExtra = true;
-            showMsg('🧭 寻踪2阶段：探险家额外收藏进度 25%。', 'success');
+            showMsg('🧭 寻踪2阶段：探险家额外收藏进度 50%。', 'success');
         } else if (key === 'villageFriendship') {
             state.miracleVillageFriendship2 = true;
             showMsg('🏘️ 归化2阶段：吸纳村庄费用减半（200→100🎭）。', 'success');
@@ -7567,7 +7944,7 @@ function useMiracle(key) {
             showMsg('🗿 古墟2阶段：遗迹奖励翻倍。', 'success');
         } else if (key === 'noMaintenance') {
             state.miracleNoMaintenance2 = true;
-            showMsg('📜 免赋2阶段：黄金时代每个人造工程 +1💰。', 'success');
+            showMsg('📜 轻徭2阶段：人造工程不再消耗维护费。', 'success');
         } else if (key === 'seasonPopulation') {
             state.miracleSeasonPopulation2 = true;
             showMsg('🍂 季礼2阶段：每年额外 +3 人口。', 'success');
@@ -7594,6 +7971,7 @@ function useMiracleTransform(direction) {
     if (direction === 'toVolcano') {
         if (t.type !== TERRAIN.MOUNTAIN || state.miracleMountainToVolcano <= 0) return;
         t.type = TERRAIN.VOLCANO;
+        applyVolcanicFertileSoilAround(t);
         state.miracleMountainToVolcano--;
         showMsg(`🌋 山火：山脉变为火山（剩余 ${state.miracleMountainToVolcano} 次）。`, 'warning');
     } else if (direction === 'toMountain') {
@@ -7810,7 +8188,33 @@ ttHeader.innerHTML = `<span class="${t.improvement ? 'text-yellow-300' : 'text-w
 
 
 // ==================== src/18-map.js：地图生成与画布尺寸 ====================
-// ==================== src/18-map.js：地图生成与画布尺寸 ====================
+﻿// ==================== src/18-map.js：地图生成与画布尺寸 ====================
+// 火山周围一圈土地：除山脉/湖泊/岩地/水域/间歇泉外，变为沃土（火山灰起始 +2🌾）
+const VOLCANIC_SOIL_EXCLUDED = [
+    TERRAIN.MOUNTAIN, TERRAIN.LAKE, TERRAIN.ROCKY, TERRAIN.OCEAN,
+    TERRAIN.COAST, TERRAIN.VOLCANO, TERRAIN.GEYSER, TERRAIN.ICE_FLOAT, TERRAIN.REEF
+];
+
+function applyVolcanicFertileSoilAround(volcanoTile) {
+    if (!volcanoTile) return 0;
+    let changed = 0;
+    getNeighbors(volcanoTile.q, volcanoTile.r).forEach(n => {
+        if (!n || n.improvement || n.isRuin || n.village) return;
+        if (n.eruptionRecoverTimer || n.originalTypeBeforeEruption) return;
+        if (VOLCANIC_SOIL_EXCLUDED.includes(n.type)) return;
+        if (n.type === TERRAIN.FERTILE_SOIL) return;
+        n.type = TERRAIN.FERTILE_SOIL;
+        changed++;
+    });
+    return changed;
+}
+
+function applyVolcanicFertileSoilToMap() {
+    Array.from(state.map.values())
+        .filter(t => t.type === TERRAIN.VOLCANO)
+        .forEach(t => applyVolcanicFertileSoilAround(t));
+}
+
 function generateMap() { state.map.clear(); const height = CONFIG.map.height; const width = CONFIG.map.width; const offsetX = CONFIG.map.offsetX; const offsetY = CONFIG.map.offsetY; state.plazaCount = 0; state.industrialCount = 0; state.camera.zoom = window.innerWidth < 768 ? 1.0 : CONFIG.map.startZoom; for (let y = 0; y < height; y++) { for (let x = 0; x < width; x++) { const r = y + offsetY; const q = (x + offsetX) - Math.floor((y + offsetY - ((y + offsetY) & 1)) / 2); let type = TERRAIN.OCEAN; const noise = simpleNoise(x, y * 0.8); const lat = y / height; const dx = (x - width/2) / (width/2); let shape = 0; if (lat < 0.45) { let wFactor = 0.9 - (lat * 1.8); if (wFactor < 0.2) wFactor = 0.2; if (lat > 0.1 && lat < 0.35) wFactor += 0.35; if (noise > 0.3) wFactor += 0.1; if (noise < -0.3) wFactor -= 0.1; if (Math.abs(dx) < wFactor) shape = 1; } else if (lat >= 0.45 && lat < 0.9) { let wFactor = 0.7 * (1 - (lat - 0.45)*2.0); if (lat > 0.5 && lat < 0.65) wFactor += 0.4; if (wFactor < 0.15) wFactor = 0.15; if (Math.abs(dx + 0.1) < wFactor) shape = 1; } else if (lat >= 0.94) { if (Math.abs(dx) < 0.8) shape = 1; } if (shape === 1) { if (lat < 0.10) { type = TERRAIN.POLAR; } else if (lat < 0.19) { type = TERRAIN.TUNDRA; if (Math.random() < 0.05) type = TERRAIN.PEAT_BOG; } else if (lat < 0.27) { type = TERRAIN.TAIGA; } else if (lat < 0.44) { if (noise > 0.3) type = TERRAIN.FOREST; else type = TERRAIN.GRASS; } else if (lat < 0.54) { if (Math.random() < 0.4) type = TERRAIN.DESERT; else type = TERRAIN.BRUSH; } 
 else if (lat < 0.72) {
 
@@ -7844,10 +8248,10 @@ else if (lat < 0.72) {
         type = TERRAIN.CACTUS_DESERT;
     }
     if (shape === 0 && Math.random() < 0.015) { if (lat > 0.9 || lat < 0.15) { type = TERRAIN.ICE_FLOAT; } else if (lat > 0.4 && lat < 0.7) { if (Math.random() < 0.5) type = TERRAIN.REEF; else type = TERRAIN.OASIS; } else if (lat < 0.27 || lat > 0.86) { type = TERRAIN.TUNDRA; }else type = TERRAIN.GRASS; } state.map.set(`${q},${r}`, { q, r, type, improvement: null, owner: null, level: 1 }); } }
-    const landTypes = [TERRAIN.POLAR, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.GRASS, TERRAIN.FOREST, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.JUNGLE, TERRAIN.MOUNTAIN, TERRAIN.LAKE, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.DRY_GRASS_COLD, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP, TERRAIN.SWAMP, TERRAIN.VOLCANO, TERRAIN.MINING_SITE, TERRAIN.TERRACE, TERRAIN.CANAL, TERRAIN.WIND_FARM, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.TOURIST_SPOT, TERRAIN.SOLAR_FARM, TERRAIN.KAREZ, TERRAIN.GEYSER, TERRAIN.CAVE, TERRAIN.PEAT_BOG, TERRAIN.CACTUS_DESERT];
+    const landTypes = [TERRAIN.POLAR, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.GRASS, TERRAIN.FOREST, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.JUNGLE, TERRAIN.MOUNTAIN, TERRAIN.LAKE, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.DRY_GRASS_COLD, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP, TERRAIN.SWAMP, TERRAIN.VOLCANO, TERRAIN.MINING_SITE, TERRAIN.TERRACE, TERRAIN.CANAL, TERRAIN.WIND_FARM, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.TOURIST_SPOT, TERRAIN.SOLAR_FARM, TERRAIN.KAREZ, TERRAIN.GEYSER, TERRAIN.CAVE, TERRAIN.PEAT_BOG, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL];
     state.map.forEach(tile => { if (tile.type === TERRAIN.OCEAN || tile.type === TERRAIN.ICE_FLOAT || tile.type === TERRAIN.REEF) { const neighbors = getNeighbors(tile.q, tile.r); if (neighbors.some(n => landTypes.includes(n.type))) { tile.type = TERRAIN.COAST; } } });
     state.map.forEach(tile => { const r = tile.r; const mapH = 50; const offset = 25; const lat = (r + offset) / mapH; if (lat > 0.44 && lat < 0.72) { if (tile.type === TERRAIN.SWAMP || tile.type === TERRAIN.JUNGLE || tile.type === TERRAIN.BRUSH) { const nbs = getNeighbors(tile.q, tile.r); if (nbs.some(n => n.type === TERRAIN.COAST) && Math.random() < 0.2) { tile.type = TERRAIN.MANGROVE; } } } });
-    const possibleLakes = Array.from(state.map.values()).filter(t => { if (!landTypes.includes(t.type)) return false; if (t.type === TERRAIN.MOUNTAIN || t.type === TERRAIN.VOLCANO || t.type === TERRAIN.GEYSER) return false; if (t.type === TERRAIN.POLAR) return false; const nbs = getNeighbors(t.q, t.r); if (nbs.length < 6) return false; return !nbs.some(n => n.type === TERRAIN.OCEAN || n.type === TERRAIN.COAST || n.type === TERRAIN.ICE_FLOAT || n.type === TERRAIN.REEF); }); for (let i = 0; i < 30; i++) { if (possibleLakes.length === 0) break; const idx = Math.floor(Math.random() * possibleLakes.length); const target = possibleLakes[idx]; target.type = TERRAIN.LAKE; possibleLakes.splice(idx, 1); } let starts = Array.from(state.map.values()).filter(t => t.type === TERRAIN.GRASS && !t.improvement);
+    const possibleLakes = Array.from(state.map.values()).filter(t => { if (!landTypes.includes(t.type)) return false; if (t.type === TERRAIN.MOUNTAIN || t.type === TERRAIN.VOLCANO || t.type === TERRAIN.GEYSER) return false; if (t.type === TERRAIN.POLAR) return false; const nbs = getNeighbors(t.q, t.r); if (nbs.length < 6) return false; return !nbs.some(n => n.type === TERRAIN.OCEAN || n.type === TERRAIN.COAST || n.type === TERRAIN.ICE_FLOAT || n.type === TERRAIN.REEF); }); for (let i = 0; i < 30; i++) { if (possibleLakes.length === 0) break; const idx = Math.floor(Math.random() * possibleLakes.length); const target = possibleLakes[idx]; target.type = TERRAIN.LAKE; possibleLakes.splice(idx, 1); } applyVolcanicFertileSoilToMap(); let starts = Array.from(state.map.values()).filter(t => t.type === TERRAIN.GRASS && !t.improvement);
     if (!starts.length) {
         starts = Array.from(state.map.values()).filter(t => [TERRAIN.BRUSH, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP, TERRAIN.FOREST, TERRAIN.TUNDRA].includes(t.type) && !t.improvement);
     }
@@ -7931,6 +8335,14 @@ function rollDisasterTrigger(baseChance) {
     return triggered;
 }
 
+// 每次喷发都会让相邻陆地积累 1 层火山灰（山火1阶段免破坏时也会积累）
+function applyVolcanicAsh(volcanoTile) {
+    getNeighbors(volcanoTile.q, volcanoTile.r).forEach(t => {
+        if (!t || t.type === TERRAIN.OCEAN || t.type === TERRAIN.VOLCANO) return;
+        t.volcanicAshLevel = (t.volcanicAshLevel || 0) + 1;
+    });
+}
+
 function triggerVolcanicEruption(volcanoTile) {
     const activeGods = getActiveGods();
 
@@ -7951,6 +8363,7 @@ function triggerVolcanicEruption(volcanoTile) {
     
     // 设置冷却
     volcanoTile.eruptionCooldown = 10;
+    applyVolcanicAsh(volcanoTile);
 
     if (noDestruction) {
         updateUI();
@@ -7962,7 +8375,7 @@ function triggerVolcanicEruption(volcanoTile) {
         TERRAIN.GRASS, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.TUNDRA, 
         TERRAIN.POLAR, TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.SWAMP, 
         TERRAIN.DRY_GRASS_COLD, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP,
-        TERRAIN.OASIS, TERRAIN.CACTUS_DESERT, TERRAIN.CANAL
+        TERRAIN.OASIS, TERRAIN.CACTUS_DESERT, TERRAIN.CANAL, TERRAIN.FERTILE_SOIL
     ];
 
     // 3. 波及周围
@@ -8341,8 +8754,7 @@ function nextTurn() {
                 else if (t.originalTypeBeforeEruption) t.type = t.originalTypeBeforeEruption; 
                 else t.type = TERRAIN.GRASS; 
 
-                if (!t.isForestAsh && t.originalTypeBeforeEruption) t.volcanicAshLevel = (t.volcanicAshLevel || 0) + 1;
-
+                // 火山灰层数已在喷发时增加，这里只恢复地形
                 t.isForestAsh = false;
                 t.originalTypeForRegrowth = null;
                 t.originalTypeBeforeEruption = null;
@@ -9310,7 +9722,7 @@ function getEmpireProjectCounts() {
         engineering,
         districtTotal,
         engineeringTotal,
-        maintenance: engineeringTotal * (CONFIG.economy.engineeringMaintenance || 0)
+        maintenance: getEngineeringMaintenanceForCount(engineeringTotal)
     };
 }
 
@@ -9354,7 +9766,7 @@ function renderEngineeringPanel() {
         <section>
             <h3 class="text-sm font-bold text-cyan-300 border-b border-cyan-900/50 pb-1 mb-2">🏗️ 人造工程</h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">${engineeringHtml}</div>
-            <p class="text-[11px] text-gray-500 mt-2">每座人造工程每回合消耗 1💰；区域不收取维护费。</p>
+            <p class="text-[11px] text-gray-500 mt-2">每座人造工程每回合基础消耗 1💰；区域不收取维护费。轻徭1阶段减半，2阶段免费。</p>
         </section>`;
 }
 
