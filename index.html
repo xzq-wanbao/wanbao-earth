@@ -8835,7 +8835,10 @@ function setIslandLand(t) {
 
 function generateEastIslands() {
     const specs = [
-        { cq: 11.7, cr: -3.5, rx: 2.0, ry: 5.4, prob: 0.88 } // 古巴式长岛
+        { cq: 11.7, cr: -3.5, rx: 2.0, ry: 5.4, prob: 0.88 }, // 古巴式长岛
+        { cq: 12.8, cr: 4.0, rx: 1.5, ry: 3.0, prob: 0.82 },  // 伊斯帕尼奥拉式
+        { cq: 11.2, cr: 11.5, rx: 1.1, ry: 1.7, prob: 0.72 }, // 小安的列斯式
+        { cq: 13.2, cr: -13.0, rx: 1.0, ry: 1.8, prob: 0.65 } // 北侧小岛
     ];
     state.map.forEach(t => {
         if (t.type !== TERRAIN.OCEAN) return;
@@ -8851,35 +8854,12 @@ function generateEastIslands() {
     });
 }
 
-// === 按参考图补三块陆地：东北大岛、东侧中岛、南端陆桥 ===
-function addRequestedLandmasses() {
-    const width = CONFIG.map.width;
-    const height = CONFIG.map.height;
-    const offsetX = CONFIG.map.offsetX;
-    const offsetY = CONFIG.map.offsetY;
+function fillPolarIce() {
     state.map.forEach(t => {
         if (t.type !== TERRAIN.OCEAN) return;
-        const r = t.r;
-        const y = r - offsetY;
-        const x = t.q - offsetX + Math.floor((r - (r & 1)) / 2);
-        const nx = (x - width / 2) / (width / 2);
-        const lat = y / height;
-        const wobble = simpleNoise(x * 2.1 + 17, y * 2.4 + 9) * 0.055 + simpleNoise(x * 4.3 + 53, y * 3.1 + 41) * 0.025;
-        const ellipse = (cx, cy, rx, ry) => {
-            const dx = (nx - cx) / rx;
-            const dy = (lat - cy) / ry;
-            return dx * dx + dy * dy;
-        };
-        const west = Math.min(
-            ellipse(-0.78, 0.12, 0.24, 0.10),
-            ellipse(-0.72, 0.30, 0.30, 0.18),
-            ellipse(-0.68, 0.46, 0.24, 0.10)
-        );
-        const southBridge = lat > 0.93 + wobble;
-        if (west < 1 + wobble || southBridge) {
-            setIslandLand(t);
-            t.isDistantLand = true;
-        }
+        const lat = tileLat(t);
+        const wobble = simpleNoise(t.q * 0.8 + 3, t.r * 1.1 + 7) * 0.02;
+        if (lat < 0.075 + wobble || lat > 0.925 - wobble) t.type = TERRAIN.ICE_CAP;
     });
 }
 
@@ -8918,7 +8898,6 @@ else if (lat < 0.72) {
     }
     if (shape === 0 && Math.random() < 0.015) { if (lat > 0.9 || lat < 0.15) { type = TERRAIN.ICE_FLOAT; } else if (lat > 0.4 && lat < 0.7) { if (Math.random() < 0.5) type = TERRAIN.REEF; else type = TERRAIN.OASIS; } else if (lat < 0.27 || lat > 0.86) { type = TERRAIN.TUNDRA; }else type = TERRAIN.GRASS; } state.map.set(`${q},${r}`, { q, r, type, improvement: null, owner: null, level: 1 }); } }
     generateEastIslands();
-    addRequestedLandmasses();
     const landTypes = [TERRAIN.POLAR, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.GRASS, TERRAIN.FOREST, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.JUNGLE, TERRAIN.MOUNTAIN, TERRAIN.LAKE, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.DRY_GRASS_COLD, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP, TERRAIN.SWAMP, TERRAIN.VOLCANO, TERRAIN.MINING_SITE, TERRAIN.TERRACE, TERRAIN.CANAL, TERRAIN.WIND_FARM, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.TOURIST_SPOT, TERRAIN.SOLAR_FARM, TERRAIN.KAREZ, TERRAIN.GEYSER, TERRAIN.CAVE, TERRAIN.PEAT_BOG, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL, TERRAIN.ICE_CAP];
     state.map.forEach(tile => { if (tile.type === TERRAIN.OCEAN || tile.type === TERRAIN.ICE_FLOAT || tile.type === TERRAIN.REEF) { const neighbors = getNeighbors(tile.q, tile.r); if (neighbors.some(n => landTypes.includes(n.type))) { tile.type = TERRAIN.COAST; } } });
     state.map.forEach(tile => { const r = tile.r; const mapH = 50; const offset = 25; const lat = (r + offset) / mapH; if (lat > 0.44 && lat < 0.72) { if (tile.type === TERRAIN.SWAMP || tile.type === TERRAIN.JUNGLE || tile.type === TERRAIN.BRUSH) { const nbs = getNeighbors(tile.q, tile.r); if (nbs.some(n => n.type === TERRAIN.COAST) && Math.random() < 0.2) { tile.type = TERRAIN.MANGROVE; } } } });
@@ -8926,9 +8905,9 @@ else if (lat < 0.72) {
     generateWetlands();
     generateShrublands();
     generateGreatLakes();
-    const possibleLakes = Array.from(state.map.values()).filter(t => { if (!landTypes.includes(t.type)) return false; if (t.type === TERRAIN.MOUNTAIN || t.type === TERRAIN.VOLCANO || t.type === TERRAIN.GEYSER) return false; if (t.type === TERRAIN.POLAR) return false; const nbs = getNeighbors(t.q, t.r); if (nbs.length < 6) return false; return !nbs.some(n => n.type === TERRAIN.OCEAN || n.type === TERRAIN.COAST || n.type === TERRAIN.ICE_FLOAT || n.type === TERRAIN.REEF); }); for (let i = 0; i < 30; i++) { if (possibleLakes.length === 0) break; const idx = Math.floor(Math.random() * possibleLakes.length); const target = possibleLakes[idx]; target.type = TERRAIN.LAKE; possibleLakes.splice(idx, 1); } generateIceCaps(); applyVolcanicFertileSoilToMap(); let starts = Array.from(state.map.values()).filter(t => t.type === TERRAIN.GRASS && !t.improvement && !t.isEastIsland && !t.isDistantLand);
+    const possibleLakes = Array.from(state.map.values()).filter(t => { if (!landTypes.includes(t.type)) return false; if (t.type === TERRAIN.MOUNTAIN || t.type === TERRAIN.VOLCANO || t.type === TERRAIN.GEYSER) return false; if (t.type === TERRAIN.POLAR) return false; const nbs = getNeighbors(t.q, t.r); if (nbs.length < 6) return false; return !nbs.some(n => n.type === TERRAIN.OCEAN || n.type === TERRAIN.COAST || n.type === TERRAIN.ICE_FLOAT || n.type === TERRAIN.REEF); }); for (let i = 0; i < 30; i++) { if (possibleLakes.length === 0) break; const idx = Math.floor(Math.random() * possibleLakes.length); const target = possibleLakes[idx]; target.type = TERRAIN.LAKE; possibleLakes.splice(idx, 1); } generateIceCaps(); fillPolarIce(); applyVolcanicFertileSoilToMap(); let starts = Array.from(state.map.values()).filter(t => t.type === TERRAIN.GRASS && !t.improvement && !t.isEastIsland);
     if (!starts.length) {
-        starts = Array.from(state.map.values()).filter(t => [TERRAIN.BRUSH, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP, TERRAIN.FOREST, TERRAIN.TUNDRA].includes(t.type) && !t.improvement && !t.isEastIsland && !t.isDistantLand);
+        starts = Array.from(state.map.values()).filter(t => [TERRAIN.BRUSH, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP, TERRAIN.FOREST, TERRAIN.TUNDRA].includes(t.type) && !t.improvement && !t.isEastIsland);
     }
     if (!starts.length) {
         starts = Array.from(state.map.values()).filter(t => ![TERRAIN.OCEAN, TERRAIN.COAST, TERRAIN.ICE_FLOAT, TERRAIN.REEF, TERRAIN.MOUNTAIN, TERRAIN.VOLCANO, TERRAIN.LAKE, TERRAIN.OASIS, TERRAIN.WASTELAND].includes(t.type) && !t.improvement);
