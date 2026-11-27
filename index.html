@@ -6962,7 +6962,7 @@ function getTileYield(t, activeGodsCache = null) {
                 if (t.improvement === 'campus') {
                     if ([TERRAIN.POLAR_STATION, TERRAIN.AURORA_TOWER, TERRAIN.OBSERVATORY, TERRAIN.PALEONTOLOGY_DIG, TERRAIN.GEOPARK, TERRAIN.THERMOPHILE_LAB, TERRAIN.DEEP_EARTH_LAB, TERRAIN.MANGROVE].includes(n.type)) { adj.science = (adj.science||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🔬`); }
                     const isReserveImprovement = ['swamp_reserve', 'lake_reserve', 'oasis_reserve'].includes(n.improvement);
-                    const isReserveTerrain = [TERRAIN.MANGROVE_RESERVE, TERRAIN.PEAT_BOG_RESERVE].includes(n.type);
+                    const isReserveTerrain = [TERRAIN.MANGROVE_RESERVE, TERRAIN.PEAT_BOG_RESERVE, TERRAIN.WETLAND_RESERVE].includes(n.type);
                     if (isReserveImprovement || isReserveTerrain) { adj.science = (adj.science||0) + engBonus; details.adjacencyBreakdown.push(`保护区: +${engBonus}🔬`); }
                     if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.science = (adj.science||0) + hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🔬`); }
                 }
@@ -6971,7 +6971,7 @@ function getTileYield(t, activeGodsCache = null) {
                     if ([TERRAIN.AURORA_TOWER, TERRAIN.TOURIST_SPOT, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.SKI_RESORT, TERRAIN.ICE_SCULPTURE_PARK, TERRAIN.GEOPARK, TERRAIN.TREEHOUSE_RESORT, TERRAIN.HOT_SPRING_RESORT, TERRAIN.WINERY].includes(n.type)) { adj.culture = (adj.culture||0) + engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🎭`); }
                     if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.culture = (adj.culture||0) + hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🎭`); }
                     const isReserveImprovement = ['swamp_reserve', 'lake_reserve', 'oasis_reserve'].includes(n.improvement);
-                    const isReserveTerrain = [TERRAIN.MANGROVE_RESERVE, TERRAIN.PEAT_BOG_RESERVE].includes(n.type);
+                    const isReserveTerrain = [TERRAIN.MANGROVE_RESERVE, TERRAIN.PEAT_BOG_RESERVE, TERRAIN.WETLAND_RESERVE].includes(n.type);
                     if (isReserveImprovement || isReserveTerrain) { adj.culture = (adj.culture||0) + engBonus; details.adjacencyBreakdown.push(`保护区: +${engBonus}🎭`); }
                 }
                 const mainDistricts = ['farm', 'mine', 'market', 'campus', 'entertainment_complex'];
