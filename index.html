@@ -661,7 +661,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                             <li><b>冰盖：</b> 极地陆地会形成连片冰盖，不可建造农业区。</li>
                             <li><b>大湖：</b> 4块以上相连的湖泊会形成大湖，颜色与普通湖泊一致。</li>
                             <li><b>盐沼：</b> 沿海低地会生成盐沼；不能建造区域，但可建盐田（+2💰）、盐沼牧场（+1🌾+1💰）、芦苇场（+2🔨）；可排水成干草地，热带海边盐沼可种红树林。</li>
-                            <li><b>灌木丛：</b> 温带/热带会自然生成灌木丛；可灌丛化或清除灌丛；可直接建造区域，建成返还 +5🔨；温带可建养蜂场、薪柴场，热带可建染料园、树脂采集场。</li>
+                            <li><b>灌木丛：</b> 温带/热带会自然生成灌木丛；可种植灌木（5🌾+10💰）或清除灌丛；可直接建造区域，建成返还 +5🔨；温带可建养蜂场、薪柴场，热带可建染料园、树脂采集场。</li>
                             <li><b>放火烧林：</b> 森林/针叶林可主动放火，2-3回合后变荒地并留下草木灰；之后建农业区永久 +1🌾，火势不会蔓延。</li>
                             <li><b>区域连接：</b> 所有新区域必须与 <span class="text-purple-400">主广场</span> 连接。可以通过隧道、桥梁、运河或已建成的区域进行延伸。区域只可跨一格非交通类人造工程进行建造，不可拆除连接点内的区域（拆除会导致其他区域与主广场断开）。</li>
                             <li><b>人口：</b> 食物足够时每回合结束自动 +1 人口（可连续增长，消耗递增）。每一人口+3🔨+3🔬+3🎭，但-3🌾。食物耗尽会导致人口减少；献祭神时段自动增长暂停（托纳季乌运转期不暂停，人口仍会自然增长）。</li>
@@ -1831,11 +1831,11 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'scorch': { name: '焦土', icon: ICONS.act_fire, tooltip: '<b>焦土</b><br>消耗: 30💰<br>效果: +10🌾, 变干草地', cost: { gold: 30 }, gain: { food: 10 }, reqTerrain: [TERRAIN.GRASS, TERRAIN.BRUSH], toTerrain: TERRAIN.DRY_GRASS_TEMP }, 
     'chop': { name: '伐木', icon: ICONS.act_chop, tooltip: '<b>伐木</b><br>消耗: 30💰<br>效果: +10🔨, 变干草地', cost: { gold: 30 }, gain: { industry: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TAIGA], toTerrain: TERRAIN.DRY_GRASS_TEMP },
     'burn_forest': { name: '放火烧林', icon: ICONS.act_fire, tooltip: '<b>放火烧林</b><br>消耗: 10💰<br>效果: 点燃森林/针叶林，2-3回合后变荒地并留下草木灰<br>之后建农业区可获永久 +1🌾<br>火势不会蔓延', cost: { gold: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.TAIGA] },
-    'make_wetland_grass': { name: '草地湿地化', icon: WETLAND_ICON_SVG, tooltip: '<b>草地湿地化</b><br>消耗: 20🔨 20💰<br>效果: 温带草地变湿地', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.GRASS], toTerrain: TERRAIN.WETLAND },
-    'make_shrub_temp': { name: '温带灌丛化', icon: SHRUB_TEMP_ICON_SVG, tooltip: '<b>温带灌丛化</b><br>消耗: 20🔨 20💰<br>效果: 温带草地/干草地变灌木丛（温带）', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.GRASS, TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.SHRUB_TEMP },
-    'make_shrub_trop': { name: '热带灌丛化', icon: SHRUB_TROP_ICON_SVG, tooltip: '<b>热带灌丛化</b><br>消耗: 20🔨 20💰<br>效果: 稀树草原/热带干草地变灌木丛（热带）', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.BRUSH, TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.SHRUB_TROP },
+    'make_wetland_grass': { name: '人工湿地', icon: WETLAND_ICON_SVG, tooltip: '<b>人工湿地</b><br>消耗: 20🔨 20💰<br>效果: 温带草地变湿地', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.GRASS], toTerrain: TERRAIN.WETLAND },
+    'make_shrub_temp': { name: '种植灌木', icon: SHRUB_TEMP_ICON_SVG, tooltip: '<b>种植灌木</b><br>消耗: 5🌾 10💰<br>效果: 温带草地/干草地变灌木丛（温带）', cost: { food: 5, gold: 10 }, reqTerrain: [TERRAIN.GRASS, TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.SHRUB_TEMP },
+    'make_shrub_trop': { name: '种植灌木', icon: SHRUB_TROP_ICON_SVG, tooltip: '<b>种植灌木</b><br>消耗: 5🌾 10💰<br>效果: 稀树草原/热带干草地变灌木丛（热带）', cost: { food: 5, gold: 10 }, reqTerrain: [TERRAIN.BRUSH, TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.SHRUB_TROP },
     'clear_shrub': { name: '清除灌丛', icon: ICONS.act_chop, tooltip: '<b>清除灌丛</b><br>消耗: 10💰<br>效果: +5🔨，变对应干草地', cost: { gold: 10 }, gain: { industry: 5 }, reqTerrain: [TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP], toTerrain: TERRAIN.DRY_GRASS_TEMP },
-    'make_swamp_savanna': { name: '稀树草原沼泽化', icon: ICONS.act_swamp, tooltip: '<b>稀树草原沼泽化</b><br>消耗: 20🔨 20💰<br>效果: 稀树草原变沼泽<br>(热带季节性湿地)', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.BRUSH], toTerrain: TERRAIN.SWAMP },
+    'make_swamp_savanna': { name: '人工沼泽', icon: ICONS.act_swamp, tooltip: '<b>人工沼泽</b><br>消耗: 20🔨 20💰<br>效果: 稀树草原变沼泽<br>(热带季节性湿地)', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.BRUSH], toTerrain: TERRAIN.SWAMP },
     'improve_soil_temp': { name: '温带改良', icon: ICONS.act_soil, tooltip: '<b>温带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(温)变草地', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.GRASS },
     'improve_soil_trop': { name: '热带改良', icon: ICONS.act_soil, tooltip: '<b>热带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(热)变稀树草原', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.BRUSH },
     'improve_tundra': { name: '苔原改良', icon: ICONS.act_soil, tooltip: '<b>苔原改良</b><br>消耗: 15🌾 15💰<br>效果: 苔原变干草地(寒)<br>使得可以种树', cost: { food: 15, gold: 15 }, reqTerrain: [TERRAIN.TUNDRA], toTerrain: TERRAIN.DRY_GRASS_COLD },
@@ -7798,7 +7798,7 @@ function updateSelectionUI(t) {
             }
             const div = document.createElement('div');
             div.className = `build-option flex flex-col items-center p-0.5 md:p-2 border rounded cursor-pointer w-[58px] md:w-[88px] flex-none ${bgClass} ${borderClass} ${glowClass} hover:opacity-80 ${!canAfford ? 'opacity-50 cursor-not-allowed' : ''}`;
-            div.innerHTML += `<div class="text-lg md:text-xl">${iconChar}</div><div class="text-[10px] md:text-xs mt-1 font-bold whitespace-nowrap">${nameText}</div><div class="text-[10px] md:text-xs text-yellow-300">${costText}</div>`;
+            div.innerHTML += `<div class="h-7 md:h-8 flex items-center justify-center text-lg md:text-xl leading-none">${iconChar}</div><div class="h-4 flex items-center justify-center text-[10px] md:text-xs mt-1 font-bold whitespace-nowrap leading-none">${nameText}</div><div class="h-4 flex items-center justify-center text-[10px] md:text-xs text-yellow-300 whitespace-nowrap leading-none">${costText}</div>`;
             div.onmouseenter = (e) => showTooltip(`<div class="text-sm text-left">${tooltipText}</div>`, e.clientX, e.clientY);
             div.onmouseleave = () => hideTooltip();
             if (canAfford) { div.onclick = () => { if (item.type === 'action') performAction(k); else build(k); }; }
