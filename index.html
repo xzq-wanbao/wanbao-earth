@@ -742,7 +742,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                         <h3 class="text-red-400 font-bold text-lg mb-2">🌪️ 自然灾害</h3>
                         <p class="mb-1 text-xs text-gray-400">因为自然灾害摧毁的人造工程与区域会返还部分🔨，LV2/Lv3区域以及交通类人造工程不会被火山以外的自然灾害摧毁，但仍然会获得收益减半的效果</p>
                         <div class="space-y-2 text-gray-300">
-                            <p><b>🌋 火山：</b> 爆发摧毁周围区域与人造工程，将地形变为焦土。形成高产火山灰（火山灰基础 +2🌾；每次喷发使火山灰再+2🌾）。</p>
+                            <p><b>🌋 火山：</b> 爆发摧毁周围区域与人造工程，将地形变为焦土。形成高产火山灰（火山灰基础 +2🌾；每次喷发使火山灰再+2🌾）。极地火山不会形成沃土。</p>
                             <p><b>❄️ 暴风雪：</b> 冬季-寒带产生，向温带扩散。覆盖区域产出减半（可被山脉，针叶林阻挡）。</p>
                             <p><b>🌪️ 沙尘暴：</b> 沙漠产生，随机移动。覆盖区域产出减半（可通过滴灌沙漠阻止产生）（可被树林阻挡，但阻挡的树林有几率被摧毁变为干草地）。</p>
                             <p><b>🐘 兽潮迁徙：</b> 稀树草原产生，会优先朝区域移动。覆盖区域产出减半（可通过焦土稀树草原阻止产生）。</p>
@@ -8195,8 +8195,14 @@ const VOLCANIC_SOIL_EXCLUDED = [
     TERRAIN.COAST, TERRAIN.VOLCANO, TERRAIN.GEYSER, TERRAIN.ICE_FLOAT, TERRAIN.REEF
 ];
 
+function isPolarVolcanoTile(t) {
+    if (!t) return false;
+    const lat = (t.r - (CONFIG.map.offsetY || 0)) / CONFIG.map.height;
+    return lat < 0.10 || lat >= 0.94;
+}
+
 function applyVolcanicFertileSoilAround(volcanoTile) {
-    if (!volcanoTile) return 0;
+    if (!volcanoTile || isPolarVolcanoTile(volcanoTile)) return 0;
     let changed = 0;
     getNeighbors(volcanoTile.q, volcanoTile.r).forEach(n => {
         if (!n || n.improvement || n.isRuin || n.village) return;
