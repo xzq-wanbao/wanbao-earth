@@ -661,6 +661,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                             <li><b>冰盖：</b> 极地陆地会形成连片冰盖，不可建造农业区。</li>
                             <li><b>大湖：</b> 4块以上相连的湖泊会形成大湖，颜色与普通湖泊一致。</li>
                             <li><b>盐沼：</b> 沿海低地会生成盐沼；不能建造区域，但可建盐田（+2💰）、盐沼牧场（+1🌾+1💰）、芦苇场（+2🔨）；可排水成干草地，热带海边盐沼可种红树林。</li>
+                            <li><b>灌木丛：</b> 温带/热带会自然生成灌木丛；可灌丛化或清除灌丛；温带灌木丛可建养蜂场，热带灌木丛可建染料园。</li>
                             <li><b>放火烧林：</b> 森林/针叶林可主动放火，2-3回合后变荒地并留下草木灰；之后建农业区永久 +1🌾，火势不会蔓延。</li>
                             <li><b>区域连接：</b> 所有新区域必须与 <span class="text-purple-400">主广场</span> 连接。可以通过隧道、桥梁、运河或已建成的区域进行延伸。区域只可跨一格非交通类人造工程进行建造，不可拆除连接点内的区域（拆除会导致其他区域与主广场断开）。</li>
                             <li><b>人口：</b> 食物足够时每回合结束自动 +1 人口（可连续增长，消耗递增）。每一人口+3🔨+3🔬+3🎭，但-3🌾。食物耗尽会导致人口减少；献祭神时段自动增长暂停（托纳季乌运转期不暂停，人口仍会自然增长）。</li>
@@ -1221,7 +1222,11 @@ const TERRAIN = {
     SALT_PASTURE: 190,
     REED_BED: 191,
     WETLAND: 192,
-    WETLAND_RESERVE: 193
+    WETLAND_RESERVE: 193,
+    SHRUB_TEMP: 194,
+    SHRUB_TROP: 195,
+    APIARY: 196,
+    DYE_GARDEN: 197
 };
 
 const ADJ_INFO = {
@@ -1245,7 +1250,8 @@ const ADJ_INFO = {
     [TERRAIN.MANGROVE]: '科研/港口(需保护区)',
     [TERRAIN.LAKE]: '各区域(需设施)', [TERRAIN.SWAMP]: '各区域(需设施)', [TERRAIN.OASIS]: '各区域(需设施)',
     [TERRAIN.SALT_PAN]: '市场区', [TERRAIN.SALT_PASTURE]: '农业/市场', [TERRAIN.REED_BED]: '工业区',
-    [TERRAIN.WETLAND_RESERVE]: '科研/娱乐'
+    [TERRAIN.WETLAND_RESERVE]: '科研/娱乐',
+    [TERRAIN.APIARY]: '农业/市场', [TERRAIN.DYE_GARDEN]: '市场区'
 };
 const ALL_DRY_GRASS = [TERRAIN.DRY_GRASS_COLD, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP];
 const NATURAL_ADJ_TERRAINS = [TERRAIN.LAKE, TERRAIN.SWAMP, TERRAIN.OASIS, TERRAIN.MANGROVE];
@@ -1294,12 +1300,12 @@ const TRANSPORT_TERRAINS = [TERRAIN.CANAL, TERRAIN.TUNNEL];
 const TERRAIN_MOD_ACTIONS = [
     'plant_cactus', 'chop_cactus', 'drain', 'irrigate', 
     'make_oasis_desert', 'make_oasis_dry', 'scorch', 'chop', 'burn_forest', 
-    'make_wetland_grass', 'make_swamp_savanna', 'improve_soil_temp', 'improve_soil_trop', 
+    'make_wetland_grass', 'make_swamp_savanna', 'make_shrub_temp', 'make_shrub_trop', 'clear_shrub', 'improve_soil_temp', 'improve_soil_trop', 
     'improve_tundra', 'dig_lake', 'plant', 'landfill', 
     'fill_water', 'plant_mangrove', 'chop_mangrove', 
     'make_desert_set', 'make_coast_poseidon', 'make_ocean_manannan', 'make_mountain_cailleach',
 ];
-const ENGINEERING_ACTIONS = ['make_terrace', 'build_mine', 'make_tunnel', 'make_observatory', 'make_wind', 'dig_canal', 'make_tourist_spot', 'build_solar', 'build_karez', 'build_polar_station', 'build_aurora_tower', 'build_reindeer', 'build_peat', 'build_pasture', 'build_lumber', 'build_hunting', 'build_orchard', 'build_plantation', 'build_floating_garden', 'build_bog_iron', 'build_coastal_fishery', 'build_floating_resort', 'build_windmill', 'build_racecourse', 'build_safari', 'build_camel', 'build_date_palm', 'build_silt', 'build_pyramid', 'build_ice_sculpture', 'build_paleontology', 'build_quarry', 'build_geopark', 'build_treehouse', 'build_crab', 'build_kiln', 'build_mangrove_res', 'build_geothermal', 'build_hotspring', 'build_thermophile', 'build_cellar', 'build_fungal', 'build_deep_lab', 'build_cloudberry', 'build_peat_reserve', 'build_alpaca', 'build_winery', 'build_salt_pan', 'build_salt_pasture', 'build_reed', 'build_wetland_reserve'];
+const ENGINEERING_ACTIONS = ['make_terrace', 'build_mine', 'make_tunnel', 'make_observatory', 'make_wind', 'dig_canal', 'make_tourist_spot', 'build_solar', 'build_karez', 'build_polar_station', 'build_aurora_tower', 'build_reindeer', 'build_peat', 'build_pasture', 'build_lumber', 'build_hunting', 'build_orchard', 'build_plantation', 'build_floating_garden', 'build_bog_iron', 'build_coastal_fishery', 'build_floating_resort', 'build_windmill', 'build_racecourse', 'build_safari', 'build_camel', 'build_date_palm', 'build_silt', 'build_pyramid', 'build_ice_sculpture', 'build_paleontology', 'build_quarry', 'build_geopark', 'build_treehouse', 'build_crab', 'build_kiln', 'build_mangrove_res', 'build_geothermal', 'build_hotspring', 'build_thermophile', 'build_cellar', 'build_fungal', 'build_deep_lab', 'build_cloudberry', 'build_peat_reserve', 'build_alpaca', 'build_winery', 'build_salt_pan', 'build_salt_pasture', 'build_reed', 'build_wetland_reserve', 'build_apiary', 'build_dye_garden'];
 
 
 
@@ -1759,13 +1765,15 @@ function getTerrainDisplayName(t) {
     return TERRAIN_INFO[t.type]?.name || '未知区域';
 }
 
-const TERRAIN_INFO = { [TERRAIN.OCEAN]: { name: '深海', yield: {} }, [TERRAIN.COAST]: { name: '沿海', yield: {} }, [TERRAIN.POLAR]: { name: '极地 (寒带)', yield: {} }, [TERRAIN.TUNDRA]: { name: '苔原 (寒带)', yield: {} }, [TERRAIN.TAIGA]: { name: '针叶林 (寒带)', yield: {} }, [TERRAIN.GRASS]: { name: '草地 (温带)', yield: {} }, [TERRAIN.FOREST]: { name: '森林 (温带)', yield: {} }, [TERRAIN.BRUSH]: { name: '稀树草原 (热带)', yield: {} }, [TERRAIN.DESERT]: { name: '沙漠 (热带)', yield: {} }, [TERRAIN.JUNGLE]: { name: '雨林 (热带)', yield: {} }, [TERRAIN.SWAMP]: { name: '沼泽 (湿地)', yield: {} }, [TERRAIN.MOUNTAIN]: { name: '山脉', yield: {} }, [TERRAIN.VOLCANO]: { name: '火山', yield: {} }, [TERRAIN.LAKE]: { name: '湖泊', yield: {} }, [TERRAIN.OASIS]: { name: '绿洲', yield: {} }, [TERRAIN.WASTELAND]: { name: '荒地', yield: {} }, [TERRAIN.ROCKY]: { name: '岩地', yield: {} }, [TERRAIN.CACTUS_DESERT]: { name: '仙人掌沙漠', yield: {} }, [TERRAIN.DRY_GRASS_COLD]: { name: '干草地 (寒带)', yield: {} }, [TERRAIN.DRY_GRASS_TEMP]: { name: '干草地 (温带)', yield: {} }, [TERRAIN.DRY_GRASS_TROP]: { name: '干草地 (热带)', yield: {} }, [TERRAIN.ICE_FLOAT]: { name: '浮冰', yield: {} }, [TERRAIN.REEF]: { name: '礁石', yield: {} }, [TERRAIN.MANGROVE]: { name: '红树林', yield: {} }, [TERRAIN.GEYSER]: { name: '间歇泉', yield: {} }, [TERRAIN.CAVE]: { name: '洞穴', yield: {} }, [TERRAIN.PEAT_BOG]: { name: '泥炭沼泽', yield: {} }, [TERRAIN.TERRACE]: { name: '梯田', yield: { food: 2 } }, [TERRAIN.CANAL]: { name: '运河', yield: { gold: 1 } }, [TERRAIN.WIND_FARM]: { name: '海上风电', yield: { industry: 2 } }, [TERRAIN.MINING_SITE]: { name: '矿山', yield: { industry: 2} }, [TERRAIN.TUNNEL]: { name: '开山隧道', yield: { gold: 2 } }, [TERRAIN.OBSERVATORY]: { name: '天文台', yield: { science: 2 } }, [TERRAIN.TOURIST_SPOT]: { name: '旅游景区', yield: { culture: 2 } }, [TERRAIN.SOLAR_FARM]: { name: '太阳能站', yield: { industry: 2 } }, [TERRAIN.KAREZ]: { name: '坎儿井', yield: { food: 2} }, [TERRAIN.POLAR_STATION]: { name: '极地科考站', yield: { science: 2 } }, [TERRAIN.AURORA_TOWER]: { name: '极光观察塔', yield: { science: 1, culture: 1 } }, [TERRAIN.REINDEER_PASTURE]: { name: '驯鹿牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.PEAT_MINE]: { name: '泥炭提取场', yield: { food: 1, industry: 1 } }, [TERRAIN.PASTURE]: { name: '牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.LUMBER_MILL]: { name: '伐木场', yield: { industry: 2} }, [TERRAIN.CAMEL_RANCH]: { name: '骆驼牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.DATE_PALM]: { name: '椰枣树林', yield: { industry: 1, gold: 1 } }, [TERRAIN.SILT_PLANT]: { name: '淤泥采集厂', yield: { industry: 2 } }, [TERRAIN.HUNTING_CAMP]: { name: '狩猎营地', yield: { gold: 2 } }, [TERRAIN.ORCHARD]: { name: '果园', yield: { food: 1, gold: 1 } }, [TERRAIN.PLANTATION]: { name: '种植园', yield: { food: 1, gold: 1 } }, [TERRAIN.FLOATING_GARDEN]: { name: '浮田', yield: { food: 2 } }, [TERRAIN.BOG_IRON]: { name: '沼铁采集厂', yield: { industry: 2 } }, [TERRAIN.COASTAL_FISHERY]: { name: '沿海捕鱼场', yield: { food: 1, gold: 1 } }, [TERRAIN.WINDMILL_FIELD]: { name: '风车田', yield: { industry: 2 } }, [TERRAIN.RACECOURSE]: { name: '赛马场', yield: { culture: 1, gold: 1 } }, [TERRAIN.SAFARI_CAMP]: { name: '游猎营地', yield: { culture: 1, gold: 1 } }, [TERRAIN.FLOATING_RESORT]: { name: '海上度假屋', yield: { culture: 1, gold: 1 } }, [TERRAIN.ETERNA_PYRAMID]: { name: '永恒金字塔', yield: { culture: 100 } }, [TERRAIN.SKI_RESORT]: { name: '滑雪场', yield: { culture: 2 } }, [TERRAIN.ICE_SCULPTURE_PARK]: { name: '冰雕公园', yield: { culture: 2 } }, [TERRAIN.PALEONTOLOGY_DIG]: { name: '冻土挖掘场', yield: { science: 2 } }, [TERRAIN.QUARRY]: { name: '采石场', yield: { industry: 2 } }, [TERRAIN.GEOPARK]: { name: '地质公园', yield: { science: 1, culture: 1 } }, [TERRAIN.TREEHOUSE_RESORT]: { name: '树屋度假村', yield: { culture: 1, gold: 1 } }, [TERRAIN.CRAB_FARM]: { name: '蟹类养殖场', yield: { food: 1, gold: 1 } }, [TERRAIN.MANGROVE_KILN]: { name: '红树林炭窑', yield: { industry: 2 } }, [TERRAIN.MANGROVE_RESERVE]: { name: '红树林保护区', yield: { science: 1, culture: 1 } }, [TERRAIN.GEOTHERMAL_PLANT]: { name: '地热发电站', yield: { industry: 2 } }, [TERRAIN.HOT_SPRING_RESORT]: { name: '温泉度假村', yield: { gold: 1, culture: 1 } }, [TERRAIN.THERMOPHILE_LAB]: { name: '嗜热菌实验室', yield: { science: 2 } }, [TERRAIN.CELLAR_VAULT]: { name: '地窖陈酿库', yield: { food: 1, gold: 1 } }, [TERRAIN.FUNGAL_FARM]: { name: '真菌农场', yield: { food: 2 } }, [TERRAIN.DEEP_EARTH_LAB]: { name: '深地实验室', yield: { science: 2 } }, [TERRAIN.CLOUDBERRY_PLANTATION]: { name: '云莓种植园', yield: { food: 1, gold: 1 } }, [TERRAIN.PEAT_BOG_RESERVE]: { name: '泥炭沼泽保护区', yield: { science: 1, culture: 1 } }, [TERRAIN.ALPACA_RANCH]: { name: '羊驼牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.WINERY]: { name: '酿酒厂', yield: { gold: 2, culture: 2 } }, [TERRAIN.FERTILE_SOIL]: { name: '沃土', yield: {} }, [TERRAIN.ICE_CAP]: { name: '冰盖', yield: {} }, [TERRAIN.SALT_MARSH]: { name: '盐沼', yield: { food: 1 } }, [TERRAIN.SALT_PAN]: { name: '盐田', yield: { gold: 2 } }, [TERRAIN.SALT_PASTURE]: { name: '盐沼牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.REED_BED]: { name: '芦苇场', yield: { industry: 2 } }, [TERRAIN.WETLAND]: { name: '湿地', yield: { food: 1 } }, [TERRAIN.WETLAND_RESERVE]: { name: '湿地保护区', yield: { science: 1, culture: 1 } } };
-const COLORS = { [TERRAIN.OCEAN]: '#1e3a8a', [TERRAIN.COAST]: '#38bdf8', [TERRAIN.POLAR]: '#f8fafc', [TERRAIN.TUNDRA]: '#94a3b8', [TERRAIN.TAIGA]: '#334155', [TERRAIN.GRASS]: '#4ade80', [TERRAIN.FOREST]: '#166534', [TERRAIN.BRUSH]: '#84cc16', [TERRAIN.DESERT]: '#fbbf24', [TERRAIN.JUNGLE]: '#064e3b', [TERRAIN.SWAMP]: '#5f6c58', [TERRAIN.MOUNTAIN]: '#64748b', [TERRAIN.VOLCANO]: '#7f1d1d', [TERRAIN.LAKE]: '#3b82f6', [TERRAIN.OASIS]: '#10b981', [TERRAIN.WASTELAND]: '#292524', [TERRAIN.ROCKY]: '#78716c', [TERRAIN.CACTUS_DESERT]: '#d97706', [TERRAIN.DRY_GRASS_COLD]: '#cbe6a5', [TERRAIN.DRY_GRASS_TEMP]: '#d9f99d', [TERRAIN.DRY_GRASS_TROP]: '#fef08a', [TERRAIN.ICE_FLOAT]: '#e0f2fe', [TERRAIN.REEF]: '#0ea5e9', [TERRAIN.TERRACE]: '#84cc16', [TERRAIN.CANAL]: '#0ea5e9', [TERRAIN.WIND_FARM]: '#0284c7', [TERRAIN.MINING_SITE]: '#525252', [TERRAIN.TUNNEL]: '#4b5563', [TERRAIN.OBSERVATORY]: '#e0e7ff', [TERRAIN.TOURIST_SPOT]: '#c084fc', [TERRAIN.SOLAR_FARM]: '#0f172a', [TERRAIN.KAREZ]: '#7dd3fc', [TERRAIN.POLAR_STATION]: '#e2e8f0', [TERRAIN.AURORA_TOWER]: '#818cf8', [TERRAIN.REINDEER_PASTURE]: '#a8a29e', [TERRAIN.PEAT_MINE]: '#57534e', [TERRAIN.PASTURE]: '#86efac', [TERRAIN.LUMBER_MILL]: '#3f6212', [TERRAIN.CAMEL_RANCH]: '#d4b483', [TERRAIN.DATE_PALM]: '#166534', [TERRAIN.SILT_PLANT]: '#78716c', [TERRAIN.HUNTING_CAMP]: '#44403c', [TERRAIN.ORCHARD]: '#65a30d', [TERRAIN.PLANTATION]: '#15803d', [TERRAIN.FLOATING_GARDEN]: '#4ade80', [TERRAIN.BOG_IRON]: '#78350f', [TERRAIN.COASTAL_FISHERY]: '#38bdf8', [TERRAIN.WINDMILL_FIELD]: '#e5e7eb', [TERRAIN.RACECOURSE]: '#a3e635', [TERRAIN.SAFARI_CAMP]: '#84cc16', [TERRAIN.FLOATING_RESORT]: '#22d3ee', [TERRAIN.ETERNA_PYRAMID]: '#fbbf24', [TERRAIN.SKI_RESORT]: '#c084fc', [TERRAIN.ICE_SCULPTURE_PARK]: '#cbd5e1', [TERRAIN.PALEONTOLOGY_DIG]: '#57534e', [TERRAIN.QUARRY]: '#57534e', [TERRAIN.GEOPARK]: '#a1a1aa', [TERRAIN.TREEHOUSE_RESORT]: '#166534', [TERRAIN.MANGROVE]: '#065f46', [TERRAIN.GEYSER]: '#a5f3fc', [TERRAIN.CAVE]: '#1f2937', [TERRAIN.CRAB_FARM]: '#fca5a5', [TERRAIN.MANGROVE_KILN]: '#4b5563', [TERRAIN.MANGROVE_RESERVE]: '#059669', [TERRAIN.GEOTHERMAL_PLANT]: '#ef4444', [TERRAIN.HOT_SPRING_RESORT]: '#f472b6', [TERRAIN.THERMOPHILE_LAB]: '#8b5cf6', [TERRAIN.CELLAR_VAULT]: '#78350f', [TERRAIN.FUNGAL_FARM]: '#a8a29e', [TERRAIN.DEEP_EARTH_LAB]: '#374151', [TERRAIN.PEAT_BOG]: '#5d4037', [TERRAIN.CLOUDBERRY_PLANTATION]: '#be123c', [TERRAIN.PEAT_BOG_RESERVE]: '#8d6e63', [TERRAIN.ALPACA_RANCH]: '#9ca3af', [TERRAIN.WINERY]: '#86198f', [TERRAIN.FERTILE_SOIL]: '#6b4f2f', [TERRAIN.ICE_CAP]: '#dbeafe', [TERRAIN.SALT_MARSH]: '#9aa88b', [TERRAIN.SALT_PAN]: '#f1f5f9', [TERRAIN.SALT_PASTURE]: '#a3b18a', [TERRAIN.REED_BED]: '#4d7c0f', [TERRAIN.WETLAND]: '#3f7f6f', [TERRAIN.WETLAND_RESERVE]: '#2f6f5f', border: 'rgba(0,0,0,0.1)', selected: 'rgba(250, 204, 21, 0.5)' };
+const TERRAIN_INFO = { [TERRAIN.OCEAN]: { name: '深海', yield: {} }, [TERRAIN.COAST]: { name: '沿海', yield: {} }, [TERRAIN.POLAR]: { name: '极地 (寒带)', yield: {} }, [TERRAIN.TUNDRA]: { name: '苔原 (寒带)', yield: {} }, [TERRAIN.TAIGA]: { name: '针叶林 (寒带)', yield: {} }, [TERRAIN.GRASS]: { name: '草地 (温带)', yield: {} }, [TERRAIN.FOREST]: { name: '森林 (温带)', yield: {} }, [TERRAIN.BRUSH]: { name: '稀树草原 (热带)', yield: {} }, [TERRAIN.DESERT]: { name: '沙漠 (热带)', yield: {} }, [TERRAIN.JUNGLE]: { name: '雨林 (热带)', yield: {} }, [TERRAIN.SWAMP]: { name: '沼泽', yield: {} }, [TERRAIN.MOUNTAIN]: { name: '山脉', yield: {} }, [TERRAIN.VOLCANO]: { name: '火山', yield: {} }, [TERRAIN.LAKE]: { name: '湖泊', yield: {} }, [TERRAIN.OASIS]: { name: '绿洲', yield: {} }, [TERRAIN.WASTELAND]: { name: '荒地', yield: {} }, [TERRAIN.ROCKY]: { name: '岩地', yield: {} }, [TERRAIN.CACTUS_DESERT]: { name: '仙人掌沙漠', yield: {} }, [TERRAIN.DRY_GRASS_COLD]: { name: '干草地 (寒带)', yield: {} }, [TERRAIN.DRY_GRASS_TEMP]: { name: '干草地 (温带)', yield: {} }, [TERRAIN.DRY_GRASS_TROP]: { name: '干草地 (热带)', yield: {} }, [TERRAIN.ICE_FLOAT]: { name: '浮冰', yield: {} }, [TERRAIN.REEF]: { name: '礁石', yield: {} }, [TERRAIN.MANGROVE]: { name: '红树林', yield: {} }, [TERRAIN.GEYSER]: { name: '间歇泉', yield: {} }, [TERRAIN.CAVE]: { name: '洞穴', yield: {} }, [TERRAIN.PEAT_BOG]: { name: '泥炭沼泽', yield: {} }, [TERRAIN.TERRACE]: { name: '梯田', yield: { food: 2 } }, [TERRAIN.CANAL]: { name: '运河', yield: { gold: 1 } }, [TERRAIN.WIND_FARM]: { name: '海上风电', yield: { industry: 2 } }, [TERRAIN.MINING_SITE]: { name: '矿山', yield: { industry: 2} }, [TERRAIN.TUNNEL]: { name: '开山隧道', yield: { gold: 2 } }, [TERRAIN.OBSERVATORY]: { name: '天文台', yield: { science: 2 } }, [TERRAIN.TOURIST_SPOT]: { name: '旅游景区', yield: { culture: 2 } }, [TERRAIN.SOLAR_FARM]: { name: '太阳能站', yield: { industry: 2 } }, [TERRAIN.KAREZ]: { name: '坎儿井', yield: { food: 2} }, [TERRAIN.POLAR_STATION]: { name: '极地科考站', yield: { science: 2 } }, [TERRAIN.AURORA_TOWER]: { name: '极光观察塔', yield: { science: 1, culture: 1 } }, [TERRAIN.REINDEER_PASTURE]: { name: '驯鹿牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.PEAT_MINE]: { name: '泥炭提取场', yield: { food: 1, industry: 1 } }, [TERRAIN.PASTURE]: { name: '牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.LUMBER_MILL]: { name: '伐木场', yield: { industry: 2} }, [TERRAIN.CAMEL_RANCH]: { name: '骆驼牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.DATE_PALM]: { name: '椰枣树林', yield: { industry: 1, gold: 1 } }, [TERRAIN.SILT_PLANT]: { name: '淤泥采集厂', yield: { industry: 2 } }, [TERRAIN.HUNTING_CAMP]: { name: '狩猎营地', yield: { gold: 2 } }, [TERRAIN.ORCHARD]: { name: '果园', yield: { food: 1, gold: 1 } }, [TERRAIN.PLANTATION]: { name: '种植园', yield: { food: 1, gold: 1 } }, [TERRAIN.FLOATING_GARDEN]: { name: '浮田', yield: { food: 2 } }, [TERRAIN.BOG_IRON]: { name: '沼铁采集厂', yield: { industry: 2 } }, [TERRAIN.COASTAL_FISHERY]: { name: '沿海捕鱼场', yield: { food: 1, gold: 1 } }, [TERRAIN.WINDMILL_FIELD]: { name: '风车田', yield: { industry: 2 } }, [TERRAIN.RACECOURSE]: { name: '赛马场', yield: { culture: 1, gold: 1 } }, [TERRAIN.SAFARI_CAMP]: { name: '游猎营地', yield: { culture: 1, gold: 1 } }, [TERRAIN.FLOATING_RESORT]: { name: '海上度假屋', yield: { culture: 1, gold: 1 } }, [TERRAIN.ETERNA_PYRAMID]: { name: '永恒金字塔', yield: { culture: 100 } }, [TERRAIN.SKI_RESORT]: { name: '滑雪场', yield: { culture: 2 } }, [TERRAIN.ICE_SCULPTURE_PARK]: { name: '冰雕公园', yield: { culture: 2 } }, [TERRAIN.PALEONTOLOGY_DIG]: { name: '冻土挖掘场', yield: { science: 2 } }, [TERRAIN.QUARRY]: { name: '采石场', yield: { industry: 2 } }, [TERRAIN.GEOPARK]: { name: '地质公园', yield: { science: 1, culture: 1 } }, [TERRAIN.TREEHOUSE_RESORT]: { name: '树屋度假村', yield: { culture: 1, gold: 1 } }, [TERRAIN.CRAB_FARM]: { name: '蟹类养殖场', yield: { food: 1, gold: 1 } }, [TERRAIN.MANGROVE_KILN]: { name: '红树林炭窑', yield: { industry: 2 } }, [TERRAIN.MANGROVE_RESERVE]: { name: '红树林保护区', yield: { science: 1, culture: 1 } }, [TERRAIN.GEOTHERMAL_PLANT]: { name: '地热发电站', yield: { industry: 2 } }, [TERRAIN.HOT_SPRING_RESORT]: { name: '温泉度假村', yield: { gold: 1, culture: 1 } }, [TERRAIN.THERMOPHILE_LAB]: { name: '嗜热菌实验室', yield: { science: 2 } }, [TERRAIN.CELLAR_VAULT]: { name: '地窖陈酿库', yield: { food: 1, gold: 1 } }, [TERRAIN.FUNGAL_FARM]: { name: '真菌农场', yield: { food: 2 } }, [TERRAIN.DEEP_EARTH_LAB]: { name: '深地实验室', yield: { science: 2 } }, [TERRAIN.CLOUDBERRY_PLANTATION]: { name: '云莓种植园', yield: { food: 1, gold: 1 } }, [TERRAIN.PEAT_BOG_RESERVE]: { name: '泥炭沼泽保护区', yield: { science: 1, culture: 1 } }, [TERRAIN.ALPACA_RANCH]: { name: '羊驼牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.WINERY]: { name: '酿酒厂', yield: { gold: 2, culture: 2 } }, [TERRAIN.FERTILE_SOIL]: { name: '沃土', yield: {} }, [TERRAIN.ICE_CAP]: { name: '冰盖', yield: {} }, [TERRAIN.SALT_MARSH]: { name: '盐沼', yield: { food: 1 } }, [TERRAIN.SALT_PAN]: { name: '盐田', yield: { gold: 2 } }, [TERRAIN.SALT_PASTURE]: { name: '盐沼牧场', yield: { food: 1, gold: 1 } }, [TERRAIN.REED_BED]: { name: '芦苇场', yield: { industry: 2 } }, [TERRAIN.WETLAND]: { name: '湿地', yield: { food: 1 } }, [TERRAIN.WETLAND_RESERVE]: { name: '湿地保护区', yield: { science: 1, culture: 1 } }, [TERRAIN.SHRUB_TEMP]: { name: '灌木丛（温带）', yield: {} }, [TERRAIN.SHRUB_TROP]: { name: '灌木丛（热带）', yield: {} }, [TERRAIN.APIARY]: { name: '养蜂场', yield: { food: 1, gold: 1 } }, [TERRAIN.DYE_GARDEN]: { name: '染料园', yield: { gold: 2 } } };
+const COLORS = { [TERRAIN.OCEAN]: '#1e3a8a', [TERRAIN.COAST]: '#38bdf8', [TERRAIN.POLAR]: '#f8fafc', [TERRAIN.TUNDRA]: '#94a3b8', [TERRAIN.TAIGA]: '#334155', [TERRAIN.GRASS]: '#4ade80', [TERRAIN.FOREST]: '#166534', [TERRAIN.BRUSH]: '#84cc16', [TERRAIN.DESERT]: '#fbbf24', [TERRAIN.JUNGLE]: '#064e3b', [TERRAIN.SWAMP]: '#5f6c58', [TERRAIN.MOUNTAIN]: '#64748b', [TERRAIN.VOLCANO]: '#7f1d1d', [TERRAIN.LAKE]: '#3b82f6', [TERRAIN.OASIS]: '#10b981', [TERRAIN.WASTELAND]: '#292524', [TERRAIN.ROCKY]: '#78716c', [TERRAIN.CACTUS_DESERT]: '#d97706', [TERRAIN.DRY_GRASS_COLD]: '#cbe6a5', [TERRAIN.DRY_GRASS_TEMP]: '#d9f99d', [TERRAIN.DRY_GRASS_TROP]: '#fef08a', [TERRAIN.ICE_FLOAT]: '#e0f2fe', [TERRAIN.REEF]: '#0ea5e9', [TERRAIN.TERRACE]: '#84cc16', [TERRAIN.CANAL]: '#0ea5e9', [TERRAIN.WIND_FARM]: '#0284c7', [TERRAIN.MINING_SITE]: '#525252', [TERRAIN.TUNNEL]: '#4b5563', [TERRAIN.OBSERVATORY]: '#e0e7ff', [TERRAIN.TOURIST_SPOT]: '#c084fc', [TERRAIN.SOLAR_FARM]: '#0f172a', [TERRAIN.KAREZ]: '#7dd3fc', [TERRAIN.POLAR_STATION]: '#e2e8f0', [TERRAIN.AURORA_TOWER]: '#818cf8', [TERRAIN.REINDEER_PASTURE]: '#a8a29e', [TERRAIN.PEAT_MINE]: '#57534e', [TERRAIN.PASTURE]: '#86efac', [TERRAIN.LUMBER_MILL]: '#3f6212', [TERRAIN.CAMEL_RANCH]: '#d4b483', [TERRAIN.DATE_PALM]: '#166534', [TERRAIN.SILT_PLANT]: '#78716c', [TERRAIN.HUNTING_CAMP]: '#44403c', [TERRAIN.ORCHARD]: '#65a30d', [TERRAIN.PLANTATION]: '#15803d', [TERRAIN.FLOATING_GARDEN]: '#4ade80', [TERRAIN.BOG_IRON]: '#78350f', [TERRAIN.COASTAL_FISHERY]: '#38bdf8', [TERRAIN.WINDMILL_FIELD]: '#e5e7eb', [TERRAIN.RACECOURSE]: '#a3e635', [TERRAIN.SAFARI_CAMP]: '#84cc16', [TERRAIN.FLOATING_RESORT]: '#22d3ee', [TERRAIN.ETERNA_PYRAMID]: '#fbbf24', [TERRAIN.SKI_RESORT]: '#c084fc', [TERRAIN.ICE_SCULPTURE_PARK]: '#cbd5e1', [TERRAIN.PALEONTOLOGY_DIG]: '#57534e', [TERRAIN.QUARRY]: '#57534e', [TERRAIN.GEOPARK]: '#a1a1aa', [TERRAIN.TREEHOUSE_RESORT]: '#166534', [TERRAIN.MANGROVE]: '#065f46', [TERRAIN.GEYSER]: '#a5f3fc', [TERRAIN.CAVE]: '#1f2937', [TERRAIN.CRAB_FARM]: '#fca5a5', [TERRAIN.MANGROVE_KILN]: '#4b5563', [TERRAIN.MANGROVE_RESERVE]: '#059669', [TERRAIN.GEOTHERMAL_PLANT]: '#ef4444', [TERRAIN.HOT_SPRING_RESORT]: '#f472b6', [TERRAIN.THERMOPHILE_LAB]: '#8b5cf6', [TERRAIN.CELLAR_VAULT]: '#78350f', [TERRAIN.FUNGAL_FARM]: '#a8a29e', [TERRAIN.DEEP_EARTH_LAB]: '#374151', [TERRAIN.PEAT_BOG]: '#5d4037', [TERRAIN.CLOUDBERRY_PLANTATION]: '#be123c', [TERRAIN.PEAT_BOG_RESERVE]: '#8d6e63', [TERRAIN.ALPACA_RANCH]: '#9ca3af', [TERRAIN.WINERY]: '#86198f', [TERRAIN.FERTILE_SOIL]: '#6b4f2f', [TERRAIN.ICE_CAP]: '#dbeafe', [TERRAIN.SALT_MARSH]: '#9aa88b', [TERRAIN.SALT_PAN]: '#f1f5f9', [TERRAIN.SALT_PASTURE]: '#a3b18a', [TERRAIN.REED_BED]: '#4d7c0f', [TERRAIN.WETLAND]: '#3f7f6f', [TERRAIN.WETLAND_RESERVE]: '#2f6f5f', [TERRAIN.SHRUB_TEMP]: '#6b7f3a', [TERRAIN.SHRUB_TROP]: '#9a7b2f', [TERRAIN.APIARY]: '#f59e0b', [TERRAIN.DYE_GARDEN]: '#a855f7', border: 'rgba(0,0,0,0.1)', selected: 'rgba(250, 204, 21, 0.5)' };
 // 工业区 Lv1 图标：⚙️ + 额外变体选择符，作为独立 key 映射到橙色齿轮；设置按钮仍用普通灰色 ⚙️
 const MINE_GEAR_ICON = '\u2699\uFE0F\uFE0F';
-const ICONS = { plaza: '🏛️', zoo: '🦁', bridge: '🌉', tree: '🌲', broadleaf: '🌳', palm: '🌴', cactus: '🌵', grass: '🌿', mountain: '⛰️', snow: '❄️', brush: '🌾', volcano: '🌋', oasis: '🏝️', wasteland: '☠️', rock: '🪨', sec_tree: '🌱', fertile: '🌱', swamp: '🐊', ice: '🧊', reef: '🪸', terrace: '🪜', canal: '🛶', wind: '🌬️', mining: '⛏️', tunnel: '🚇', obs: '🔭', fishery: '🐟', lake_res: '🦆', swamp_res: '🐸', tourist: '📸', entertainment: '🎡', solar: '☀️', karez: '💧', oasis_res: '🌴', oasis_cistern: '🏺', polar_st: '📡', aurora: '🌌', reindeer: '🦌', peat: '🧱', pasture: '🐄', lumber: '🪵', camel: '🐪', date: '🌴', silt: '🧱', hunting: '🏹', orchard: '🍎', plantation: '🍌', act_chop: '🪓', act_water: '💧', act_fire: '🔥', act_plant: '🌱', act_fill: '🚜', act_cactus: '🌵', act_terrace: '🪜', act_canal: '🏗️', act_wind: '⚙️', act_mine: '⛏️', act_swamp: '🐊', act_tunnel: '🚇', act_obs: '🔭', act_tourist: '📸', act_solar: '☀️', act_karez: '💧', act_polar: '📡', act_aurora: '🌌', act_reindeer: '🦌', act_peat: '🧱', act_pasture: '🐄', act_soil: '🚜', act_lumber: '🪚', act_camel: '🐪', act_date: '🌴', act_silt: '🧱', act_hunting: '🏹', act_orchard: '🍎', act_plantation: '🍌', act_float: '🥬', act_bog: '🔩', act_coastal: '🎣', floating_garden: '🥬', bog_iron: '🔩', coastal_fishery: '🎣', act_windmill: '🌬️', act_race: '🐎', act_safari: '🦁', windmill: '🌬️', racecourse: '🐎', safari: '🦁', act_floating_resort: '🏖️', floating_resort: '🏖️', act_pyramid: '🔺', pyramid: '🔺', ski_resort: '🎿', act_ice_sculpture: '🧊', ice_sculpture: '🧊', act_paleontology: '🦣', paleontology: '🦣', act_quarry: '⚒️', quarry: '⚒️', act_geopark: '🏞️', geopark: '🏞️', act_treehouse: '🛖', treehouse_resort: '🛖', mangrove: '🌿', geyser: '⛲', cave: '🕳️', act_crab: '🦀', crab_farm: '🦀', act_kiln: '🔥', mangrove_kiln: '🔥', act_mangrove_res: '🏞️', mangrove_reserve: '🏞️', act_geothermal: '⚡', geothermal_plant: '⚡', act_hotspring: '♨️', hot_spring_resort: '♨️', act_thermophile: '🦠', thermophile_lab: '🦠', act_cellar: '🍷', cellar_vault: '🍷', act_fungal: '🍄', fungal_farm: '🍄', act_deep_lab: '🦇', deep_earth_lab: '🦇', peat_bog: '🦆', act_cloudberry: '🫐', cloudberry_plantation: '🫐', act_peat_reserve: '🏞️', peat_reserve: '🏞️', act_alpaca: '🦙', alpaca_ranch: '🦙', act_set_desert: '🌪️', act_poseidon: '🌊', act_winery: '🍷', winery: '🍷', harbor: '⚓' , ruin: '🗿', icecap: '🧊', saltmarsh: '🧂', saltpan: '💠', saltpasture: '🐏', reedbed: '🌾', wetland: '🦢', wetland_reserve: '🏞️' };
+const ICONS = { plaza: '🏛️', zoo: '🦁', bridge: '🌉', tree: '🌲', broadleaf: '🌳', palm: '🌴', cactus: '🌵', grass: '🌿', mountain: '⛰️', snow: '❄️', brush: '🌾', volcano: '🌋', oasis: '🏝️', wasteland: '☠️', rock: '🪨', sec_tree: '🌱', fertile: '🌱', swamp: '🐊', ice: '🧊', reef: '🪸', terrace: '🪜', canal: '🛶', wind: '🌬️', mining: '⛏️', tunnel: '🚇', obs: '🔭', fishery: '🐟', lake_res: '🦆', swamp_res: '🐸', tourist: '📸', entertainment: '🎡', solar: '☀️', karez: '💧', oasis_res: '🌴', oasis_cistern: '🏺', polar_st: '📡', aurora: '🌌', reindeer: '🦌', peat: '🧱', pasture: '🐄', lumber: '🪵', camel: '🐪', date: '🌴', silt: '🧱', hunting: '🏹', orchard: '🍎', plantation: '🍌', act_chop: '🪓', act_water: '💧', act_fire: '🔥', act_plant: '🌱', act_fill: '🚜', act_cactus: '🌵', act_terrace: '🪜', act_canal: '🏗️', act_wind: '⚙️', act_mine: '⛏️', act_swamp: '🐊', act_tunnel: '🚇', act_obs: '🔭', act_tourist: '📸', act_solar: '☀️', act_karez: '💧', act_polar: '📡', act_aurora: '🌌', act_reindeer: '🦌', act_peat: '🧱', act_pasture: '🐄', act_soil: '🚜', act_lumber: '🪚', act_camel: '🐪', act_date: '🌴', act_silt: '🧱', act_hunting: '🏹', act_orchard: '🍎', act_plantation: '🍌', act_float: '🥬', act_bog: '🔩', act_coastal: '🎣', floating_garden: '🥬', bog_iron: '🔩', coastal_fishery: '🎣', act_windmill: '🌬️', act_race: '🐎', act_safari: '🦁', windmill: '🌬️', racecourse: '🐎', safari: '🦁', act_floating_resort: '🏖️', floating_resort: '🏖️', act_pyramid: '🔺', pyramid: '🔺', ski_resort: '🎿', act_ice_sculpture: '🧊', ice_sculpture: '🧊', act_paleontology: '🦣', paleontology: '🦣', act_quarry: '⚒️', quarry: '⚒️', act_geopark: '🏞️', geopark: '🏞️', act_treehouse: '🛖', treehouse_resort: '🛖', mangrove: '🌿', geyser: '⛲', cave: '🕳️', act_crab: '🦀', crab_farm: '🦀', act_kiln: '🔥', mangrove_kiln: '🔥', act_mangrove_res: '🏞️', mangrove_reserve: '🏞️', act_geothermal: '⚡', geothermal_plant: '⚡', act_hotspring: '♨️', hot_spring_resort: '♨️', act_thermophile: '🦠', thermophile_lab: '🦠', act_cellar: '🍷', cellar_vault: '🍷', act_fungal: '🍄', fungal_farm: '🍄', act_deep_lab: '🦇', deep_earth_lab: '🦇', peat_bog: '🦆', act_cloudberry: '🫐', cloudberry_plantation: '🫐', act_peat_reserve: '🏞️', peat_reserve: '🏞️', act_alpaca: '🦙', alpaca_ranch: '🦙', act_set_desert: '🌪️', act_poseidon: '🌊', act_winery: '🍷', winery: '🍷', harbor: '⚓' , ruin: '🗿', icecap: '🧊', saltmarsh: '🧂', saltpan: '💠', saltpasture: '🐏', reedbed: '🌾', wetland: '🦢', wetland_reserve: '🏞️', shrub_temp: '🌿', shrub_trop: '🍂', apiary: '🍯', dye_garden: '🌺' };
 
 const WETLAND_ICON_SVG = '<svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><ellipse cx="9" cy="15" rx="6" ry="4" fill="#f8fafc"/><path d="M13 14c0-4 2-6 4.5-6 2.2 0 3.6 1.6 2.8 3.7-.6 1.5-2 2-3.3 1.6" fill="#f8fafc"/><path d="M18.2 7.1 21 8.4l-2.7 1.3z" fill="#f59e0b"/><circle cx="18.2" cy="8.3" r=".55" fill="#1f2937"/><path d="M4 14.5c1.5 1.5 3.3 2.2 5.4 2" fill="none" stroke="#e2e8f0" stroke-width=".7"/></svg>';
+const SHRUB_TEMP_ICON_SVG = '<svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><circle cx="8" cy="14" r="4.5" fill="#4d7c0f"/><circle cx="13" cy="11" r="4" fill="#65a30d"/><circle cx="16.5" cy="15" r="3.5" fill="#3f6212"/><rect x="11.5" y="16" width="1.5" height="4" rx=".7" fill="#78350f"/></svg>';
+const SHRUB_TROP_ICON_SVG = '<svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><circle cx="8" cy="14" r="4.5" fill="#a16207"/><circle cx="13" cy="11" r="4" fill="#ca8a04"/><circle cx="16.5" cy="15" r="3.5" fill="#854d0e"/><circle cx="7" cy="12" r="1" fill="#dc2626"/><circle cx="14" cy="10" r="1" fill="#dc2626"/><rect x="11.5" y="16" width="1.5" height="4" rx=".7" fill="#78350f"/></svg>';
 
 const SALT_PAN_ICON_SVG = '<svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><path d="M2.5 15.5 12 5.5l9.5 10L12 20.5Z" fill="#bfdbfe"/><path d="M6.5 14.2 12 8.5l5.5 5.7L12 17.5Z" fill="#f8fafc"/><path d="M10.8 11.2 12 10l1.2 1.2-1.2 1.2Z" fill="#93c5fd"/><path d="M12 2.8 13.4 4.2 12 5.6 10.6 4.2Z" fill="#e0f2fe"/></svg>';
 const SALT_PASTURE_ICON_SVG = '<svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><ellipse cx="9.5" cy="14" rx="6" ry="4.4" fill="#f8fafc"/><circle cx="16.6" cy="12" r="3" fill="#78350f"/><path d="M14.8 9.4c-1.6-2.2-.2-4.4 2-4.2 1.8.2 2.9 2.1 2.1 3.7-.5 1-1.6 1.4-2.6 1.1" fill="#d97706"/><circle cx="17.6" cy="11.7" r=".65" fill="#fff"/><rect x="5.5" y="17" width="1.5" height="4" rx=".6" fill="#78350f"/><rect x="8.2" y="17" width="1.5" height="4" rx=".6" fill="#78350f"/><rect x="11" y="17" width="1.5" height="4" rx=".6" fill="#78350f"/><rect x="13.7" y="17" width="1.5" height="4" rx=".6" fill="#78350f"/></svg>';
@@ -1818,6 +1826,9 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'chop': { name: '伐木', icon: ICONS.act_chop, tooltip: '<b>伐木</b><br>消耗: 30💰<br>效果: +10🔨, 变干草地', cost: { gold: 30 }, gain: { industry: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TAIGA], toTerrain: TERRAIN.DRY_GRASS_TEMP },
     'burn_forest': { name: '放火烧林', icon: ICONS.act_fire, tooltip: '<b>放火烧林</b><br>消耗: 10💰<br>效果: 点燃森林/针叶林，2-3回合后变荒地并留下草木灰<br>之后建农业区可获永久 +1🌾<br>火势不会蔓延', cost: { gold: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.TAIGA] },
     'make_wetland_grass': { name: '草地湿地化', icon: WETLAND_ICON_SVG, tooltip: '<b>草地湿地化</b><br>消耗: 20🔨 20💰<br>效果: 温带草地变湿地', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.GRASS], toTerrain: TERRAIN.WETLAND },
+    'make_shrub_temp': { name: '温带灌丛化', icon: SHRUB_TEMP_ICON_SVG, tooltip: '<b>温带灌丛化</b><br>消耗: 20🔨 20💰<br>效果: 温带草地/干草地变灌木丛（温带）', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.GRASS, TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.SHRUB_TEMP },
+    'make_shrub_trop': { name: '热带灌丛化', icon: SHRUB_TROP_ICON_SVG, tooltip: '<b>热带灌丛化</b><br>消耗: 20🔨 20💰<br>效果: 稀树草原/热带干草地变灌木丛（热带）', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.BRUSH, TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.SHRUB_TROP },
+    'clear_shrub': { name: '清除灌丛', icon: ICONS.act_chop, tooltip: '<b>清除灌丛</b><br>消耗: 10💰<br>效果: +5🔨，变对应干草地', cost: { gold: 10 }, gain: { industry: 5 }, reqTerrain: [TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP], toTerrain: TERRAIN.DRY_GRASS_TEMP },
     'make_swamp_savanna': { name: '稀树草原沼泽化', icon: ICONS.act_swamp, tooltip: '<b>稀树草原沼泽化</b><br>消耗: 20🔨 20💰<br>效果: 稀树草原变沼泽<br>(热带季节性湿地)', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.BRUSH], toTerrain: TERRAIN.SWAMP },
     'improve_soil_temp': { name: '温带改良', icon: ICONS.act_soil, tooltip: '<b>温带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(温)变草地', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.GRASS },
     'improve_soil_trop': { name: '热带改良', icon: ICONS.act_soil, tooltip: '<b>热带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(热)变稀树草原', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.BRUSH },
@@ -1878,6 +1889,8 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'build_salt_pasture': { name: '盐沼牧场', icon: SALT_PASTURE_ICON_SVG, tooltip: '<b>盐沼牧场</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益<br>需盐沼', cost: { industry: 30 }, reqTerrain: [TERRAIN.SALT_MARSH], toTerrain: TERRAIN.SALT_PASTURE },
     'build_reed': { name: '芦苇场', icon: ICONS.reedbed, tooltip: '<b>芦苇场</b><br>消耗: 30🔨<br>基础: 2🔨<br>加成: 为工业区提供相邻收益<br>需盐沼/湿地', cost: { industry: 30 }, reqTerrain: [TERRAIN.SALT_MARSH, TERRAIN.WETLAND], toTerrain: TERRAIN.REED_BED },
     'build_wetland_reserve': { name: '湿地保护区', icon: ICONS.wetland_reserve, tooltip: '<b>湿地保护区</b><br>消耗: 30🔨<br>基础: 1🔬 1🎭<br>加成: 为科研区，娱乐区提供相邻收益<br>需湿地', cost: { industry: 30 }, reqTerrain: [TERRAIN.WETLAND], toTerrain: TERRAIN.WETLAND_RESERVE },
+    'build_apiary': { name: '养蜂场', icon: ICONS.apiary, tooltip: '<b>养蜂场</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益<br>需灌木丛（温带）', cost: { industry: 30 }, reqTerrain: [TERRAIN.SHRUB_TEMP], toTerrain: TERRAIN.APIARY },
+    'build_dye_garden': { name: '染料园', icon: ICONS.dye_garden, tooltip: '<b>染料园</b><br>消耗: 30🔨<br>基础: 2💰<br>加成: 为市场区提供相邻收益<br>需灌木丛（热带）', cost: { industry: 30 }, reqTerrain: [TERRAIN.SHRUB_TROP], toTerrain: TERRAIN.DYE_GARDEN },
     'make_desert_set': { name: '赛特荒漠化', icon: ICONS.act_set_desert, tooltip: '<b>赛特神迹</b><br>消耗: 30💰<br>效果: 热带地形变沙漠<br>信徒专属能力', cost: { gold: 30 }, reqTerrain: [TERRAIN.JUNGLE, TERRAIN.BRUSH, TERRAIN.SWAMP, TERRAIN.MANGROVE, TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.DESERT },
     'make_coast_poseidon': { name: '波塞冬之怒', icon: ICONS.act_poseidon, tooltip: '<b>波塞冬神迹</b><br>消耗: 30💰<br>效果: 平地变沿海<br>信徒专属能力', cost: { gold: 30 }, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.TUNDRA, TERRAIN.POLAR, TERRAIN.WASTELAND, TERRAIN.SWAMP], toTerrain: TERRAIN.COAST },
     'build_pyramid': { name: '永恒金字塔', icon: ICONS.act_pyramid, cost: { gold: 10000 }, reqTerrain: [TERRAIN.DESERT], toTerrain: TERRAIN.ETERNA_PYRAMID, tooltip: '奇观胜利' }
@@ -5617,6 +5630,26 @@ function drawWetlandIcon(ctx, x, y, size) {
     ctx.restore();
 }
 
+function drawShrubIcon(ctx, x, y, size, tropical) {
+    ctx.save();
+    const s = size * 0.32;
+    const colors = tropical ? ['#a16207', '#ca8a04', '#854d0e'] : ['#4d7c0f', '#65a30d', '#3f6212'];
+    ctx.fillStyle = colors[0];
+    ctx.beginPath(); ctx.arc(x - s * 0.55, y + s * 0.25, s * 0.55, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = colors[1];
+    ctx.beginPath(); ctx.arc(x + s * 0.1, y - s * 0.15, s * 0.6, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = colors[2];
+    ctx.beginPath(); ctx.arc(x + s * 0.65, y + s * 0.3, s * 0.45, 0, Math.PI * 2); ctx.fill();
+    if (tropical) {
+        ctx.fillStyle = '#dc2626';
+        ctx.beginPath(); ctx.arc(x - s * 0.35, y - s * 0.2, s * 0.11, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x + s * 0.35, y + s * 0.1, s * 0.11, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.fillStyle = '#78350f';
+    ctx.fillRect(x - s * 0.08, y + s * 0.5, s * 0.16, s * 0.55);
+    ctx.restore();
+}
+
 function drawHex(ctx, q, r, t, activeGods = null, phase = 'all') {
     const p = hexToPixel(q, r); const size = HEX_SIZE * state.camera.zoom;
     const villageSpec = t.village ? getVillageSpecialty(t.village) : null;
@@ -5690,7 +5723,7 @@ function drawHex(ctx, q, r, t, activeGods = null, phase = 'all') {
         else if (BUILDINGS[t.improvement]) { const b = BUILDINGS[t.improvement]; const lvl = (t.level || 1) - 1; if (b.icons && b.icons[lvl]) icon = b.icons[lvl]; else if (b.icons) icon = b.icons[0]; }
     }
     if (!icon) {
-        if (t.type === TERRAIN.FOREST) icon = ICONS.broadleaf; else if (t.type === TERRAIN.TAIGA) icon = ICONS.tree; else if (t.type === TERRAIN.JUNGLE) icon = ICONS.palm; else if (t.type === TERRAIN.DESERT) icon = null; else if (t.type === TERRAIN.MOUNTAIN) icon = ICONS.mountain; else if (t.type === TERRAIN.POLAR) icon = ICONS.snow; else if (t.type === TERRAIN.VOLCANO) icon = ICONS.volcano; else if (t.type === TERRAIN.OASIS) icon = ICONS.oasis; else if (t.type === TERRAIN.ROCKY) icon = ICONS.rock; else if (t.type === TERRAIN.WASTELAND) icon = ICONS.wasteland; else if (t.type === TERRAIN.FERTILE_SOIL) icon = ICONS.fertile; else if (t.type === TERRAIN.ICE_CAP) icon = ICONS.icecap; else if (t.type === TERRAIN.SWAMP) icon = ICONS.swamp; else if (t.type === TERRAIN.SALT_MARSH) icon = ICONS.saltmarsh; else if (t.type === TERRAIN.SALT_PAN) icon = ICONS.saltpan; else if (t.type === TERRAIN.SALT_PASTURE) icon = ICONS.saltpasture; else if (t.type === TERRAIN.REED_BED) icon = ICONS.reedbed; else if (t.type === TERRAIN.WETLAND) icon = ICONS.wetland; else if (t.type === TERRAIN.WETLAND_RESERVE) icon = ICONS.wetland_reserve;
+        if (t.type === TERRAIN.FOREST) icon = ICONS.broadleaf; else if (t.type === TERRAIN.TAIGA) icon = ICONS.tree; else if (t.type === TERRAIN.JUNGLE) icon = ICONS.palm; else if (t.type === TERRAIN.DESERT) icon = null; else if (t.type === TERRAIN.MOUNTAIN) icon = ICONS.mountain; else if (t.type === TERRAIN.POLAR) icon = ICONS.snow; else if (t.type === TERRAIN.VOLCANO) icon = ICONS.volcano; else if (t.type === TERRAIN.OASIS) icon = ICONS.oasis; else if (t.type === TERRAIN.ROCKY) icon = ICONS.rock; else if (t.type === TERRAIN.WASTELAND) icon = ICONS.wasteland; else if (t.type === TERRAIN.FERTILE_SOIL) icon = ICONS.fertile; else if (t.type === TERRAIN.ICE_CAP) icon = ICONS.icecap; else if (t.type === TERRAIN.SWAMP) icon = ICONS.swamp; else if (t.type === TERRAIN.SALT_MARSH) icon = ICONS.saltmarsh; else if (t.type === TERRAIN.SALT_PAN) icon = ICONS.saltpan; else if (t.type === TERRAIN.SALT_PASTURE) icon = ICONS.saltpasture; else if (t.type === TERRAIN.REED_BED) icon = ICONS.reedbed; else if (t.type === TERRAIN.WETLAND) icon = ICONS.wetland; else if (t.type === TERRAIN.WETLAND_RESERVE) icon = ICONS.wetland_reserve; else if (t.type === TERRAIN.SHRUB_TEMP) icon = ICONS.shrub_temp; else if (t.type === TERRAIN.SHRUB_TROP) icon = ICONS.shrub_trop; else if (t.type === TERRAIN.APIARY) icon = ICONS.apiary; else if (t.type === TERRAIN.DYE_GARDEN) icon = ICONS.dye_garden;
         else if (t.type === TERRAIN.CACTUS_DESERT) icon = ICONS.act_cactus; else if (t.type === TERRAIN.ICE_FLOAT) icon = ICONS.ice; else if (t.type === TERRAIN.REEF) icon = ICONS.reef; else if (t.type === TERRAIN.TERRACE) icon = ICONS.terrace; else if (t.type === TERRAIN.CANAL) icon = ICONS.canal; else if (t.type === TERRAIN.WIND_FARM) icon = ICONS.wind; else if (t.type === TERRAIN.MINING_SITE) icon = ICONS.mining; else if (t.type === TERRAIN.TUNNEL) icon = ICONS.tunnel; else if (t.type === TERRAIN.OBSERVATORY) icon = ICONS.obs; else if (t.type === TERRAIN.TOURIST_SPOT) icon = ICONS.tourist; else if (t.type === TERRAIN.SOLAR_FARM) icon = ICONS.solar; else if (t.type === TERRAIN.KAREZ) icon = ICONS.karez;
         else if (t.type === TERRAIN.POLAR_STATION) icon = ICONS.polar_st; else if (t.type === TERRAIN.AURORA_TOWER) icon = ICONS.aurora; else if (t.type === TERRAIN.REINDEER_PASTURE) icon = ICONS.reindeer; else if (t.type === TERRAIN.PEAT_MINE) icon = ICONS.peat; else if (t.type === TERRAIN.PASTURE) icon = ICONS.pasture; else if (t.type === TERRAIN.LUMBER_MILL) icon = ICONS.lumber; else if (t.type === TERRAIN.CAMEL_RANCH) icon = ICONS.camel; else if (t.type === TERRAIN.DATE_PALM) icon = ICONS.date; else if (t.type === TERRAIN.SILT_PLANT) icon = ICONS.silt; else if (t.type === TERRAIN.HUNTING_CAMP) icon = ICONS.hunting; else if (t.type === TERRAIN.ORCHARD) icon = ICONS.orchard; else if (t.type === TERRAIN.PLANTATION) icon = ICONS.plantation; else if (t.type === TERRAIN.FLOATING_GARDEN) icon = ICONS.floating_garden; else if (t.type === TERRAIN.BOG_IRON) icon = ICONS.bog_iron; else if (t.type === TERRAIN.COASTAL_FISHERY) icon = ICONS.coastal_fishery; else if (t.type === TERRAIN.WINDMILL_FIELD) icon = ICONS.windmill; else if (t.type === TERRAIN.RACECOURSE) icon = ICONS.racecourse; else if (t.type === TERRAIN.SAFARI_CAMP) icon = ICONS.safari; else if (t.type === TERRAIN.FLOATING_RESORT) icon = ICONS.floating_resort; else if (t.type === TERRAIN.ETERNA_PYRAMID) icon = ICONS.pyramid; else if (t.type === TERRAIN.SKI_RESORT) icon = ICONS.ski_resort; else if (t.type === TERRAIN.ICE_SCULPTURE_PARK) icon = ICONS.ice_sculpture; else if (t.type === TERRAIN.PALEONTOLOGY_DIG) icon = ICONS.paleontology; else if (t.type === TERRAIN.QUARRY) icon = ICONS.quarry; else if (t.type === TERRAIN.GEOPARK) icon = ICONS.geopark; else if (t.type === TERRAIN.TREEHOUSE_RESORT) icon = ICONS.treehouse_resort; else if (t.type === TERRAIN.MANGROVE) icon = ICONS.mangrove; else if (t.type === TERRAIN.GEYSER) icon = ICONS.geyser; else if (t.type === TERRAIN.CAVE) icon = ICONS.cave; else if (t.type === TERRAIN.CRAB_FARM) icon = ICONS.crab_farm; else if (t.type === TERRAIN.MANGROVE_KILN) icon = ICONS.mangrove_kiln; else if (t.type === TERRAIN.MANGROVE_RESERVE) icon = ICONS.mangrove_reserve; else if (t.type === TERRAIN.GEOTHERMAL_PLANT) icon = ICONS.geothermal_plant; else if (t.type === TERRAIN.HOT_SPRING_RESORT) icon = ICONS.hot_spring_resort; else if (t.type === TERRAIN.THERMOPHILE_LAB) icon = ICONS.thermophile_lab; else if (t.type === TERRAIN.CELLAR_VAULT) icon = ICONS.cellar_vault; else if (t.type === TERRAIN.FUNGAL_FARM) icon = ICONS.fungal_farm; else if (t.type === TERRAIN.DEEP_EARTH_LAB) icon = ICONS.deep_earth_lab; else if (t.type === TERRAIN.PEAT_BOG) icon = ICONS.peat_bog; else if (t.type === TERRAIN.CLOUDBERRY_PLANTATION) icon = ICONS.cloudberry_plantation; else if (t.type === TERRAIN.PEAT_BOG_RESERVE) icon = ICONS.peat_reserve; else if (t.type === TERRAIN.ALPACA_RANCH) icon = ICONS.alpaca_ranch; else if (t.type === TERRAIN.WINERY) icon = ICONS.winery;
         else if (t.type === TERRAIN.LAKE) { 
@@ -5731,6 +5764,12 @@ if (t.isRuin && !t.improvement) {
         icon = null;
     } else if (t.type === TERRAIN.WETLAND) {
         drawWetlandIcon(ctx, p.x, p.y, size);
+        icon = null;
+    } else if (t.type === TERRAIN.SHRUB_TEMP) {
+        drawShrubIcon(ctx, p.x, p.y, size, false);
+        icon = null;
+    } else if (t.type === TERRAIN.SHRUB_TROP) {
+        drawShrubIcon(ctx, p.x, p.y, size, true);
         icon = null;
     }
 
@@ -6784,6 +6823,9 @@ function performAction(key) {
     else if (key === 'chop_cactus') { t.type = TERRAIN.DESERT; }
     else if (key.startsWith('make_oasis')) { t.type = TERRAIN.OASIS; }
     else if (key === 'make_wetland_grass') { t.type = TERRAIN.WETLAND; }
+    else if (key === 'make_shrub_temp') { t.type = TERRAIN.SHRUB_TEMP; }
+    else if (key === 'make_shrub_trop') { t.type = TERRAIN.SHRUB_TROP; }
+    else if (key === 'clear_shrub') { t.type = t.type === TERRAIN.SHRUB_TEMP ? TERRAIN.DRY_GRASS_TEMP : TERRAIN.DRY_GRASS_TROP; }
     else if (key === 'make_swamp_savanna') { t.type = TERRAIN.SWAMP; }
     else if (key === 'make_terrace') { t.type = TERRAIN.TERRACE; }
     else if (key === 'build_mine') { t.type = TERRAIN.MINING_SITE; }
@@ -6845,6 +6887,8 @@ function performAction(key) {
     else if (key === 'build_salt_pasture') { t.type = TERRAIN.SALT_PASTURE; }
     else if (key === 'build_reed') { t.type = TERRAIN.REED_BED; }
     else if (key === 'build_wetland_reserve') { t.type = TERRAIN.WETLAND_RESERVE; }
+    else if (key === 'build_apiary') { t.type = TERRAIN.APIARY; }
+    else if (key === 'build_dye_garden') { t.type = TERRAIN.DYE_GARDEN; }
     if (!TERRAIN_MOD_ACTIONS.includes(key)) { t.owner = 'player'; }
     
     createParticles(t.q, t.r, '#ffffff'); calculateIncome(); updateUI(); draw(); updateSelectionUI(t); autoSave();
@@ -6943,7 +6987,7 @@ function getTileYield(t, activeGodsCache = null) {
             nbs.forEach(n => {
                 const nName = TERRAIN_INFO[n.type].name; let adj = {};
                 if (t.improvement === 'farm') {
-                    if ([TERRAIN.TERRACE, TERRAIN.KAREZ, TERRAIN.CANAL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CAMEL_RANCH, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.FLOATING_GARDEN, TERRAIN.COASTAL_FISHERY, TERRAIN.PEAT_MINE, TERRAIN.CRAB_FARM, TERRAIN.CELLAR_VAULT, TERRAIN.FUNGAL_FARM, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.CACTUS_DESERT, TERRAIN.ALPACA_RANCH, TERRAIN.SALT_PASTURE].includes(n.type)) { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🌾`); }
+                    if ([TERRAIN.TERRACE, TERRAIN.KAREZ, TERRAIN.CANAL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CAMEL_RANCH, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.FLOATING_GARDEN, TERRAIN.COASTAL_FISHERY, TERRAIN.PEAT_MINE, TERRAIN.CRAB_FARM, TERRAIN.CELLAR_VAULT, TERRAIN.FUNGAL_FARM, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.CACTUS_DESERT, TERRAIN.ALPACA_RANCH, TERRAIN.SALT_PASTURE, TERRAIN.APIARY].includes(n.type)) { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🌾`); }
                     if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.food = (adj.food||0)+hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🌾`); }
                     if (n.improvement === 'fishery') { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`捕鱼场: +${engBonus}🌾`); }
                     if (n.improvement === 'oasis_cistern') { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`绿洲蓄水池: +${engBonus}🌾`); }
@@ -6953,7 +6997,7 @@ function getTileYield(t, activeGodsCache = null) {
                     if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.industry = (adj.industry||0)+hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🔨`); }
                 }
                 if (t.improvement === 'market') {
-                    if ([TERRAIN.TUNNEL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CANAL, TERRAIN.CAMEL_RANCH, TERRAIN.DATE_PALM, TERRAIN.HUNTING_CAMP, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.COASTAL_FISHERY, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.TREEHOUSE_RESORT, TERRAIN.CRAB_FARM, TERRAIN.HOT_SPRING_RESORT, TERRAIN.CELLAR_VAULT, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.ALPACA_RANCH, TERRAIN.WINERY, TERRAIN.SALT_PAN, TERRAIN.SALT_PASTURE].includes(n.type)) { let bonus = engBonus; adj.gold = (adj.gold||0) + bonus; details.adjacencyBreakdown.push(`${nName}: +${bonus}💰`); }
+                    if ([TERRAIN.TUNNEL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CANAL, TERRAIN.CAMEL_RANCH, TERRAIN.DATE_PALM, TERRAIN.HUNTING_CAMP, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.COASTAL_FISHERY, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.TREEHOUSE_RESORT, TERRAIN.CRAB_FARM, TERRAIN.HOT_SPRING_RESORT, TERRAIN.CELLAR_VAULT, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.ALPACA_RANCH, TERRAIN.WINERY, TERRAIN.SALT_PAN, TERRAIN.SALT_PASTURE, TERRAIN.APIARY, TERRAIN.DYE_GARDEN].includes(n.type)) { let bonus = engBonus; adj.gold = (adj.gold||0) + bonus; details.adjacencyBreakdown.push(`${nName}: +${bonus}💰`); }
                     if (n.improvement === 'sea_bridge') { adj.gold = (adj.gold||0) + engBonus; details.adjacencyBreakdown.push(`跨海大桥: +${engBonus}💰`); }
                     if (n.improvement === 'bridge') { adj.gold = (adj.gold||0) + engBonus; details.adjacencyBreakdown.push(`跨湖大桥: +${engBonus}💰`); }
                     if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.gold = (adj.gold||0) + hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}💰`); }
@@ -8421,7 +8465,8 @@ ttHeader.innerHTML = `<span class="${t.improvement ? 'text-yellow-300' : 'text-w
 const VOLCANIC_SOIL_EXCLUDED = [
     TERRAIN.MOUNTAIN, TERRAIN.LAKE, TERRAIN.ROCKY, TERRAIN.OCEAN,
     TERRAIN.COAST, TERRAIN.VOLCANO, TERRAIN.GEYSER, TERRAIN.ICE_FLOAT, TERRAIN.REEF,
-    TERRAIN.POLAR, TERRAIN.ICE_CAP, TERRAIN.SALT_MARSH, TERRAIN.WETLAND, TERRAIN.WETLAND_RESERVE
+    TERRAIN.POLAR, TERRAIN.ICE_CAP, TERRAIN.SALT_MARSH, TERRAIN.WETLAND, TERRAIN.WETLAND_RESERVE,
+    TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.APIARY, TERRAIN.DYE_GARDEN
 ];
 
 function applyVolcanicFertileSoilAround(volcanoTile) {
@@ -8452,7 +8497,7 @@ function tileLat(t) {
 // === 冰盖：只在极地纬度生成，沿陆地连片分布（类似格陵兰/南极）===
 function isIceCapCandidate(t) {
     return !!t && !t.improvement && !t.village && !t.isRuin &&
-        ![TERRAIN.OCEAN, TERRAIN.COAST, TERRAIN.ICE_FLOAT, TERRAIN.REEF, TERRAIN.VOLCANO, TERRAIN.ICE_CAP, TERRAIN.LAKE, TERRAIN.SALT_MARSH, TERRAIN.WETLAND, TERRAIN.WETLAND_RESERVE].includes(t.type);
+        ![TERRAIN.OCEAN, TERRAIN.COAST, TERRAIN.ICE_FLOAT, TERRAIN.REEF, TERRAIN.VOLCANO, TERRAIN.ICE_CAP, TERRAIN.LAKE, TERRAIN.SALT_MARSH, TERRAIN.WETLAND, TERRAIN.WETLAND_RESERVE, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.APIARY, TERRAIN.DYE_GARDEN].includes(t.type);
 }
 
 function generateIceCaps() {
@@ -8563,6 +8608,61 @@ function generateWetlands() {
     }
 }
 
+// === 灌木丛：温带/热带成片生成 ===
+const SHRUB_TEMP_ELIGIBLE = [TERRAIN.GRASS, TERRAIN.DRY_GRASS_TEMP];
+const SHRUB_TROP_ELIGIBLE = [TERRAIN.BRUSH, TERRAIN.DRY_GRASS_TROP];
+
+function isShrubCandidate(t, types, minLat, maxLat) {
+    if (!t || t.improvement || t.village || t.isRuin) return false;
+    if (!types.includes(t.type)) return false;
+    const lat = tileLat(t);
+    return lat >= minLat && lat < maxLat;
+}
+
+function growShrubPatch(seed, targetType, types, minLat, maxLat) {
+    const target = 1 + Math.floor(Math.random() * 3);
+    const cluster = [];
+    const seen = new Set();
+    const frontier = [seed];
+    while (frontier.length && cluster.length < target) {
+        const idx = Math.floor(Math.random() * frontier.length);
+        const t = frontier.splice(idx, 1)[0];
+        const key = `${t.q},${t.r}`;
+        if (seen.has(key) || !isShrubCandidate(t, types, minLat, maxLat)) continue;
+        seen.add(key);
+        t.type = targetType;
+        cluster.push(t);
+        getNeighbors(t.q, t.r).forEach(n => {
+            if (!seen.has(`${n.q},${n.r}`) && isShrubCandidate(n, types, minLat, maxLat)) frontier.push(n);
+        });
+    }
+    return cluster.length;
+}
+
+function generateShrublands() {
+    const temperateSeeds = Array.from(state.map.values())
+        .filter(t => isShrubCandidate(t, SHRUB_TEMP_ELIGIBLE, 0.27, 0.44) || isShrubCandidate(t, SHRUB_TEMP_ELIGIBLE, 0.72, 0.86))
+        .sort(() => Math.random() - 0.5);
+    let madeTemp = 0;
+    for (const seed of temperateSeeds) {
+        if (madeTemp >= 4) break;
+        if (seed.type !== TERRAIN.GRASS && seed.type !== TERRAIN.DRY_GRASS_TEMP) continue;
+        const lat = tileLat(seed);
+        const minLat = lat < 0.5 ? 0.27 : 0.72;
+        const maxLat = lat < 0.5 ? 0.44 : 0.86;
+        if (growShrubPatch(seed, TERRAIN.SHRUB_TEMP, SHRUB_TEMP_ELIGIBLE, minLat, maxLat)) madeTemp++;
+    }
+    const tropSeeds = Array.from(state.map.values())
+        .filter(t => isShrubCandidate(t, SHRUB_TROP_ELIGIBLE, 0.44, 0.72))
+        .sort(() => Math.random() - 0.5);
+    let madeTrop = 0;
+    for (const seed of tropSeeds) {
+        if (madeTrop >= 4) break;
+        if (seed.type !== TERRAIN.BRUSH && seed.type !== TERRAIN.DRY_GRASS_TROP) continue;
+        if (growShrubPatch(seed, TERRAIN.SHRUB_TROP, SHRUB_TROP_ELIGIBLE, 0.44, 0.72)) madeTrop++;
+    }
+}
+
 // === 大湖：4 块以上相连的湖泊组成，内部分布在低地 ===
 const GREAT_LAKE_ELIGIBLE = [
     TERRAIN.GRASS, TERRAIN.FOREST, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.JUNGLE,
@@ -8670,6 +8770,7 @@ else if (lat < 0.72) {
     state.map.forEach(tile => { const r = tile.r; const mapH = 50; const offset = 25; const lat = (r + offset) / mapH; if (lat > 0.44 && lat < 0.72) { if (tile.type === TERRAIN.SWAMP || tile.type === TERRAIN.JUNGLE || tile.type === TERRAIN.BRUSH) { const nbs = getNeighbors(tile.q, tile.r); if (nbs.some(n => n.type === TERRAIN.COAST) && Math.random() < 0.2) { tile.type = TERRAIN.MANGROVE; } } } });
     generateSaltMarshes();
     generateWetlands();
+    generateShrublands();
     generateGreatLakes();
     const possibleLakes = Array.from(state.map.values()).filter(t => { if (!landTypes.includes(t.type)) return false; if (t.type === TERRAIN.MOUNTAIN || t.type === TERRAIN.VOLCANO || t.type === TERRAIN.GEYSER) return false; if (t.type === TERRAIN.POLAR) return false; const nbs = getNeighbors(t.q, t.r); if (nbs.length < 6) return false; return !nbs.some(n => n.type === TERRAIN.OCEAN || n.type === TERRAIN.COAST || n.type === TERRAIN.ICE_FLOAT || n.type === TERRAIN.REEF); }); for (let i = 0; i < 30; i++) { if (possibleLakes.length === 0) break; const idx = Math.floor(Math.random() * possibleLakes.length); const target = possibleLakes[idx]; target.type = TERRAIN.LAKE; possibleLakes.splice(idx, 1); } generateIceCaps(); applyVolcanicFertileSoilToMap(); let starts = Array.from(state.map.values()).filter(t => t.type === TERRAIN.GRASS && !t.improvement);
     if (!starts.length) {
