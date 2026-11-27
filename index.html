@@ -5465,9 +5465,10 @@ function drawRiverEdges(ctx, t) {
     const p = hexToPixel(t.q, t.r);
     const radius = HEX_SIZE * state.camera.zoom + 0.5;
     ctx.save();
-    ctx.strokeStyle = '#38bdf8';
+    ctx.strokeStyle = t.riverMain ? '#1d4ed8' : '#38bdf8';
     ctx.lineWidth = 3;
     ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     t.riverEdges.forEach(edge => {
         const a1 = Math.PI / 180 * (60 * edge + 30);
         const a2 = Math.PI / 180 * (60 * ((edge + 1) % 6) + 30);
@@ -8419,34 +8420,62 @@ function generateRiversAndFloodplains() {
     const mountains = Array.from(state.map.values())
         .filter(t => t.type === TERRAIN.MOUNTAIN && !t.improvement && !t.village && !t.isRuin)
         .filter(t => tileLat(t) > 0.1 && tileLat(t) < 0.94);
-    const farMountains = mountains.filter(t => (waterDist.get(keyOf(t)) || 0) >= 3);
-    const sources = (farMountains.length ? farMountains : mountains)
+    const sources = mountains
         .sort((a, b) => (waterDist.get(keyOf(b)) || 0) - (waterDist.get(keyOf(a)) || 0) || Math.random() - 0.5);
     const used = new Set();
-    const paths = [];
+    const rivers = [];
+
+    const addFinalEdge = (path, water) => {
+        const last = path[path.length - 1];
+        const d = RIVER_DIRS.findIndex(([dq, dr]) => last.q + dq === water.q && last.r + dr === water.r);
+        if (d >= 0) addRiverEdge(last, RIVER_DIR_EDGE[d]);
+    };
+
+    // 主干河流：从最远离水域的山脉出发，入海/入湖
     for (const source of sources) {
-        if (paths.length >= 5) break;
+        if (rivers.filter(r => r.main).length >= 2) break;
         const result = findRiverPath(source, waterDist);
-        if (!result || !result.path || result.path.length < 3) continue;
-        const path = result.path;
-        if (path.some(t => used.has(keyOf(t)))) continue;
-        const water = result.water;
-        for (let i = 0; i < path.length - 1; i++) addRiverEdgeBetween(path[i], path[i + 1]);
-        if (water) {
-            const last = path[path.length - 1];
-            const d = RIVER_DIRS.findIndex(([dq, dr]) => last.q + dq === water.q && last.r + dr === water.r);
-            // 只在最后一块陆地上画入水边，不在水域格上留下河流
-            if (d >= 0) addRiverEdge(last, RIVER_DIR_EDGE[d]);
-        }
-        path.forEach(t => used.add(keyOf(t)));
-        paths.push(path);
+        if (!result || !result.path || result.path.length < 4) continue;
+        if (result.path.some(t => used.has(keyOf(t)))) continue;
+        for (let i = 0; i < result.path.length - 1; i++) addRiverEdgeBetween(result.path[i], result.path[i + 1]);
+        if (result.water) addFinalEdge(result.path, result.water);
+        result.path.forEach(t => { used.add(keyOf(t)); t.riverMain = true; });
+        rivers.push({ path: result.path, main: true });
     }
+
+    // 支流：汇入已有河道
+    for (const source of sources) {
+        if (rivers.length >= 9) break;
+        if (used.has(keyOf(source))) continue;
+        const result = findRiverPath(source, waterDist);
+        if (!result || !result.path) continue;
+        let path = result.path;
+        let main = false;
+        const mergeIdx = path.findIndex((t, i) => i > 0 && used.has(keyOf(t)));
+        if (mergeIdx > 0) {
+            path = path.slice(0, mergeIdx + 1);
+        } else if (path.length >= 4 && result.water) {
+            main = true;
+        } else {
+            continue;
+        }
+        if (path.length < 2) continue;
+        for (let i = 0; i < path.length - 1; i++) addRiverEdgeBetween(path[i], path[i + 1]);
+        if (main && result.water) addFinalEdge(path, result.water);
+        path.forEach(t => {
+            used.add(keyOf(t));
+            if (main) t.riverMain = true;
+            else if (t.riverMain === undefined) t.riverMain = false;
+        });
+        rivers.push({ path, main });
+    }
+
     const floodable = [TERRAIN.GRASS, TERRAIN.BRUSH, TERRAIN.DRY_GRASS_COLD, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP, TERRAIN.FOREST, TERRAIN.JUNGLE];
     const flood = (t, chance) => {
         if (!t || RIVER_SINK_TYPES.includes(t.type)) return;
         if (floodable.includes(t.type) && Math.random() < chance) t.type = TERRAIN.FLOODPLAIN;
     };
-    paths.forEach(path => path.forEach((t, i) => {
+    rivers.forEach(r => r.path.forEach((t, i) => {
         if (i === 0 || RIVER_SINK_TYPES.includes(t.type)) return;
         flood(t, 0.7);
         getNeighbors(t.q, t.r).forEach(n => flood(n, 0.35));
