@@ -415,7 +415,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
         </div>
 
         <div class="absolute bottom-12 left-4 pointer-events-auto w-max z-20">
-            <button id="btn-music" onclick="toggleMusic()" class="bg-slate-800/90 hover:bg-slate-700 text-white w-10 h-10 rounded-full shadow-lg border border-slate-500 flex items-center justify-center transition backdrop-blur-sm text-xl" title="播放/暂停音乐">
+            <button id="btn-music" onclick="openMusicPanel()" class="bg-slate-800/90 hover:bg-slate-700 text-white w-10 h-10 rounded-full shadow-lg border border-slate-500 flex items-center justify-center transition backdrop-blur-sm text-xl" title="音乐播放器">
                 <span id="music-icon">🔇</span>
             </button>
         </div>
@@ -538,6 +538,29 @@ Check your Browserslist config to be sure that your targets are set up correctly
     </div>
 
     <!-- 存档管理 -->
+    <div id="music-modal" class="hidden absolute inset-0 bg-black/85 z-[65] flex items-center justify-center pointer-events-auto backdrop-blur-sm pop-in px-4" onclick="if(event.target===this) closeMusicPanel()">
+        <div class="bg-slate-900 border border-sky-600 rounded-2xl p-5 w-full max-w-md shadow-2xl">
+            <div class="flex items-center justify-between border-b border-gray-700 pb-3 mb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🎵</span>
+                    <h2 class="text-xl font-bold text-sky-300">音乐</h2>
+                </div>
+                <button onclick="closeMusicPanel()" class="text-gray-400 hover:text-white text-xl leading-none px-1" title="关闭">✕</button>
+            </div>
+            <div id="music-now-playing" class="text-xs text-gray-300 mb-3">未播放</div>
+            <div class="grid grid-cols-3 gap-2 mb-3">
+                <button data-music-mode="order" onclick="setMusicMode('order')" class="music-mode-btn py-2 rounded-lg text-xs font-bold border transition" title="列表顺序播放">🔁 列表顺序</button>
+                <button data-music-mode="shuffle" onclick="setMusicMode('shuffle')" class="music-mode-btn py-2 rounded-lg text-xs font-bold border transition" title="随机播放">🔀 随机播放</button>
+                <button data-music-mode="repeat" onclick="setMusicMode('repeat')" class="music-mode-btn py-2 rounded-lg text-xs font-bold border transition" title="单曲循环">🔂 单曲循环</button>
+            </div>
+            <div id="music-track-list" class="space-y-1 max-h-64 overflow-y-auto pr-1"></div>
+            <div class="flex gap-2 mt-4">
+                <button id="music-play-btn" onclick="toggleMusicPlayback()" class="flex-1 py-2.5 bg-sky-700 hover:bg-sky-600 text-white font-bold rounded-lg">▶ 播放</button>
+                <button onclick="closeMusicPanel()" class="flex-1 py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg">关闭</button>
+            </div>
+        </div>
+    </div>
+
     <div id="save-manager-modal" class="hidden absolute inset-0 bg-black/85 z-[60] flex items-center justify-center pointer-events-auto backdrop-blur-sm pop-in px-4">
         <div class="bg-slate-900 border border-emerald-600 rounded-2xl p-5 w-full max-w-2xl shadow-2xl max-h-[85vh] overflow-y-auto">
             <div class="flex items-center justify-between border-b border-gray-700 pb-3 mb-4">
@@ -1162,8 +1185,16 @@ const MUSIC_TRACKS = [
     "title": "chaski"
   },
   {
+    "src": "assets/music/Dino Discovery.mp3",
+    "title": "Dino Discovery"
+  },
+  {
     "src": "assets/music/最后的莫西干人.mp3",
     "title": "最后的莫西干人"
+  },
+  {
+    "src": "assets/music/茉莉花.mp3",
+    "title": "茉莉花"
   }
 ];
 
@@ -6306,13 +6337,19 @@ let currentTrackIndex = -1;
 let isMusicPlaying = false;
 let isSystemReady = false;
 let validTracks = [];
+let musicMode = 'order';
+const MUSIC_MODE_LABELS = { order: '列表顺序', shuffle: '随机播放', repeat: '单曲循环' };
 
 // 本地音乐：不联网、不走 blob，缺失文件时静默降级
 function initMusicSystem() {
+    if (typeof settings !== 'undefined' && ['order', 'shuffle', 'repeat'].includes(settings.musicMode)) {
+        musicMode = settings.musicMode;
+    }
     if (musicTracks.length === 0) {
         isSystemReady = true;
         isMusicPlaying = false;
         updateMusicUI(false);
+        renderMusicPanel();
         return;
     }
     const allowPreload = typeof settings === 'undefined' || settings.music !== false;
@@ -6321,7 +6358,7 @@ function initMusicSystem() {
         audio.volume = 0.4;
         audio.preload = allowPreload ? 'auto' : 'none';
         audio._title = track.title || track.src.split('/').pop();
-        audio.addEventListener('ended', playNextTrack);
+        audio.addEventListener('ended', () => playNextTrack());
         if (allowPreload && typeof audio.load === 'function') {
             try { audio.load(); } catch (e) { /* 忽略 */ }
         }
@@ -6331,6 +6368,13 @@ function initMusicSystem() {
     currentTrackIndex = -1;
     isMusicPlaying = false;
     updateMusicUI(false);
+    renderMusicPanel();
+}
+
+function getTrackTitle(index) {
+    const track = musicTracks[index];
+    const audio = validTracks[index];
+    return (track && track.title) || (audio && audio._title) || 'BGM';
 }
 
 // 是否已经完整缓冲，避免边下边播造成断断续续
@@ -6345,83 +6389,150 @@ function isTrackReady(audio) {
     return false;
 }
 
-function playNextTrack(attempt = 0) {
-    if (!isSystemReady || validTracks.length === 0) return;
-
-    if (currentTrackIndex >= 0 && currentTrackIndex < validTracks.length) {
-        const prev = validTracks[currentTrackIndex];
-        prev.pause();
-        try { prev.currentTime = 0; } catch (e) { /* 忽略 */ }
+function pauseAudio(audio, reset) {
+    if (!audio) return;
+    try { audio.pause(); } catch (e) { /* 忽略 */ }
+    if (reset) {
+        try { audio.currentTime = 0; } catch (e) { /* 忽略 */ }
     }
+}
 
-    currentTrackIndex = (currentTrackIndex + 1) % validTracks.length;
-    if (!isMusicPlaying) return;
-
-    const next = validTracks[currentTrackIndex];
-    if (!isTrackReady(next)) {
-        isMusicPlaying = false;
-        updateMusicUI(false);
-        showMsg('🎵 哈索尔还在准备音乐中....', 'warning');
-        return;
+function startTrack(index, reset = true) {
+    if (!isSystemReady || index < 0 || index >= validTracks.length) return;
+    currentTrackIndex = index;
+    isMusicPlaying = true;
+    const audio = validTracks[index];
+    if (reset) {
+        try { audio.currentTime = 0; } catch (e) { /* 忽略 */ }
     }
-    const playPromise = next.play();
+    const playPromise = audio.play();
     if (playPromise !== undefined) {
         playPromise.then(() => {
+            isMusicPlaying = true;
             showCurrentSongName();
             updateMusicUI(true);
         }).catch((e) => {
-            console.warn('音乐播放失败', next.src, e);
+            isMusicPlaying = false;
+            updateMusicUI(false);
             if (e && e.name === 'NotAllowedError') {
-                isMusicPlaying = false;
-                updateMusicUI(false);
-                showMsg('🔇 请点击音乐按钮开始', 'warning');
-                return;
-            }
-            if (attempt + 1 < validTracks.length) {
-                playNextTrack(attempt + 1);
+                showMsg('🔇 浏览器阻止了播放，请再点一次歌曲', 'warning');
             } else {
-                isMusicPlaying = false;
-                updateMusicUI(false);
-                showMsg('🔇 音乐不可用（assets/music 缺失或浏览器拦截）', 'warning');
+                showMsg('🔇 音乐播放失败（文件缺失或格式不支持）', 'warning');
             }
         });
     }
 }
 
-// 按钮点击
-function toggleMusic() {
-    if (!isSystemReady || validTracks.length === 0) {
-        showMsg("🎵 哈索尔还在准备音乐中....", "warning");
-        return;
-    }
+function playTrack(index) {
+    if (!isSystemReady || index < 0 || index >= validTracks.length) return;
+    if (currentTrackIndex >= 0 && currentTrackIndex !== index) pauseAudio(validTracks[currentTrackIndex], true);
+    startTrack(index, true);
+}
 
-    const currentAudio = validTracks[currentTrackIndex];
-    if (!currentAudio) {
-        isMusicPlaying = true;
-        playNextTrack();
+function playNextTrack() {
+    if (!isSystemReady || validTracks.length === 0 || !isMusicPlaying) return;
+    if (currentTrackIndex >= 0) pauseAudio(validTracks[currentTrackIndex], true);
+    let nextIndex;
+    if (musicMode === 'repeat' && currentTrackIndex >= 0) {
+        nextIndex = currentTrackIndex;
+    } else if (musicMode === 'shuffle') {
+        if (validTracks.length === 1) nextIndex = 0;
+        else {
+            do { nextIndex = Math.floor(Math.random() * validTracks.length); } while (nextIndex === currentTrackIndex);
+        }
+    } else {
+        nextIndex = currentTrackIndex < 0 ? 0 : (currentTrackIndex + 1) % validTracks.length;
+    }
+    startTrack(nextIndex, true);
+}
+
+function toggleMusic() { openMusicPanel(); }
+
+function toggleMusicPlayback() {
+    if (!isSystemReady || validTracks.length === 0) {
+        showMsg('🎵 哈索尔还在准备音乐中....', 'warning');
         return;
     }
-    if (currentAudio.paused) {
-        if (!isTrackReady(currentAudio)) {
-            showMsg('🎵 哈索尔还在准备音乐中....', 'warning');
-            if (typeof currentAudio.load === 'function') {
-                try { currentAudio.load(); } catch (e) { /* 忽略 */ }
-            }
-            return;
-        }
-        currentAudio.play().then(() => {
-            isMusicPlaying = true;
-            showCurrentSongName();
-            updateMusicUI(true);
-        }).catch(() => {
-            showMsg("🔇 浏览器阻止了播放，请再点一次音乐按钮", "warning");
-        });
-    } else {
-        currentAudio.pause();
+    const current = validTracks[currentTrackIndex];
+    if (current && !current.paused) {
+        pauseAudio(current, false);
         isMusicPlaying = false;
-        showMsg("🔇 BGM 已暂停", "warning");
         updateMusicUI(false);
+        return;
     }
+    if (current && currentTrackIndex >= 0) {
+        const atEnd = current.ended || (current.duration && current.currentTime >= current.duration - 0.05);
+        startTrack(currentTrackIndex, !!atEnd);
+        return;
+    }
+    isMusicPlaying = true;
+    playNextTrack();
+}
+
+function openMusicPanel() {
+    const modal = document.getElementById('music-modal');
+    if (!modal) return;
+    renderMusicPanel();
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+function closeMusicPanel() {
+    const modal = document.getElementById('music-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+function setMusicMode(mode) {
+    if (!MUSIC_MODE_LABELS[mode]) return;
+    musicMode = mode;
+    if (typeof settings !== 'undefined') {
+        settings.musicMode = mode;
+        if (typeof persistSettings === 'function') persistSettings();
+    }
+    renderMusicPanel();
+}
+
+function renderMusicPanel() {
+    const list = document.getElementById('music-track-list');
+    const now = document.getElementById('music-now-playing');
+    const playBtn = document.getElementById('music-play-btn');
+    if (now) {
+        now.textContent = currentTrackIndex >= 0
+            ? `${isMusicPlaying ? '正在播放' : '已暂停'}：${getTrackTitle(currentTrackIndex)} · ${MUSIC_MODE_LABELS[musicMode]}`
+            : `未播放 · ${MUSIC_MODE_LABELS[musicMode]}`;
+    }
+    if (playBtn) playBtn.textContent = isMusicPlaying ? '⏸ 暂停' : '▶ 播放';
+    const modeButtons = document.querySelectorAll ? document.querySelectorAll('.music-mode-btn') : [];
+    modeButtons.forEach(btn => {
+        const active = btn.dataset.musicMode === musicMode;
+        btn.className = `music-mode-btn py-2 rounded-lg text-xs font-bold border transition ${active ? 'bg-sky-700 border-sky-400 text-white' : 'bg-slate-800 border-slate-600 text-gray-300 hover:bg-slate-700'}`;
+    });
+    if (!list) return;
+    list.innerHTML = '';
+    if (musicTracks.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'text-sm text-gray-400 py-4 text-center';
+        empty.textContent = '音乐库为空';
+        list.appendChild(empty);
+        return;
+    }
+    musicTracks.forEach((track, index) => {
+        const active = index === currentTrackIndex;
+        const btn = document.createElement('button');
+        btn.className = `w-full flex items-center justify-between gap-2 text-left px-3 py-2 rounded-lg border text-sm transition ${active ? 'bg-sky-800/80 border-sky-400 text-white' : 'bg-slate-800/80 border-slate-700 text-gray-200 hover:bg-slate-700/80'}`;
+        btn.onclick = () => playTrack(index);
+        const name = document.createElement('span');
+        name.className = 'truncate';
+        name.textContent = `${index + 1}. ${getTrackTitle(index)}`;
+        const state = document.createElement('span');
+        state.className = `text-[10px] shrink-0 ${active ? 'text-sky-300' : 'text-gray-500'}`;
+        state.textContent = active ? (isMusicPlaying ? '播放中' : '已暂停') : '';
+        btn.appendChild(name);
+        btn.appendChild(state);
+        list.appendChild(btn);
+    });
 }
 
 // UI 更新
@@ -6433,12 +6544,11 @@ function updateMusicUI(isPlaying) {
         if (isPlaying) btn.classList.add('ring-2', 'ring-green-400');
         else btn.classList.remove('ring-2', 'ring-green-400');
     }
+    if (typeof renderMusicPanel === 'function') renderMusicPanel();
 }
 
 function showCurrentSongName() {
-    const track = validTracks[currentTrackIndex];
-    const name = track ? (track._title || decodeURIComponent(track.src.split('/').pop() || 'BGM')) : 'BGM';
-    showMsg(`🎵 正在播放：${name}`, "info");
+    showMsg(`🎵 正在播放：${getTrackTitle(currentTrackIndex)}`, 'info');
 }
 
 function showMsg(msg, type) { const div = document.createElement('div'); const color = type === 'err' ? 'border-red-500 text-red-200' : (type === 'warning' ? 'border-yellow-500 text-yellow-200' : (type === 'info' ? 'border-sky-500 text-sky-200' : 'border-green-500 text-green-200')); div.className = `bg-slate-800 border ${color} px-3 py-2 rounded shadow mb-2 pop-in`; div.innerHTML = msg; document.getElementById('notification-area').appendChild(div); setTimeout(() => div.remove(), 10000); }
@@ -10324,7 +10434,7 @@ window.addEventListener('resize', resize);
 // ==================== src/22b-settings.js：设置面板与本地设置 ====================
 // ==================== 设置面板：音乐 / 自动存档 / 动画 ====================
 const SETTINGS_KEY = 'wanbao_earth_settings_v1';
-const DEFAULT_SETTINGS = { music: true, autosave: true, animations: true };
+const DEFAULT_SETTINGS = { music: true, autosave: true, animations: true, musicMode: 'order' };
 let settings = loadSettings();
 
 function loadSettings() {
