@@ -658,10 +658,6 @@ Check your Browserslist config to be sure that your targets are set up correctly
                             <li><b>胜利条件：</b> 在 <span class="text-yellow-300">50 回合内</span>于沙漠建造 <span class="text-yellow-300">永恒金字塔</span>（默认 10000💰；普塔 9000💰；维拉科查 3000🔨/💰/🔬/🎭）。</li>
                             <li><b>可重复游玩性：</b> 通过不断尝试各种神灵搭配，以不同的方式获得胜利。</li>
                             <li><b>改造地形：</b> 可花费资源永久改造部分地形，重塑地球生态圈。</li>
-                            <li><b>冰盖：</b> 极地陆地会形成连片冰盖，不可建造农业区。</li>
-                            <li><b>大湖：</b> 4块以上相连的湖泊会形成大湖，颜色与普通湖泊一致。</li>
-                            <li><b>盐沼：</b> 沿海低地会生成盐沼；不能建造区域，但可建盐田（+2💰）、盐沼牧场（+1🌾+1💰）、芦苇场（+2🔨）；可排水成干草地，热带海边盐沼可种红树林。</li>
-                            <li><b>灌木丛：</b> 温带/热带会自然生成灌木丛；可种植灌木（5🌾+10💰）或清除灌丛；可直接建造区域，建成返还 +5🔨；温带可建养蜂场、薪柴场，热带可建染料园、树脂采集场。</li>
                             <li><b>放火烧林：</b> 森林/针叶林可主动放火，2-3回合后变荒地并留下草木灰；之后建农业区永久 +1🌾，火势不会蔓延。</li>
                             <li><b>区域连接：</b> 所有新区域必须与 <span class="text-purple-400">主广场</span> 连接。可以通过隧道、桥梁、运河或已建成的区域进行延伸。区域只可跨一格非交通类人造工程进行建造，不可拆除连接点内的区域（拆除会导致其他区域与主广场断开）。</li>
                             <li><b>人口：</b> 食物足够时每回合结束自动 +1 人口（可连续增长，消耗递增）。每一人口+3🔨+3🔬+3🎭，但-3🌾。食物耗尽会导致人口减少；献祭神时段自动增长暂停（托纳季乌运转期不暂停，人口仍会自然增长）。</li>
@@ -1413,7 +1409,7 @@ const GODS = {
     },
     'poseidon': { 
         name: '海洋之神——波塞冬', 
-        desc: '【撼地者】：可花费30💰将平地变为沿海\n【三叉戟】：港口提供的毗邻加成翻倍(随区域等级提升)', 
+        desc: '【撼地者】：可花费30💰将平地变为沿海\n【三叉戟】：水域交通以及港口提供的毗邻加成翻倍。', 
         icon: '🔱' 
     },
     'athena': { 
@@ -1798,7 +1794,7 @@ const BUILDINGS = {
     'market': { name: '市场区', cost: 50, icons: ['💰', '🏪', '🏦'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.TAIGA, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【市场区】\n人造相邻加成:\n+1/2/3💰: 隧道, 驯鹿牧场, 牧场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3💰: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1💰（无上限）` },
     'campus': { name: '科研区', cost: 50, icons: ['📖', '🏫', '⚛️'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.POLAR, TERRAIN.ROCKY, TERRAIN.JUNGLE, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【科研区】\n人造相邻加成:\n+1/2/3🔬: 极低科考站, 极光观察塔...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🔬: 同类区域 (随等级提升)\n<span class="text-red-400">注意: Lv3不获得科技储备加成(除非托特信仰)</span>` },
     'entertainment_complex': { name: '娱乐区', cost: 50, icons: ['🎡', '🎢', '🏰'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【娱乐区】\n自然相邻加成: +1🎭 沿海 (非港口)\n人造相邻加成:\n+1/2/3🎭: 旅游景区, 滑雪场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🎭: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🎭（无上限）` },
-    'harbor': { name: '港口', cost: 30, icons: ['⚓'], type: 'engineering', baseYield: { gold: 1 }, reqTerrain: [TERRAIN.COAST, TERRAIN.WIND_FARM], desc: `【港口】\n花费: 30🔨 (沿海工程)\n基础: 1💰\n效果:\n为周边区域提供对应等级加成\n(Lv1+1, Lv2+2, Lv3+3)\n波塞冬: 加成翻倍\n限制: 禁止建在湖泊` },
+    'harbor': { name: '港口', cost: 30, icons: ['⚓'], type: 'engineering', baseYield: { food: 1 }, reqTerrain: [TERRAIN.COAST, TERRAIN.WIND_FARM], desc: `【港口】\n花费: 30🔨 (沿海工程)\n基础: 1🌾\n效果:\n为周边区域提供对应等级加成\n(Lv1+1, Lv2+2, Lv3+3)\n波塞冬: 加成翻倍\n限制: 禁止建在湖泊` },
     'sea_bridge': { name: '跨海大桥', cost: 30, icons: ['🌉'], type: 'engineering', baseYield: { gold: 1 }, reqTerrain: [TERRAIN.OCEAN, TERRAIN.OCEAN, TERRAIN.COAST, TERRAIN.ICE_FLOAT, TERRAIN.REEF], desc: `【跨海大桥】\n花费: 30🔨\n基础: 1💰\n效果:\n为周边区域提供对应等级加成\n(Lv1 +1, Lv2 +2, Lv3 +3)\n波塞冬: 加成翻倍\n连接陆地与岛屿` },
     'bridge': { name: '跨湖大桥', cost: 30, icons: ['🌉', '🌉', '🌉'], type: 'engineering', baseYield: { gold: 1 }, reqTerrain: [TERRAIN.LAKE], desc: `【跨湖大桥】\n花费: 30🔨\n基础: 1💰\n效果:\n为周边区域提供对应等级加成\n(Lv1 +1, Lv2 +2, Lv3 +3)\n波塞冬: 加成翻倍` },
     'fishery': { name: '捕鱼场', cost: 30, icons: ['🐟'], type: 'engineering', baseYield: { food: 1, gold: 1 }, reqTerrain: [TERRAIN.LAKE], desc: `【捕鱼场】\n花费: 30🔨\n基础: 1🌾 1💰\n加成: 为农业区，市场区提供相邻收益` },
@@ -6990,6 +6986,7 @@ function getTileYield(t, activeGodsCache = null) {
     let y = { food: 0, industry: 0, gold: 0, science: 0, culture: 0 };
     let details = { base: {}, building: {}, adjacency: {}, adjacencyBreakdown: [], animal: 0, volcano: 0 };
     const activeGods = activeGodsCache || getActiveGods();
+    const poseidonAdjacency = activeGods.has('poseidon');
     
     // 辅助对象
     const utils = {
@@ -7075,19 +7072,19 @@ function getTileYield(t, activeGodsCache = null) {
             nbs.forEach(n => {
                 const nName = TERRAIN_INFO[n.type].name; let adj = {};
                 if (t.improvement === 'farm') {
-                    if ([TERRAIN.TERRACE, TERRAIN.KAREZ, TERRAIN.CANAL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CAMEL_RANCH, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.FLOATING_GARDEN, TERRAIN.COASTAL_FISHERY, TERRAIN.PEAT_MINE, TERRAIN.CRAB_FARM, TERRAIN.CELLAR_VAULT, TERRAIN.FUNGAL_FARM, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.CACTUS_DESERT, TERRAIN.ALPACA_RANCH, TERRAIN.SALT_PASTURE, TERRAIN.APIARY].includes(n.type)) { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🌾`); }
+                    if ([TERRAIN.TERRACE, TERRAIN.KAREZ, TERRAIN.CANAL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CAMEL_RANCH, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.FLOATING_GARDEN, TERRAIN.COASTAL_FISHERY, TERRAIN.PEAT_MINE, TERRAIN.CRAB_FARM, TERRAIN.CELLAR_VAULT, TERRAIN.FUNGAL_FARM, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.CACTUS_DESERT, TERRAIN.ALPACA_RANCH, TERRAIN.SALT_PASTURE, TERRAIN.APIARY].includes(n.type)) { const canalBoost = poseidonAdjacency && n.type === TERRAIN.CANAL; const bonus = engBonus * (canalBoost ? 2 : 1); adj.food = (adj.food||0)+bonus; details.adjacencyBreakdown.push(`${nName}${canalBoost ? '(波塞冬)' : ''}: +${bonus}🌾`); }
                     const hbFood = getHarborLikeBonus(t, n, activeGods);
                     if (hbFood) { adj.food = (adj.food||0) + hbFood.bonus; details.adjacencyBreakdown.push(`${hbFood.name}${hbFood.doubled ? '(波塞冬)' : ''}: +${hbFood.bonus}🌾`); }
                     if (n.improvement === 'fishery') { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`捕鱼场: +${engBonus}🌾`); }
                     if (n.improvement === 'oasis_cistern') { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`绿洲蓄水池: +${engBonus}🌾`); }
                 }
                 if (t.improvement === 'mine') {
-                    if ([TERRAIN.MINING_SITE, TERRAIN.LUMBER_MILL, TERRAIN.PEAT_MINE, TERRAIN.SILT_PLANT, TERRAIN.SOLAR_FARM, TERRAIN.WIND_FARM, TERRAIN.DATE_PALM, TERRAIN.BOG_IRON, TERRAIN.WINDMILL_FIELD, TERRAIN.QUARRY, TERRAIN.MANGROVE_KILN, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.CANAL, TERRAIN.REED_BED, TERRAIN.FIREWOOD_CAMP, TERRAIN.RESIN_CAMP].includes(n.type)) { adj.industry = (adj.industry||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🔨`); }
+                    if ([TERRAIN.MINING_SITE, TERRAIN.LUMBER_MILL, TERRAIN.PEAT_MINE, TERRAIN.SILT_PLANT, TERRAIN.SOLAR_FARM, TERRAIN.WIND_FARM, TERRAIN.DATE_PALM, TERRAIN.BOG_IRON, TERRAIN.WINDMILL_FIELD, TERRAIN.QUARRY, TERRAIN.MANGROVE_KILN, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.CANAL, TERRAIN.REED_BED, TERRAIN.FIREWOOD_CAMP, TERRAIN.RESIN_CAMP].includes(n.type)) { const canalBoost = poseidonAdjacency && n.type === TERRAIN.CANAL; const bonus = engBonus * (canalBoost ? 2 : 1); adj.industry = (adj.industry||0)+bonus; details.adjacencyBreakdown.push(`${nName}${canalBoost ? '(波塞冬)' : ''}: +${bonus}🔨`); }
                     const hbIndustry = getHarborLikeBonus(t, n, activeGods);
                     if (hbIndustry) { adj.industry = (adj.industry||0) + hbIndustry.bonus; details.adjacencyBreakdown.push(`${hbIndustry.name}${hbIndustry.doubled ? '(波塞冬)' : ''}: +${hbIndustry.bonus}🔨`); }
                 }
                 if (t.improvement === 'market') {
-                    if ([TERRAIN.TUNNEL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CANAL, TERRAIN.CAMEL_RANCH, TERRAIN.DATE_PALM, TERRAIN.HUNTING_CAMP, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.COASTAL_FISHERY, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.TREEHOUSE_RESORT, TERRAIN.CRAB_FARM, TERRAIN.HOT_SPRING_RESORT, TERRAIN.CELLAR_VAULT, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.ALPACA_RANCH, TERRAIN.WINERY, TERRAIN.SALT_PAN, TERRAIN.SALT_PASTURE, TERRAIN.APIARY, TERRAIN.DYE_GARDEN, TERRAIN.RESIN_CAMP].includes(n.type)) { let bonus = engBonus; adj.gold = (adj.gold||0) + bonus; details.adjacencyBreakdown.push(`${nName}: +${bonus}💰`); }
+                    if ([TERRAIN.TUNNEL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CANAL, TERRAIN.CAMEL_RANCH, TERRAIN.DATE_PALM, TERRAIN.HUNTING_CAMP, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.COASTAL_FISHERY, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.TREEHOUSE_RESORT, TERRAIN.CRAB_FARM, TERRAIN.HOT_SPRING_RESORT, TERRAIN.CELLAR_VAULT, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.ALPACA_RANCH, TERRAIN.WINERY, TERRAIN.SALT_PAN, TERRAIN.SALT_PASTURE, TERRAIN.APIARY, TERRAIN.DYE_GARDEN, TERRAIN.RESIN_CAMP].includes(n.type)) { const canalBoost = poseidonAdjacency && n.type === TERRAIN.CANAL; const bonus = engBonus * (canalBoost ? 2 : 1); adj.gold = (adj.gold||0) + bonus; details.adjacencyBreakdown.push(`${nName}${canalBoost ? '(波塞冬)' : ''}: +${bonus}💰`); }
                     const hbGold = getHarborLikeBonus(t, n, activeGods);
                     if (hbGold) { adj.gold = (adj.gold||0) + hbGold.bonus; details.adjacencyBreakdown.push(`${hbGold.name}${hbGold.doubled ? '(波塞冬)' : ''}: +${hbGold.bonus}💰`); }
                     if (n.improvement === 'fishery') { adj.gold = (adj.gold||0)+engBonus; details.adjacencyBreakdown.push(`捕鱼场: +${engBonus}💰`); }
