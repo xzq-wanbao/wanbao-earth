@@ -875,7 +875,7 @@ const CONFIG = {
     },
     mountainFire: {
       name: '山火', icon: '🌋', cost: 1,
-      desc1: '山脉可转变为火山（3 次）；火山可转变为山脉（3 次），火山转变为山脉时 +30🔨；火山喷发不会摧毁区域',
+      desc1: '山脉可转变为火山（1 次）；火山可转变为山脉（3 次），火山转变为山脉时 +30🔨；火山喷发不会摧毁区域',
       desc2: '火山喷发概率翻3倍；每次喷发使己方所有农业区 +1🌾（可累计）'
     },
     deadCulture: {
@@ -7843,7 +7843,7 @@ function syncGodGrantedMiracles() {
     if (!isHephaestusActive(getActiveGods())) return;
     if (!state.miracleMountainFire) {
         state.miracleMountainFire = true;
-        if (!state.miracleMountainToVolcano) state.miracleMountainToVolcano = 3;
+        if (!state.miracleMountainToVolcano) state.miracleMountainToVolcano = 1;
         if (!state.miracleVolcanoToMountain) state.miracleVolcanoToMountain = 3;
     }
 }
@@ -7947,9 +7947,9 @@ function useMiracle(key) {
             showMsg('🍂 季礼1阶段：每个季节开启时人口 +1。', 'success');
         } else if (key === 'mountainFire') {
             state.miracleMountainFire = true;
-            state.miracleMountainToVolcano = 3;
+            state.miracleMountainToVolcano = 1;
             state.miracleVolcanoToMountain = 3;
-            showMsg('🌋 山火1阶段：可选山脉/火山转换（各 3 次），火山喷发不再摧毁区域。', 'success');
+            showMsg('🌋 山火1阶段：山→火 1 次、火→山 3 次，火山喷发不再摧毁区域。', 'success');
         } else if (key === 'deadCulture') {
             state.miracleDeadCulture = true;
             showMsg(`🏺 安魂1阶段：每个亡者每回合 +2🎭（当前亡者 ${state.deadPopulation || 0} 名）。`, 'success');
@@ -8062,7 +8062,7 @@ function selectGod(key) {
 
     showMsg(`已解锁 ${GODS[key].name}！`, "success");
     if (!hadMountainFire && key === 'hephaestus' && state.miracleMountainFire) {
-        showMsg('🌋 锻造之神赐福：已解锁山火第一阶段（山脉/火山转换各 3 次，喷发不再摧毁区域）。', 'success');
+        showMsg('🌋 锻造之神赐福：已解锁山火第一阶段（山→火 1 次、火→山 3 次，喷发不再摧毁区域）。', 'success');
     }
     createParticlesAtPlaza('#f59e0b');
 
