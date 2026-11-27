@@ -1292,7 +1292,7 @@ const TRANSPORT_TERRAINS = [TERRAIN.CANAL, TERRAIN.TUNNEL];
 const TERRAIN_MOD_ACTIONS = [
     'plant_cactus', 'chop_cactus', 'drain', 'irrigate', 
     'make_oasis_desert', 'make_oasis_dry', 'scorch', 'chop', 'burn_forest', 
-    'make_wetland_grass', 'make_wetland_dry', 'make_swamp_savanna', 'improve_soil_temp', 'improve_soil_trop', 
+    'make_wetland_grass', 'make_swamp_savanna', 'improve_soil_temp', 'improve_soil_trop', 
     'improve_tundra', 'dig_lake', 'plant', 'landfill', 
     'fill_water', 'plant_mangrove', 'chop_mangrove', 
     'make_desert_set', 'make_coast_poseidon', 'make_ocean_manannan', 'make_mountain_cailleach',
@@ -1814,7 +1814,6 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'chop': { name: '伐木', icon: ICONS.act_chop, tooltip: '<b>伐木</b><br>消耗: 30💰<br>效果: +10🔨, 变干草地', cost: { gold: 30 }, gain: { industry: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TAIGA], toTerrain: TERRAIN.DRY_GRASS_TEMP },
     'burn_forest': { name: '放火烧林', icon: ICONS.act_fire, tooltip: '<b>放火烧林</b><br>消耗: 10💰<br>效果: 点燃森林/针叶林，2-3回合后变荒地并留下草木灰<br>之后建农业区可获永久 +1🌾<br>火势不会蔓延', cost: { gold: 10 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.TAIGA] },
     'make_wetland_grass': { name: '草地湿地化', icon: ICONS.wetland, tooltip: '<b>草地湿地化</b><br>消耗: 20🔨 20💰<br>效果: 温带草地变湿地', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.GRASS], toTerrain: TERRAIN.WETLAND },
-    'make_wetland_dry': { name: '干草地湿地化', icon: ICONS.wetland, tooltip: '<b>干草地湿地化</b><br>消耗: 30🔨 30💰<br>效果: 温带干草地变湿地', cost: { industry: 30, gold: 30 }, reqTerrain: [TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.WETLAND },
     'make_swamp_savanna': { name: '稀树草原沼泽化', icon: ICONS.act_swamp, tooltip: '<b>稀树草原沼泽化</b><br>消耗: 20🔨 20💰<br>效果: 稀树草原变沼泽<br>(热带季节性湿地)', cost: { industry: 20, gold: 20 }, reqTerrain: [TERRAIN.BRUSH], toTerrain: TERRAIN.SWAMP },
     'improve_soil_temp': { name: '温带改良', icon: ICONS.act_soil, tooltip: '<b>温带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(温)变草地', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.GRASS },
     'improve_soil_trop': { name: '热带改良', icon: ICONS.act_soil, tooltip: '<b>热带土壤改良</b><br>消耗: 10🌾 10💰<br>效果: 干草地(热)变稀树草原', cost: { food: 10, gold: 10 }, reqTerrain: [TERRAIN.DRY_GRASS_TROP], toTerrain: TERRAIN.BRUSH },
@@ -6744,7 +6743,7 @@ function performAction(key) {
     else if (key === 'plant_cactus') { t.type = TERRAIN.CACTUS_DESERT; }
     else if (key === 'chop_cactus') { t.type = TERRAIN.DESERT; }
     else if (key.startsWith('make_oasis')) { t.type = TERRAIN.OASIS; }
-    else if (key === 'make_wetland_grass' || key === 'make_wetland_dry') { t.type = TERRAIN.WETLAND; }
+    else if (key === 'make_wetland_grass') { t.type = TERRAIN.WETLAND; }
     else if (key === 'make_swamp_savanna') { t.type = TERRAIN.SWAMP; }
     else if (key === 'make_terrace') { t.type = TERRAIN.TERRACE; }
     else if (key === 'build_mine') { t.type = TERRAIN.MINING_SITE; }
