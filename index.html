@@ -5366,7 +5366,6 @@ function draw() {
     });
     // 先画所有地块填充，再统一画边框/图标/数值，避免相邻地块把边框盖出不同粗细
     visible.forEach(t => drawHex(ctx, t.q, t.r, t, activeGods, 'base'));
-    visible.forEach(t => drawRiverConnectors(ctx, t));
     visible.forEach(t => drawHex(ctx, t.q, t.r, t, activeGods, 'overlay'));
     // 河流最后统一绘制，确保覆盖区域白边；线宽与白边一致
     visible.forEach(t => drawRiverEdges(ctx, t));
@@ -5459,50 +5458,6 @@ function drawFertileSoilLevelBadge(ctx, t, p, size) {
 
 function isInfrastructureTile(t) {
     return isEngineeringTile(t);
-}
-
-function riverEdgePoint(p, radius, edge) {
-    const ang = Math.PI / 180 * (60 * edge + 60);
-    return { x: p.x + radius * Math.cos(ang), y: p.y + radius * Math.sin(ang) };
-}
-
-function drawRiverConnectors(ctx, t) {
-    if (!t.riverEdges || !t.riverEdges.length) return;
-    const p = hexToPixel(t.q, t.r);
-    const radius = HEX_SIZE * state.camera.zoom + 0.5;
-    const pts = t.riverEdges.map(e => riverEdgePoint(p, radius, e));
-    ctx.save();
-    ctx.strokeStyle = '#38bdf8';
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    const drawPath = list => {
-        if (list.length < 2) return;
-        ctx.beginPath();
-        ctx.moveTo(list[0].x, list[0].y);
-        for (let i = 1; i < list.length; i++) ctx.lineTo(list[i].x, list[i].y);
-        ctx.stroke();
-    };
-    if (pts.length === 1) {
-        drawPath([pts[0], p]);
-    } else if (pts.length === 2) {
-        const [e1, e2] = t.riverEdges;
-        let sharedVertex = null;
-        for (let v = 0; v < 6; v++) {
-            const isEnd1 = v === e1 || (v + 1) % 6 === e1;
-            const isEnd2 = v === e2 || (v + 1) % 6 === e2;
-            if (isEnd1 && isEnd2) sharedVertex = v;
-        }
-        if (sharedVertex !== null) {
-            const ang = Math.PI / 180 * (60 * sharedVertex + 30);
-            drawPath([pts[0], { x: p.x + radius * Math.cos(ang), y: p.y + radius * Math.sin(ang) }, pts[1]]);
-        } else {
-            drawPath([pts[0], p, pts[1]]);
-        }
-    } else {
-        pts.forEach(pt => drawPath([pt, p]));
-    }
-    ctx.restore();
 }
 
 function drawRiverEdges(ctx, t) {
@@ -6578,6 +6533,15 @@ function checkTransportConnectivity(t) {
     });
 }
 
+function formatActionGain(gain) {
+    if (!gain) return '';
+    const parts = [];
+    ['food', 'industry', 'gold', 'science', 'culture'].forEach(k => {
+        if (gain[k]) parts.push(`+${gain[k]}${getResIcon(k)}`);
+    });
+    return parts.length ? ` ${parts.join(' ')}` : '';
+}
+
 function performAction(key) {
     if (!state.selectedTile) return;
     const t = state.selectedTile;
@@ -6642,7 +6606,9 @@ function performAction(key) {
         if (act.gain.industry) state.resources.industry += act.gain.industry;
         if (act.gain.food) state.resources.food += act.gain.food;
     }
-    showMsg(`${act.name} 完成！${gainCtx.noGain ? '(帕查玛玛: 无收益)' : ''}`, "success");
+    const gain = gainCtx.allowGain ? (gainCtx.gain || act.gain) : null;
+    const gainText = formatActionGain(gain);
+    showMsg(`${act.name} 完成！${gainText}${gainCtx.noGain ? '(帕查玛玛: 无收益)' : ''}`, "success");
     let dryGrassType = TERRAIN.DRY_GRASS_TEMP; if (lat < 0.27 || lat > 0.86) dryGrassType = TERRAIN.DRY_GRASS_COLD; else if (lat > 0.44 && lat < 0.72) dryGrassType = TERRAIN.DRY_GRASS_TROP;
     
     // !!! CRITICAL FIX: Save original type for ALL engineering actions !!!
@@ -8401,6 +8367,24 @@ function findRiverPath(source) {
     return null;
 }
 
+function connectRiverEdgeChain(t) {
+    const edges = Array.from(new Set(t.riverEdges || [])).sort((a, b) => a - b);
+    if (edges.length < 2) return;
+    const result = new Set(edges);
+    const base = edges[0];
+    for (const target of edges.slice(1)) {
+        const forward = [];
+        let x = base;
+        while (x !== target) { x = (x + 1) % 6; forward.push(x); if (forward.length > 6) break; }
+        const backward = [];
+        x = base;
+        while (x !== target) { x = (x + 5) % 6; backward.push(x); if (backward.length > 6) break; }
+        const path = forward.length <= backward.length ? forward : backward;
+        path.forEach(e => result.add(e));
+    }
+    t.riverEdges = Array.from(result).sort((a, b) => a - b);
+}
+
 function generateRiversAndFloodplains() {
     const sources = Array.from(state.map.values())
         .filter(t => t.type === TERRAIN.MOUNTAIN && !t.improvement && !t.village && !t.isRuin)
@@ -8422,6 +8406,7 @@ function generateRiversAndFloodplains() {
         if (!t || RIVER_SINK_TYPES.includes(t.type)) return;
         if (floodable.includes(t.type) && Math.random() < chance) t.type = TERRAIN.FLOODPLAIN;
     };
+    state.map.forEach(t => { if (t.riverEdges) connectRiverEdgeChain(t); });
     paths.forEach(path => path.forEach((t, i) => {
         if (i === 0 || RIVER_SINK_TYPES.includes(t.type)) return;
         flood(t, 0.7);
