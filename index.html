@@ -8835,10 +8835,7 @@ function setIslandLand(t) {
 
 function generateEastIslands() {
     const specs = [
-        { cq: 11.7, cr: -3.5, rx: 2.0, ry: 5.4, prob: 0.88 }, // 古巴式长岛
-        { cq: 12.8, cr: 4.0, rx: 1.5, ry: 3.0, prob: 0.82 },  // 伊斯帕尼奥拉式
-        { cq: 11.2, cr: 11.5, rx: 1.1, ry: 1.7, prob: 0.72 }, // 小安的列斯式
-        { cq: 13.2, cr: -13.0, rx: 1.0, ry: 1.8, prob: 0.65 } // 北侧小岛
+        { cq: 11.7, cr: -3.5, rx: 2.0, ry: 5.4, prob: 0.88 } // 古巴式长岛
     ];
     state.map.forEach(t => {
         if (t.type !== TERRAIN.OCEAN) return;
@@ -8873,14 +8870,13 @@ function addRequestedLandmasses() {
             const dy = (lat - cy) / ry;
             return dx * dx + dy * dy;
         };
-        const northeast = Math.min(
-            ellipse(0.58, 0.13, 0.24, 0.17),
-            ellipse(0.82, 0.25, 0.20, 0.13),
-            ellipse(0.44, 0.05, 0.22, 0.09)
+        const west = Math.min(
+            ellipse(-0.78, 0.12, 0.24, 0.10),
+            ellipse(-0.72, 0.30, 0.30, 0.18),
+            ellipse(-0.68, 0.46, 0.24, 0.10)
         );
-        const eastMid = ellipse(0.68, 0.45, 0.22, 0.12);
         const southBridge = lat > 0.93 + wobble;
-        if (northeast < 1 + wobble || eastMid < 1 + wobble || southBridge) {
+        if (west < 1 + wobble || southBridge) {
             setIslandLand(t);
             t.isDistantLand = true;
         }
