@@ -507,6 +507,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
     <!-- 胜利结算画面 -->
     <div id="victory-screen" class="hidden absolute top-0 left-0 w-full h-full bg-black/90 flex items-center justify-center z-[80] flex-col pointer-events-auto">
         <div id="victory-icon" class="text-6xl mb-4">🏆</div>
+        <div id="victory-stars" class="text-4xl mb-3 tracking-[0.25em]"></div>
         <h1 id="victory-title" class="text-5xl font-bold text-yellow-400 mb-4">文明巅峰</h1>
         <p id="victory-desc" class="text-white text-xl mb-8 max-w-lg text-center leading-relaxed">
             随着<b>永恒金字塔</b>的落成，您的文明已成为这片大陆上不朽的传说。<br>
@@ -655,7 +656,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                     <section>
                         <h3 class="text-yellow-400 font-bold text-lg mb-2">🏆 核心机制</h3>
                         <ul class="list-disc pl-5 space-y-1 text-gray-300">
-                            <li><b>胜利条件：</b> 在 <span class="text-yellow-300">50 回合内</span>于沙漠建造 <span class="text-yellow-300">永恒金字塔</span>（默认 10000💰；普塔 9000💰；维拉科查 3000🔨/💰/🔬/🎭）。</li>
+                            <li><b>胜利条件：</b> 在 <span class="text-yellow-300">50 回合内</span>于沙漠建造 <span class="text-yellow-300">永恒金字塔</span>（默认 10000💰；普塔 9000💰；维拉科查 3000🔨/🔬/🎭/💰）。</li>
                             <li><b>可重复游玩性：</b> 通过不断尝试各种神灵搭配，以不同的方式获得胜利。</li>
                             <li><b>改造地形：</b> 可花费资源永久改造部分地形，重塑地球生态圈。</li>
                             <li><b>放火烧林：</b> 森林/针叶林可主动放火，2-3回合后变荒地并留下草木灰；之后建农业区永久 +1🌾，火势不会蔓延。</li>
@@ -668,7 +669,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
 
                     <section>
                         <h3 class="text-green-400 font-bold text-lg mb-2">🏙️ 区域与毗邻</h3>
-                        <p class="mb-1 text-xs text-gray-400">区域通过毗邻相同区域或对应类型的人造工程获得等级加成 (Lv1:+1, Lv2:+2, Lv3:+3)；农业/工业/市场/科研/娱乐五大区域的等级会以罗马数字 <b>I / II / III</b> 显示在区域上方。</p>
+                        <p class="mb-1 text-xs text-gray-400">区域通过毗邻相同区域或对应类型的人造工程获得等级加成 (Lv1:+1, Lv2:+2, Lv3:+3)；农业/工业/科研/娱乐/市场五大区域的等级会以罗马数字 <b>I / II / III</b> 显示在区域上方。</p>
                         <ul class="space-y-1">
                             <li><span class="text-green-300">🌾 农业区：</span> 毗邻梯田、坎儿井、绿洲设施等。</li>
                             <li><span class="text-orange-300">🔨 工业区：</span> 毗邻矿山、伐木场、太阳能、风电等。</li>
@@ -682,7 +683,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
 
                     <section>
                         <h3 class="text-blue-400 font-bold text-lg mb-2">🔨 五项资源用处</h3>
-                        <p class="mb-1 text-xs text-gray-400">游戏共有🌾🔨💰🔬🎭五种资源，各自对应着不同的功能</p>
+                        <p class="mb-1 text-xs text-gray-400">游戏共有🌾🔨🔬🎭💰五种资源，各自对应着不同的功能</p>
                         <ul class="space-y-1">
                             <li><span class="text-green-300">🌾 食物：</span> 用于增长以及维持人口。</li>
                             <li><span class="text-orange-300">🔨 工业：</span> 用于建造区域或人造工程以及升级区域。</li>
@@ -731,7 +732,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                                         <td class="py-1 font-bold text-cyan-300">❄️ 冬</td>
                                         <td>+🔬</td>
                                         <td>+🔬</td>
-                                        <td>+💰+🎭</td>
+                                        <td>+🎭+💰</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1229,19 +1230,19 @@ const TERRAIN = {
 };
 
 const ADJ_INFO = {
-    [TERRAIN.TERRACE]: '农业区', [TERRAIN.KAREZ]: '农业区', [TERRAIN.CANAL]: '农业/工业/市场/科研/娱乐', 
+    [TERRAIN.TERRACE]: '农业区', [TERRAIN.KAREZ]: '农业区', [TERRAIN.CANAL]: '农业/工业/科研/娱乐/市场', 
     [TERRAIN.REINDEER_PASTURE]: '农业/市场', [TERRAIN.PASTURE]: '农业/市场', [TERRAIN.CAMEL_RANCH]: '农业/市场', 
     [TERRAIN.ORCHARD]: '农业/市场', [TERRAIN.PLANTATION]: '农业/市场', [TERRAIN.FLOATING_GARDEN]: '农业区',
     [TERRAIN.COASTAL_FISHERY]: '农业/市场', [TERRAIN.PEAT_MINE]: '农业/工业', [TERRAIN.CRAB_FARM]: '农业/市场',
     [TERRAIN.CELLAR_VAULT]: '农业/市场', [TERRAIN.FUNGAL_FARM]: '农业区', [TERRAIN.CLOUDBERRY_PLANTATION]: '农业/市场',
-    [TERRAIN.ALPACA_RANCH]: '农业/市场', [TERRAIN.WINERY]: '市场/娱乐',
+    [TERRAIN.ALPACA_RANCH]: '农业/市场', [TERRAIN.WINERY]: '娱乐/市场',
     [TERRAIN.MINING_SITE]: '工业区', [TERRAIN.LUMBER_MILL]: '工业区', [TERRAIN.SILT_PLANT]: '工业区',
     [TERRAIN.SOLAR_FARM]: '工业区', [TERRAIN.WIND_FARM]: '工业', [TERRAIN.DATE_PALM]: '工业/市场',
     [TERRAIN.BOG_IRON]: '工业区', [TERRAIN.WINDMILL_FIELD]: '工业区', [TERRAIN.QUARRY]: '工业区',
     [TERRAIN.MANGROVE_KILN]: '工业', [TERRAIN.GEOTHERMAL_PLANT]: '工业区',
-    [TERRAIN.TUNNEL]: '农业/工业/市场/科研/娱乐', [TERRAIN.HUNTING_CAMP]: '市场区', [TERRAIN.TREEHOUSE_RESORT]: '市场/娱乐',
-    [TERRAIN.RACECOURSE]: '市场/娱乐', [TERRAIN.SAFARI_CAMP]: '市场/娱乐', [TERRAIN.FLOATING_RESORT]: '市场/娱乐',
-    [TERRAIN.HOT_SPRING_RESORT]: '市场/娱乐',
+    [TERRAIN.TUNNEL]: '农业/工业/科研/娱乐/市场', [TERRAIN.HUNTING_CAMP]: '市场区', [TERRAIN.TREEHOUSE_RESORT]: '娱乐/市场',
+    [TERRAIN.RACECOURSE]: '娱乐/市场', [TERRAIN.SAFARI_CAMP]: '娱乐/市场', [TERRAIN.FLOATING_RESORT]: '娱乐/市场',
+    [TERRAIN.HOT_SPRING_RESORT]: '娱乐/市场',
     [TERRAIN.POLAR_STATION]: '科研区', [TERRAIN.AURORA_TOWER]: '科研/娱乐', [TERRAIN.OBSERVATORY]: '科研区',
     [TERRAIN.PALEONTOLOGY_DIG]: '科研区', [TERRAIN.GEOPARK]: '科研/娱乐', [TERRAIN.THERMOPHILE_LAB]: '科研区',
     [TERRAIN.DEEP_EARTH_LAB]: '科研区', [TERRAIN.MANGROVE_RESERVE]: '科研/娱乐', [TERRAIN.PEAT_BOG_RESERVE]: '科研/娱乐',
@@ -1265,13 +1266,13 @@ const DISTRICT_BUILDINGS = ['plaza', 'farm', 'mine', 'market', 'campus', 'entert
 const ADJ_INFO_DISTRICT_KEYWORDS = {
     farm: '农业',
     mine: '工业',
-    market: '市场',
     campus: '科研',
-    entertainment_complex: '娱乐'
+    entertainment_complex: '娱乐',
+    market: '市场'
 };
 // 特殊人造工程建筑（ADJ_INFO 只覆盖工程地形，建筑单独列一份）
 const ENGINEERING_BUILDING_ADJ_DISTRICTS = {
-    harbor: ['farm', 'mine', 'market', 'campus', 'entertainment_complex'],
+    harbor: ['farm', 'mine', 'campus', 'entertainment_complex', 'market'],
     fishery: ['farm', 'market'],
     lake_reserve: ['campus', 'entertainment_complex'],
     swamp_reserve: ['campus', 'entertainment_complex'],
@@ -1421,7 +1422,7 @@ const GODS = {
     },
     'dionysus': { 
         name: '酒神——狄俄尼索斯', 
-        desc: '【酒神祭】：可在干草地(温带)建造酿酒厂(30🔨)酿酒厂提供2💰2🎭', 
+        desc: '【酒神祭】：可在干草地(温带)建造酿酒厂(30🔨)酿酒厂提供2🎭2💰', 
         icon: '🍷' 
     },
     'hephaestus': { 
@@ -1501,7 +1502,7 @@ const GODS = {
     },
     'kukulkan': { 
         name: '羽蛇神——库库尔坎', 
-        desc: '【羽蛇神风】：建造区域消耗60区域对应资源(农🌾工🔨市💰科🔬娱🎭)', 
+        desc: '【羽蛇神风】：建造区域消耗60区域对应资源(农🌾工🔨科🔬娱🎭市💰)', 
         icon: '🐍'
     },
     'tezcatlipoca': { 
@@ -1678,14 +1679,14 @@ const GODS = {
     },
 'epona': { 
         name: '马神——埃波娜', 
-        desc: '【春之蹄声】：春季时，野外草地(温带）自动生成赛马场并归顺于你（每2回合一次，无数量上限）\n【神驹】：赛马场额外+1💰+1🎭\n【骏马回报】：赛马场被毁时返还全额造价', 
+        desc: '【春之蹄声】：春季时，野外草地(温带）自动生成赛马场并归顺于你（每2回合一次，无数量上限）\n【神驹】：赛马场额外+1🎭+1💰\n【骏马回报】：赛马场被毁时返还全额造价', 
         icon: '🐎',
         effects: {
             yield: (t, y, list) => {
                 if (t.type === TERRAIN.RACECOURSE) {
                     y.gold += 1;
                     y.culture += 1;
-                    list.push('埃波娜: +1💰+1🎭');
+                    list.push('埃波娜: +1🎭+1💰');
                 }
             }
         }
@@ -1786,7 +1787,7 @@ const SEASONS = [
     { name: '春', icon: '🌸', desc: '<b>春季</b><br>寒带: 科研区+1🔬, 娱乐区+1🎭<br>温带: 农业区+1🌾, 娱乐区+1🎭<br>热带: 农业区+1🌾, 科研区+1🔬' },
     { name: '夏', icon: '☀️', desc: '<b>夏季</b><br>寒带: 农业区+1🌾, 工业区+1🔨<br>温带: 工业区+1🔨<br>热带: 工业区+1🔨' },
     { name: '秋', icon: '🍂', desc: '<b>秋季</b><br>寒带: 市场区+1💰<br>温带: 农业区+1🌾, 市场区+1💰<br>热带: 农业区+1🌾' },
-    { name: '冬', icon: '❄️', desc: '<b>冬季</b><br>寒带: 科研区+1🔬<br>温带: 科研区+1🔬<br>热带: 市场区+1💰, 娱乐区+1🎭' }
+    { name: '冬', icon: '❄️', desc: '<b>冬季</b><br>寒带: 科研区+1🔬<br>温带: 科研区+1🔬<br>热带: 娱乐区+1🎭, 市场区+1💰' }
 ];
 const IMPROVEMENT_ADJ_INFO = { 'harbor': '为周边所有区域提供+1对应产出', 'fishery': '为农业区/市场区提供相邻收益', 'lake_reserve': '为科研区/娱乐区提供相邻收益', 'swamp_reserve': '为科研区/娱乐区提供相邻收益', 'oasis_reserve': '为科研区/娱乐区提供相邻收益', 'oasis_cistern': '为农业区提供相邻收益', 'bridge': '为周边所有区域提供对应等级加成', 'sea_bridge': '为周边所有区域提供对应等级加成' };
 const BUILDINGS = {
@@ -1856,7 +1857,7 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'build_polar_station': { name: '极地科考站', icon: ICONS.act_polar, tooltip: '<b>极地科考站</b><br>消耗: 30🔨<br>基础: 2🔬<br>加成: 为科研区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.POLAR], toTerrain: TERRAIN.POLAR_STATION },
     'build_aurora_tower': { name: '极光观察塔', icon: ICONS.act_aurora, tooltip: '<b>极光观察塔</b><br>消耗: 30🔨<br>基础: 1🔬 1🎭<br>加成: 为科研区，娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.POLAR], toTerrain: TERRAIN.AURORA_TOWER },
     'build_reindeer': { name: '驯鹿牧场', icon: ICONS.act_reindeer, tooltip: '<b>驯鹿牧场</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.TUNDRA], toTerrain: TERRAIN.REINDEER_PASTURE },
-    'build_peat': { name: '泥炭提取场', icon: ICONS.act_peat, tooltip: '<b>泥炭提取场</b><br>消耗: 30🔨<br>基础:  1🌾 1🔨<br>加成: 为农业区，工业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.PEAT_BOG], toTerrain: TERRAIN.PEAT_MINE },
+    'build_peat': { name: '泥炭提取场', icon: ICONS.act_peat, tooltip: '<b>泥炭提取场</b><br>消耗: 30🔨<br>基础: 1🌾 1🔨<br>加成: 为农业区，工业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.PEAT_BOG], toTerrain: TERRAIN.PEAT_MINE },
     'build_pasture': { name: '牧场', icon: ICONS.act_pasture, tooltip: '<b>牧场</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.GRASS, TERRAIN.BRUSH], toTerrain: TERRAIN.PASTURE },
     'build_lumber': { name: '伐木场', icon: ICONS.act_lumber, tooltip: '<b>伐木场</b><br>消耗: 30🔨<br>基础: 2🔨<br>加成: 为工业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.JUNGLE, TERRAIN.TAIGA], toTerrain: TERRAIN.LUMBER_MILL },
     'build_camel': { name: '骆驼牧场', icon: ICONS.act_camel, tooltip: '<b>骆驼牧场</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.OASIS], toTerrain: TERRAIN.CAMEL_RANCH },
@@ -1869,19 +1870,19 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'build_bog_iron': { name: '沼铁采集', icon: ICONS.act_bog, tooltip: '<b>沼铁采集厂</b><br>消耗: 30🔨<br>基础: 2🔨<br>加成: 为工业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.SWAMP], toTerrain: TERRAIN.BOG_IRON },
     'build_coastal_fishery': { name: '沿海捕鱼', icon: ICONS.act_coastal, tooltip: '<b>沿海捕鱼场</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.COAST], toTerrain: TERRAIN.COASTAL_FISHERY },
     'build_windmill': { name: '风车田', icon: ICONS.act_windmill, tooltip: '<b>风车田</b><br>消耗: 30🔨<br>基础: 2🔨<br>加成: 为工业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.TUNDRA], toTerrain: TERRAIN.WINDMILL_FIELD },
-    'build_racecourse': { name: '赛马场', icon: ICONS.act_race, tooltip: '<b>赛马场</b><br>消耗: 30🔨<br>基础: 1💰 1🎭<br>加成: 为市场区，娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.GRASS], toTerrain: TERRAIN.RACECOURSE },
-    'build_safari': { name: '游猎营地', icon: ICONS.act_safari, tooltip: '<b>游猎营地</b><br>消耗: 30🔨<br>基础: 1💰 1🎭<br>加成: 为市场区，娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.BRUSH], toTerrain: TERRAIN.SAFARI_CAMP },
-    'build_floating_resort': { name: '海上度假屋', icon: ICONS.act_floating_resort, tooltip: '<b>海上度假屋</b><br>消耗: 30🔨<br>基础: 1💰 1🎭<br>加成: 为市场区，娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.COAST], toTerrain: TERRAIN.FLOATING_RESORT },
+    'build_racecourse': { name: '赛马场', icon: ICONS.act_race, tooltip: '<b>赛马场</b><br>消耗: 30🔨<br>基础: 1🎭 1💰<br>加成: 为娱乐区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.GRASS], toTerrain: TERRAIN.RACECOURSE },
+    'build_safari': { name: '游猎营地', icon: ICONS.act_safari, tooltip: '<b>游猎营地</b><br>消耗: 30🔨<br>基础: 1🎭 1💰<br>加成: 为娱乐区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.BRUSH], toTerrain: TERRAIN.SAFARI_CAMP },
+    'build_floating_resort': { name: '海上度假屋', icon: ICONS.act_floating_resort, tooltip: '<b>海上度假屋</b><br>消耗: 30🔨<br>基础: 1🎭 1💰<br>加成: 为娱乐区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.COAST], toTerrain: TERRAIN.FLOATING_RESORT },
     'build_ice_sculpture': { name: '冰雕公园', icon: ICONS.act_ice_sculpture, tooltip: '<b>冰雕公园</b><br>消耗: 30🔨<br>基础: 2🎭<br>加成: 为娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.TUNDRA], toTerrain: TERRAIN.ICE_SCULPTURE_PARK },
     'build_paleontology': { name: '冻土挖掘', icon: ICONS.act_paleontology, tooltip: '<b>冻土古生物挖掘场</b><br>消耗: 30🔨<br>基础: 2🔬<br>加成: 为科研区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.TUNDRA], toTerrain: TERRAIN.PALEONTOLOGY_DIG },
     'build_quarry': { name: '采石场', icon: ICONS.act_quarry, tooltip: '<b>采石场</b><br>消耗: 30🔨<br>基础: 2🔨<br>加成: 为工业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.ROCKY], toTerrain: TERRAIN.QUARRY },
     'build_geopark': { name: '地质公园', icon: ICONS.act_geopark, tooltip: '<b>地质公园</b><br>消耗: 30🔨<br>基础: 1🔬 1🎭<br>加成: 为科研区，娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.ROCKY], toTerrain: TERRAIN.GEOPARK },
-    'build_treehouse': { name: '树屋度假村', icon: ICONS.act_treehouse, tooltip: '<b>树屋度假村</b><br>消耗: 30🔨<br>基础: 1💰 1🎭<br>加成: 为市场区，娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.JUNGLE], toTerrain: TERRAIN.TREEHOUSE_RESORT },
+    'build_treehouse': { name: '树屋度假村', icon: ICONS.act_treehouse, tooltip: '<b>树屋度假村</b><br>消耗: 30🔨<br>基础: 1🎭 1💰<br>加成: 为娱乐区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.FOREST, TERRAIN.JUNGLE], toTerrain: TERRAIN.TREEHOUSE_RESORT },
     'build_crab': { name: '蟹类养殖', icon: ICONS.act_crab, tooltip: '<b>蟹类养殖场</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.MANGROVE], toTerrain: TERRAIN.CRAB_FARM },
     'build_kiln': { name: '红树林炭窑', icon: ICONS.act_kiln, tooltip: '<b>红树林炭窑</b><br>消耗: 30🔨<br>基础: 2🔨<br>加成: 为工业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.MANGROVE], toTerrain: TERRAIN.MANGROVE_KILN },
     'build_mangrove_res': { name: '红树林保护', icon: ICONS.act_mangrove_res, tooltip: '<b>红树林保护区</b><br>消耗: 30🔨<br>基础: 1🔬 1🎭<br>加成: 为科研区，娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.MANGROVE], toTerrain: TERRAIN.MANGROVE_RESERVE },
     'build_geothermal': { name: '地热发电', icon: ICONS.act_geothermal, tooltip: '<b>地热发电站</b><br>消耗: 30🔨<br>基础: 2🔨<br>加成: 为工业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.GEYSER], toTerrain: TERRAIN.GEOTHERMAL_PLANT },
-    'build_hotspring': { name: '温泉度假', icon: ICONS.act_hotspring, tooltip: '<b>温泉度假村</b><br>消耗: 30🔨<br>基础: 1💰 1🎭<br>加成: 为市场区，娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.GEYSER], toTerrain: TERRAIN.HOT_SPRING_RESORT },
+    'build_hotspring': { name: '温泉度假', icon: ICONS.act_hotspring, tooltip: '<b>温泉度假村</b><br>消耗: 30🔨<br>基础: 1🎭 1💰<br>加成: 为娱乐区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.GEYSER], toTerrain: TERRAIN.HOT_SPRING_RESORT },
     'build_thermophile': { name: '嗜热菌实验', icon: ICONS.act_thermophile, tooltip: '<b>嗜热菌实验室</b><br>消耗: 30🔨<br>基础: 2🔬<br>加成: 为科研区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.GEYSER], toTerrain: TERRAIN.THERMOPHILE_LAB },
     'build_cellar': { name: '地窖陈酿', icon: ICONS.act_cellar, tooltip: '<b>地窖陈酿库</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.CAVE], toTerrain: TERRAIN.CELLAR_VAULT },
     'build_fungal': { name: '真菌农场', icon: ICONS.act_fungal, tooltip: '<b>真菌农场</b><br>消耗: 30🔨<br>基础: 2🌾<br>加成: 为农业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.CAVE], toTerrain: TERRAIN.FUNGAL_FARM },
@@ -1889,7 +1890,7 @@ const ACTIONS = {   'make_ocean_manannan': { name: '深海隐匿', icon: '🌊',
     'build_cloudberry': { name: '云莓种植', icon: ICONS.act_cloudberry, tooltip: '<b>云莓种植园</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.PEAT_BOG], toTerrain: TERRAIN.CLOUDBERRY_PLANTATION },
     'build_peat_reserve': { name: '泥炭保护', icon: ICONS.act_peat_reserve, tooltip: '<b>泥炭沼泽保护区</b><br>消耗: 30🔨<br>基础: 1🔬 1🎭<br>加成: 为科研区，娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.PEAT_BOG], toTerrain: TERRAIN.PEAT_BOG_RESERVE },
     'build_alpaca': { name: '羊驼牧场', icon: ICONS.act_alpaca, tooltip: '<b>羊驼牧场</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.ROCKY], toTerrain: TERRAIN.ALPACA_RANCH },
-    'build_winery': { name: '酿酒厂', icon: ICONS.act_winery, tooltip: '<b>酿酒厂</b><br>消耗: 30🔨<br>基础: 2💰 2🎭<br>加成: 为市场区，娱乐区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.WINERY }, 
+    'build_winery': { name: '酿酒厂', icon: ICONS.act_winery, tooltip: '<b>酿酒厂</b><br>消耗: 30🔨<br>基础: 2🎭 2💰<br>加成: 为娱乐区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.DRY_GRASS_TEMP], toTerrain: TERRAIN.WINERY }, 
     'build_salt_pan': { name: '盐田', icon: SALT_PAN_ICON_SVG, tooltip: '<b>盐田</b><br>消耗: 30🔨<br>基础: 2💰<br>加成: 为市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.SALT_MARSH], toTerrain: TERRAIN.SALT_PAN },
     'build_salt_pasture': { name: '盐沼牧场', icon: SALT_PASTURE_ICON_SVG, tooltip: '<b>盐沼牧场</b><br>消耗: 30🔨<br>基础: 1🌾 1💰<br>加成: 为农业区，市场区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.SALT_MARSH], toTerrain: TERRAIN.SALT_PASTURE },
     'build_wetland_canal': { name: '湿地水渠', icon: ICONS.wetland_canal, tooltip: '<b>湿地水渠</b><br>消耗: 30🔨<br>基础: 2🌾<br>加成: 为农业区提供相邻收益', cost: { industry: 30 }, reqTerrain: [TERRAIN.WETLAND], toTerrain: TERRAIN.WETLAND_CANAL },
@@ -6041,7 +6042,7 @@ function drawTileYields(ctx, t, activeGods) {
     const p = hexToPixel(t.q, t.r);
     const size = HEX_SIZE * state.camera.zoom;
     const y = getTileYield(t, activeGods).total;
-    let text = ''; if (y.food) text += `🌾${y.food} `; if (y.industry) text += `🔨${y.industry} `; if (y.gold) text += `💰${y.gold} `; if (y.science) text += `🔬${y.science} `; if (y.culture) text += `🎭${y.culture} `;
+    let text = ''; if (y.food) text += `🌾${y.food} `; if (y.industry) text += `🔨${y.industry} `; if (y.science) text += `🔬${y.science} `; if (y.culture) text += `🎭${y.culture} `; if (y.gold) text += `💰${y.gold} `;
     if (text) {
         const badgeTop = p.y + size * 0.4;
         ctx.font = `${size * 0.35}px Arial`; const tm = ctx.measureText(text.trim()); const w = tm.width; const h = size * 0.4;
@@ -6456,7 +6457,7 @@ function hexRound(q, r) { let s = -q - r; let rq = Math.round(q); let rr = Math.
 function getNeighbors(q, r) { const dirs = [[1, 0], [1, -1], [0, -1], [-1, 0], [-1, 1], [0, 1]]; return dirs.map(d => state.map.get(`${q+d[0]},${r+d[1]}`)).filter(t => t); }
 function simpleNoise(x, y) { return Math.sin(x * 12.9898 + y * 78.233) * 43758.5453 % 1; }
 function tileNoise(q, r, salt) { const v = Math.sin(q * 127.1 + r * 311.7 + salt * 74.7) * 43758.5453; return v - Math.floor(v); }
-function formatYield(y) { let s = []; if(y.food) s.push(`${y.food}🌾`); if(y.industry) s.push(`${y.industry}🔨`); if(y.gold) s.push(`${y.gold}💰`); if(y.science) s.push(`${y.science}🔬`); if(y.culture) s.push(`${y.culture}🎭`); return s.join(' '); }
+function formatYield(y) { let s = []; if(y.food) s.push(`${y.food}🌾`); if(y.industry) s.push(`${y.industry}🔨`); if(y.science) s.push(`${y.science}🔬`); if(y.culture) s.push(`${y.culture}🎭`); if(y.gold) s.push(`${y.gold}💰`); return s.join(' '); }
 function getResIcon(type) { if(type==='food') return '🌾'; if(type==='industry') return '🔨'; if(type==='gold') return '💰'; if(type==='science') return '🔬'; if(type==='culture') return '🎭'; return ''; }
 
 
@@ -6750,15 +6751,28 @@ function startGoldenAgeEffect(activeGods) {
 
 
 
+function getVictoryStars(turn = state.turn) {
+    if (turn <= 40) return 3;
+    if (turn <= 45) return 2;
+    if (turn <= CONFIG.victory.turnLimit) return 1;
+    return 0;
+}
+
 function renderVictoryScreen() {
     const vScreen = document.getElementById('victory-screen');
     if (!vScreen) return;
     const icon = document.getElementById('victory-icon');
     const title = document.getElementById('victory-title');
     const desc = document.getElementById('victory-desc');
+    const stars = getVictoryStars(state.turn);
     if (icon) icon.textContent = '🏆';
     if (title) { title.textContent = '文明巅峰'; title.className = 'text-5xl font-bold text-yellow-400 mb-4'; }
-    if (desc) desc.innerHTML = `你在第 <b>${state.turn}</b> 回合建成了<b>永恒金字塔</b>，<br>赶在 50 回合期限之前让文明成为了不朽的传说。`;
+    const starEl = document.getElementById('victory-stars');
+    if (starEl) {
+        starEl.innerHTML = [0, 1, 2].map(i => `<span class="${i < stars ? 'text-yellow-400' : 'text-slate-600'}">★</span>`).join('');
+        starEl.setAttribute('aria-label', `${stars} 星通关`);
+    }
+    if (desc) desc.innerHTML = `你在第 <b>${state.turn}</b> 回合建成了<b>永恒金字塔</b>，<br>${stars} 星通关<br><span class="text-base text-gray-300">40 回合内 3 星 · 45 回合内 2 星 · 50 回合内 1 星</span>`;
     vScreen.classList.remove('hidden');
     vScreen.classList.add('flex', 'pop-in');
 }
@@ -7348,7 +7362,7 @@ function autoGrowPopulation() {
         deadGain += result.dead || 0;
     }
     if (buys > 0) {
-        const bonus = `${goldReward ? ` +${goldReward}💰` : ''}${cultureReward ? ` +${cultureReward}🎭` : ''}${deadGain ? ` +${deadGain}亡者` : ''}`;
+        const bonus = `${cultureReward ? ` +${cultureReward}🎭` : ''}${goldReward ? ` +${goldReward}💰` : ''}${deadGain ? ` +${deadGain}亡者` : ''}`;
         showMsg(`👥 人口自动增长 +${gained}（花费 ${spent}🌾${bonus}）`, "success");
     }
     return gained;
@@ -7481,6 +7495,47 @@ function isTransportEngineeringKey(key) {
     if (TRANSPORT_IMPROVEMENTS.includes(key)) return true;
     const act = ACTIONS[key];
     return !!(act && TRANSPORT_TERRAINS.includes(act.toTerrain));
+}
+
+// 建造卡排序：农业→工业→科研→文化→金钱；同主类别时单效果在前、双效果在后；交通一律最后
+const CARD_CATEGORY_ORDER = ['farm', 'mine', 'campus', 'entertainment_complex', 'market'];
+
+function getEngineeringCardVector(key) {
+    const districts = getEngineeringAdjacentDistricts(key);
+    const cats = [...new Set(districts.map(d => CARD_CATEGORY_ORDER.indexOf(d)).filter(i => i >= 0))].sort((a, b) => a - b);
+    return cats.length ? cats : [99];
+}
+
+function getCardSortMeta(item, index) {
+    const k = item.key;
+    if (item.type === 'action') {
+        if (ENGINEERING_ACTIONS.includes(k)) {
+            return { group: 1, transport: isTransportEngineeringKey(k), vec: getEngineeringCardVector(k), index };
+        }
+        return { group: 0, transport: false, vec: [0], index };
+    }
+    const b = item.data;
+    if (b && b.type === 'engineering') {
+        return { group: 1, transport: isTransportEngineeringKey(k), vec: getEngineeringCardVector(k), index };
+    }
+    if (b && b.type === 'district') {
+        if (k === 'plaza') return { group: 2, transport: false, vec: [-1], index };
+        const cat = CARD_CATEGORY_ORDER.indexOf(k);
+        return { group: 2, transport: false, vec: [cat >= 0 ? cat : 99], index };
+    }
+    return { group: 0, transport: false, vec: [0], index };
+}
+
+function compareCardSort(a, b) {
+    if (a.group !== b.group) return a.group - b.group;
+    if (a.group === 0) return a.index - b.index;
+    if (a.transport !== b.transport) return a.transport ? 1 : -1;
+    if (a.vec[0] !== b.vec[0]) return a.vec[0] - b.vec[0];
+    if (a.vec.length !== b.vec.length) return a.vec.length - b.vec.length;
+    for (let i = 1; i < a.vec.length; i++) {
+        if (a.vec[i] !== b.vec[i]) return a.vec[i] - b.vec[i];
+    }
+    return a.index - b.index;
 }
 
 // QOL：当前地块若与人造工程可加成的区域相邻，建造面板里的对应工程变黄
@@ -7702,6 +7757,10 @@ function updateSelectionUI(t) {
     let distAdjacentCardCount = 0;
     for (let k in ACTIONS) allItems.push({ key: k, type: 'action', data: ACTIONS[k] });
     for (let k in BUILDINGS) allItems.push({ key: k, type: 'building', data: BUILDINGS[k] });
+    allItems = allItems
+        .map((item, index) => ({ item, ...getCardSortMeta(item, index) }))
+        .sort(compareCardSort)
+        .map(x => x.item);
     
     for (let item of allItems) {
         const k = item.key;
