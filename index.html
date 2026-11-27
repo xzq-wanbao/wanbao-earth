@@ -5539,6 +5539,40 @@ function drawSaltPastureIcon(ctx, x, y, size) {
     ctx.restore();
 }
 
+function drawSaltMarshIcon(ctx, x, y, size) {
+    ctx.save();
+    const s = size * 0.32;
+    ctx.fillStyle = '#4d7c0f';
+    [-0.8, -0.4, 0.45, 0.8].forEach((off, i) => {
+        ctx.beginPath();
+        ctx.moveTo(x + s * off, y + s * 0.55);
+        ctx.lineTo(x + s * (off - 0.16), y + s * (0.1 + (i % 2) * 0.1));
+        ctx.lineTo(x + s * (off + 0.16), y + s * (0.12 + (i % 2) * 0.08));
+        ctx.closePath();
+        ctx.fill();
+    });
+    ctx.fillStyle = '#e2e8f0';
+    ctx.beginPath();
+    ctx.ellipse(x, y + s * 0.35, s * 0.85, s * 0.35, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#f8fafc';
+    ctx.beginPath();
+    ctx.moveTo(x - s * 0.65, y + s * 0.3);
+    ctx.lineTo(x, y - s * 0.55);
+    ctx.lineTo(x + s * 0.65, y + s * 0.3);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.moveTo(x - s * 0.12, y - s * 0.25);
+    ctx.lineTo(x, y - s * 0.38);
+    ctx.lineTo(x + s * 0.12, y - s * 0.25);
+    ctx.lineTo(x, y - s * 0.12);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+}
+
 function drawHex(ctx, q, r, t, activeGods = null, phase = 'all') {
     const p = hexToPixel(q, r); const size = HEX_SIZE * state.camera.zoom;
     const villageSpec = t.village ? getVillageSpecialty(t.village) : null;
@@ -5641,8 +5675,11 @@ if (t.isRuin && !t.improvement) {
         icon = '🏘️';
     }
 
-    // 盐田/盐沼牧场使用无描边矢量图标，避免 emoji 黑边
-    if (t.type === TERRAIN.SALT_PAN) {
+    // 盐沼/盐田/盐沼牧场使用无描边矢量图标，避免 emoji 黑边
+    if (t.type === TERRAIN.SALT_MARSH) {
+        drawSaltMarshIcon(ctx, p.x, p.y, size);
+        icon = null;
+    } else if (t.type === TERRAIN.SALT_PAN) {
         drawSaltPanIcon(ctx, p.x, p.y, size);
         icon = null;
     } else if (t.type === TERRAIN.SALT_PASTURE) {
@@ -6853,17 +6890,17 @@ function getTileYield(t, activeGodsCache = null) {
             nbs.forEach(n => {
                 const nName = TERRAIN_INFO[n.type].name; let adj = {};
                 if (t.improvement === 'farm') {
-                    if ([TERRAIN.TERRACE, TERRAIN.KAREZ, TERRAIN.CANAL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CAMEL_RANCH, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.FLOATING_GARDEN, TERRAIN.COASTAL_FISHERY, TERRAIN.PEAT_MINE, TERRAIN.CRAB_FARM, TERRAIN.CELLAR_VAULT, TERRAIN.FUNGAL_FARM, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.CACTUS_DESERT, TERRAIN.ALPACA_RANCH].includes(n.type)) { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🌾`); }
+                    if ([TERRAIN.TERRACE, TERRAIN.KAREZ, TERRAIN.CANAL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CAMEL_RANCH, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.FLOATING_GARDEN, TERRAIN.COASTAL_FISHERY, TERRAIN.PEAT_MINE, TERRAIN.CRAB_FARM, TERRAIN.CELLAR_VAULT, TERRAIN.FUNGAL_FARM, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.CACTUS_DESERT, TERRAIN.ALPACA_RANCH, TERRAIN.SALT_PASTURE].includes(n.type)) { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🌾`); }
                     if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.food = (adj.food||0)+hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🌾`); }
                     if (n.improvement === 'fishery') { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`捕鱼场: +${engBonus}🌾`); }
                     if (n.improvement === 'oasis_cistern') { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`绿洲蓄水池: +${engBonus}🌾`); }
                 }
                 if (t.improvement === 'mine') {
-                    if ([TERRAIN.MINING_SITE, TERRAIN.LUMBER_MILL, TERRAIN.PEAT_MINE, TERRAIN.SILT_PLANT, TERRAIN.SOLAR_FARM, TERRAIN.WIND_FARM, TERRAIN.DATE_PALM, TERRAIN.BOG_IRON, TERRAIN.WINDMILL_FIELD, TERRAIN.QUARRY, TERRAIN.MANGROVE_KILN, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.CANAL].includes(n.type)) { adj.industry = (adj.industry||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🔨`); }
+                    if ([TERRAIN.MINING_SITE, TERRAIN.LUMBER_MILL, TERRAIN.PEAT_MINE, TERRAIN.SILT_PLANT, TERRAIN.SOLAR_FARM, TERRAIN.WIND_FARM, TERRAIN.DATE_PALM, TERRAIN.BOG_IRON, TERRAIN.WINDMILL_FIELD, TERRAIN.QUARRY, TERRAIN.MANGROVE_KILN, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.CANAL, TERRAIN.REED_BED].includes(n.type)) { adj.industry = (adj.industry||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🔨`); }
                     if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.industry = (adj.industry||0)+hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🔨`); }
                 }
                 if (t.improvement === 'market') {
-                    if ([TERRAIN.TUNNEL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CANAL, TERRAIN.CAMEL_RANCH, TERRAIN.DATE_PALM, TERRAIN.HUNTING_CAMP, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.COASTAL_FISHERY, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.TREEHOUSE_RESORT, TERRAIN.CRAB_FARM, TERRAIN.HOT_SPRING_RESORT, TERRAIN.CELLAR_VAULT, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.ALPACA_RANCH, TERRAIN.WINERY].includes(n.type)) { let bonus = engBonus; adj.gold = (adj.gold||0) + bonus; details.adjacencyBreakdown.push(`${nName}: +${bonus}💰`); }
+                    if ([TERRAIN.TUNNEL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CANAL, TERRAIN.CAMEL_RANCH, TERRAIN.DATE_PALM, TERRAIN.HUNTING_CAMP, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.COASTAL_FISHERY, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.TREEHOUSE_RESORT, TERRAIN.CRAB_FARM, TERRAIN.HOT_SPRING_RESORT, TERRAIN.CELLAR_VAULT, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.ALPACA_RANCH, TERRAIN.WINERY, TERRAIN.SALT_PAN, TERRAIN.SALT_PASTURE].includes(n.type)) { let bonus = engBonus; adj.gold = (adj.gold||0) + bonus; details.adjacencyBreakdown.push(`${nName}: +${bonus}💰`); }
                     if (n.improvement === 'sea_bridge') { adj.gold = (adj.gold||0) + engBonus; details.adjacencyBreakdown.push(`跨海大桥: +${engBonus}💰`); }
                     if (n.improvement === 'bridge') { adj.gold = (adj.gold||0) + engBonus; details.adjacencyBreakdown.push(`跨湖大桥: +${engBonus}💰`); }
                     if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.gold = (adj.gold||0) + hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}💰`); }
@@ -8338,10 +8375,11 @@ function applyVolcanicFertileSoilAround(volcanoTile) {
     if (!volcanoTile) return 0;
     let changed = 0;
     getNeighbors(volcanoTile.q, volcanoTile.r).forEach(n => {
-        if (!n || n.improvement || n.isRuin || n.village) return;
+        if (!n || n.improvement || n.village) return;
         if (n.eruptionRecoverTimer || n.originalTypeBeforeEruption) return;
         if (VOLCANIC_SOIL_EXCLUDED.includes(n.type)) return;
         if (n.type === TERRAIN.FERTILE_SOIL) return;
+        if (n.isRuin) { n.isRuin = false; n.miracleRuin = false; }
         n.type = TERRAIN.FERTILE_SOIL;
         changed++;
     });
