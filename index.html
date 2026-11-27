@@ -658,7 +658,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                             <li><b>胜利条件：</b> 在 <span class="text-yellow-300">50 回合内</span>于沙漠建造 <span class="text-yellow-300">永恒金字塔</span>（默认 10000💰；普塔 9000💰；维拉科查 3000🔨/💰/🔬/🎭）。</li>
                             <li><b>可重复游玩性：</b> 通过不断尝试各种神灵搭配，以不同的方式获得胜利。</li>
                             <li><b>改造地形：</b> 可花费资源永久改造部分地形，重塑地球生态圈。</li>
-                            <li><b>河流与冰盖：</b> 河流从山脉流向海洋/湖泊/沼泽，沿河平地会形成洪泛平原（可建农业区）；极地陆地会形成冰盖。</li>
+                            <li><b>河流与冰盖：</b> 河流从山脉流向海洋/湖泊，沿河平地会形成洪泛平原（可建农业区）；极地陆地会形成冰盖。</li>
                             <li><b>区域连接：</b> 所有新区域必须与 <span class="text-purple-400">主广场</span> 连接。可以通过隧道、桥梁、运河或已建成的区域进行延伸。区域只可跨一格非交通类人造工程进行建造，不可拆除连接点内的区域（拆除会导致其他区域与主广场断开）。</li>
                             <li><b>人口：</b> 食物足够时每回合结束自动 +1 人口（可连续增长，消耗递增）。每一人口+3🔨+3🔬+3🎭，但-3🌾。食物耗尽会导致人口减少；献祭神时段自动增长暂停（托纳季乌运转期不暂停，人口仍会自然增长）。</li>
                             <li><b>村庄：</b> 长期交换每回合 -30💰 换 20 对应资源，交换期间每回合 +10 友好度；友好度满 100 后交换提升为 20💰 换 30 对应资源，并可花费 200🎭 吸纳村庄（人口 +3）。</li>
@@ -8320,7 +8320,7 @@ function generateIceCaps() {
 }
 
 // === 河流：源头在山脉，沿陆地流入海洋/湖泊/沼泽；河流画在六边形边上 ===
-const RIVER_SINK_TYPES = [TERRAIN.OCEAN, TERRAIN.LAKE, TERRAIN.SWAMP, TERRAIN.PEAT_BOG];
+const RIVER_SINK_TYPES = [TERRAIN.OCEAN, TERRAIN.LAKE];
 const RIVER_DIRS = [[1, 0], [1, -1], [0, -1], [-1, 0], [-1, 1], [0, 1]];
 const RIVER_DIR_EDGE = [5, 4, 3, 2, 1, 0];
 
@@ -8340,52 +8340,105 @@ function addRiverEdgeBetween(a, b) {
     addRiverEdge(b, RIVER_DIR_EDGE[(d + 3) % 6]);
 }
 
-function findRiverPath(source) {
-    const queue = [{ t: source, inDir: -1, parent: null }];
-    const seen = new Set([`${source.q},${source.r},-1`]);
+function buildWaterDistance() {
+    const dist = new Map();
+    const queue = [];
+    state.map.forEach(t => {
+        if (t.type === TERRAIN.OCEAN || t.type === TERRAIN.LAKE) {
+            dist.set(`${t.q},${t.r}`, 0);
+            queue.push(t);
+        }
+    });
     while (queue.length) {
         const cur = queue.shift();
-        for (const [dq, dr] of RIVER_DIRS) {
-            const d = RIVER_DIRS.findIndex(([x, y]) => x === dq && y === dr);
+        const d = dist.get(`${cur.q},${cur.r}`);
+        getNeighbors(cur.q, cur.r).forEach(n => {
+            if (!n || n.type === TERRAIN.OCEAN || n.type === TERRAIN.LAKE || n.type === TERRAIN.ICE_CAP) return;
+            const key = `${n.q},${n.r}`;
+            if (dist.has(key)) return;
+            dist.set(key, d + 1);
+            queue.push(n);
+        });
+    }
+    return dist;
+}
+
+function findRiverPath(source, waterDist) {
+    const queue = [{ t: source, inDir: -1, parent: null }];
+    const seen = new Set([`${source.q},${source.r},-1`]);
+    const reconstruct = node => {
+        const path = [];
+        while (node) { path.push(node.t); node = node.parent; }
+        return path.reverse();
+    };
+    const canTurn = (inDir, outDir) => inDir < 0 || outDir === (inDir + 1) % 6 || outDir === (inDir + 5) % 6;
+    let best = null;
+    const consider = (node, finalTile, water) => {
+        const path = reconstruct(node);
+        if (finalTile) path.push(finalTile);
+        if (path.length < 3 || path.length > 18) return;
+        if (!best || path.length > best.path.length) best = { path, water };
+    };
+    while (queue.length) {
+        const cur = queue.shift();
+        for (let d = 0; d < RIVER_DIRS.length; d++) {
+            const [dq, dr] = RIVER_DIRS[d];
             const n = state.map.get(`${cur.t.q + dq},${cur.t.r + dr}`);
             if (!n) continue;
             if (RIVER_SINK_TYPES.includes(n.type)) {
-                const path = [n];
-                let node = cur;
-                while (node) { path.push(node.t); node = node.parent; }
-                return path.reverse();
+                if (canTurn(cur.inDir, d)) consider(cur, null, n);
+                continue;
             }
             if (!riverTraversable(n)) continue;
-            if (cur.inDir >= 0) {
-                const left = (cur.inDir + 1) % 6;
-                const right = (cur.inDir + 5) % 6;
-                if (d !== left && d !== right) continue;
+            const nd = waterDist.get(`${n.q},${n.r}`);
+            if (nd === undefined) continue;
+            if (nd <= 1) {
+                // 最后一块陆地：选一个能形成转弯的水域入水，不沿水岸继续
+                for (let wd = 0; wd < RIVER_DIRS.length; wd++) {
+                    const w = state.map.get(`${n.q + RIVER_DIRS[wd][0]},${n.r + RIVER_DIRS[wd][1]}`);
+                    if (w && RIVER_SINK_TYPES.includes(w.type) && canTurn(d, wd)) {
+                        consider(cur, n, w);
+                        break;
+                    }
+                }
+                continue;
             }
+            if (!canTurn(cur.inDir, d)) continue;
             const key = `${n.q},${n.r},${d}`;
             if (seen.has(key)) continue;
             seen.add(key);
             queue.push({ t: n, inDir: d, parent: cur });
         }
     }
-    return null;
+    return best;
 }
 
 function generateRiversAndFloodplains() {
-    const sources = Array.from(state.map.values())
+    const waterDist = buildWaterDistance();
+    const keyOf = t => `${t.q},${t.r}`;
+    const mountains = Array.from(state.map.values())
         .filter(t => t.type === TERRAIN.MOUNTAIN && !t.improvement && !t.village && !t.isRuin)
-        .filter(t => tileLat(t) > 0.1 && tileLat(t) < 0.94)
-        .sort(() => Math.random() - 0.5);
+        .filter(t => tileLat(t) > 0.1 && tileLat(t) < 0.94);
+    const farMountains = mountains.filter(t => (waterDist.get(keyOf(t)) || 0) >= 3);
+    const sources = (farMountains.length ? farMountains : mountains)
+        .sort((a, b) => (waterDist.get(keyOf(b)) || 0) - (waterDist.get(keyOf(a)) || 0) || Math.random() - 0.5);
     const used = new Set();
     const paths = [];
     for (const source of sources) {
-        if (paths.length >= 6) break;
-        let path = findRiverPath(source);
-        if (!path || path.length < 3) continue;
-        const mergeIndex = path.findIndex((t, i) => i > 1 && used.has(`${t.q},${t.r}`));
-        if (mergeIndex > 0) path = path.slice(0, mergeIndex + 1);
-        if (path.length < 2) continue;
+        if (paths.length >= 5) break;
+        const result = findRiverPath(source, waterDist);
+        if (!result || !result.path || result.path.length < 3) continue;
+        const path = result.path;
+        if (path.some(t => used.has(keyOf(t)))) continue;
+        const water = result.water;
         for (let i = 0; i < path.length - 1; i++) addRiverEdgeBetween(path[i], path[i + 1]);
-        path.forEach(t => used.add(`${t.q},${t.r}`));
+        if (water) {
+            const last = path[path.length - 1];
+            const d = RIVER_DIRS.findIndex(([dq, dr]) => last.q + dq === water.q && last.r + dr === water.r);
+            // 只在最后一块陆地上画入水边，不在水域格上留下河流
+            if (d >= 0) addRiverEdge(last, RIVER_DIR_EDGE[d]);
+        }
+        path.forEach(t => used.add(keyOf(t)));
         paths.push(path);
     }
     const floodable = [TERRAIN.GRASS, TERRAIN.BRUSH, TERRAIN.DRY_GRASS_COLD, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP, TERRAIN.FOREST, TERRAIN.JUNGLE];
