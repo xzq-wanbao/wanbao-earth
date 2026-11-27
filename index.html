@@ -1279,8 +1279,8 @@ const ENGINEERING_BUILDING_ADJ_DISTRICTS = {
     swamp_reserve: ['campus', 'entertainment_complex'],
     oasis_reserve: ['campus', 'entertainment_complex'],
     oasis_cistern: ['farm'],
-    bridge: ['market'],
-    sea_bridge: ['market']
+    bridge: ['farm', 'mine', 'market', 'campus', 'entertainment_complex'],
+    sea_bridge: ['farm', 'mine', 'market', 'campus', 'entertainment_complex']
 };
 
 // 工程地形可加成的区域列表（按 ADJ_INFO 标签推导，避免三处重复维护）
@@ -1790,7 +1790,7 @@ const SEASONS = [
     { name: '秋', icon: '🍂', desc: '<b>秋季</b><br>寒带: 市场区+1💰<br>温带: 农业区+1🌾, 市场区+1💰<br>热带: 农业区+1🌾' },
     { name: '冬', icon: '❄️', desc: '<b>冬季</b><br>寒带: 科研区+1🔬<br>温带: 科研区+1🔬<br>热带: 市场区+1💰, 娱乐区+1🎭' }
 ];
-const IMPROVEMENT_ADJ_INFO = { 'harbor': '为周边所有区域提供+1对应产出', 'fishery': '为农业区/市场区提供相邻收益', 'lake_reserve': '为科研区/娱乐区提供相邻收益', 'swamp_reserve': '为科研区/娱乐区提供相邻收益', 'oasis_reserve': '为科研区/娱乐区提供相邻收益', 'oasis_cistern': '为农业区提供相邻收益', 'bridge': '为市场区提供相邻收益', 'sea_bridge': '为市场区提供相邻收益' };
+const IMPROVEMENT_ADJ_INFO = { 'harbor': '为周边所有区域提供+1对应产出', 'fishery': '为农业区/市场区提供相邻收益', 'lake_reserve': '为科研区/娱乐区提供相邻收益', 'swamp_reserve': '为科研区/娱乐区提供相邻收益', 'oasis_reserve': '为科研区/娱乐区提供相邻收益', 'oasis_cistern': '为农业区提供相邻收益', 'bridge': '为周边所有区域提供对应等级加成', 'sea_bridge': '为周边所有区域提供对应等级加成' };
 const BUILDINGS = {
     'plaza': { name: '主广场', cost: 0, costType: 'culture', costValue: 100, icons: ['🏛️'], type: 'district', baseYield: { industry: 10 }, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.DESERT, TERRAIN.POLAR, TERRAIN.ROCKY, TERRAIN.TERRACE, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【主广场】\n花费: 100🎭\n基础: 10🔨\n功能: 内政中心\n限制: 最多建造3个(赫斯提亚+2)` },
     'farm': { name: '农业区', cost: 50, icons: ['🌽', '🚜', '🏢'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.JUNGLE, TERRAIN.TAIGA, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【农业区】\n人造相邻加成:\n+1/2/3🌾: 梯田, 坎儿井, 运河...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🌾: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🌾（无上限）` },
@@ -1799,8 +1799,8 @@ const BUILDINGS = {
     'campus': { name: '科研区', cost: 50, icons: ['📖', '🏫', '⚛️'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.POLAR, TERRAIN.ROCKY, TERRAIN.JUNGLE, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【科研区】\n人造相邻加成:\n+1/2/3🔬: 极低科考站, 极光观察塔...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🔬: 同类区域 (随等级提升)\n<span class="text-red-400">注意: Lv3不获得科技储备加成(除非托特信仰)</span>` },
     'entertainment_complex': { name: '娱乐区', cost: 50, icons: ['🎡', '🎢', '🏰'], type: 'district', baseYield: {}, reqTerrain: [TERRAIN.GRASS, ...ALL_DRY_GRASS, TERRAIN.BRUSH, TERRAIN.FOREST, TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP, TERRAIN.JUNGLE, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.DESERT, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.MANGROVE, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL], desc: `【娱乐区】\n自然相邻加成: +1🎭 沿海 (非港口)\n人造相邻加成:\n+1/2/3🎭: 旅游景区, 滑雪场...\n(随区域等级+1/+2/+3)\n区域相邻加成:\n+1~3🎭: 同类区域 (随等级提升)\n科技储备加成 (Lv3):\n每存储100🔬，+1🎭（无上限）` },
     'harbor': { name: '港口', cost: 30, icons: ['⚓'], type: 'engineering', baseYield: { gold: 1 }, reqTerrain: [TERRAIN.COAST, TERRAIN.WIND_FARM], desc: `【港口】\n花费: 30🔨 (沿海工程)\n基础: 1💰\n效果:\n为周边区域提供对应等级加成\n(Lv1+1, Lv2+2, Lv3+3)\n波塞冬: 加成翻倍\n限制: 禁止建在湖泊` },
-    'sea_bridge': { name: '跨海大桥', cost: 30, icons: ['🌉'], type: 'engineering', baseYield: { gold: 2 }, reqTerrain: [TERRAIN.OCEAN, TERRAIN.OCEAN, TERRAIN.COAST, TERRAIN.ICE_FLOAT, TERRAIN.REEF], desc: `【跨海大桥】\n花费: 30🔨\n基础: 2💰\n加成: 为市场区提供相邻收益\n连接陆地与岛屿` },
-    'bridge': { name: '跨湖大桥', cost: 30, icons: ['🌉', '🌉', '🌉'], type: 'engineering', baseYield: { gold: 2 }, reqTerrain: [TERRAIN.LAKE], desc: `【跨湖大桥】\n花费: 30🔨\n基础: 2💰\n加成: 为市场区提供相邻收益` },
+    'sea_bridge': { name: '跨海大桥', cost: 30, icons: ['🌉'], type: 'engineering', baseYield: { gold: 1 }, reqTerrain: [TERRAIN.OCEAN, TERRAIN.OCEAN, TERRAIN.COAST, TERRAIN.ICE_FLOAT, TERRAIN.REEF], desc: `【跨海大桥】\n花费: 30🔨\n基础: 1💰\n效果:\n为周边区域提供对应等级加成\n(Lv1 +1, Lv2 +2, Lv3 +3)\n波塞冬: 加成翻倍\n连接陆地与岛屿` },
+    'bridge': { name: '跨湖大桥', cost: 30, icons: ['🌉', '🌉', '🌉'], type: 'engineering', baseYield: { gold: 1 }, reqTerrain: [TERRAIN.LAKE], desc: `【跨湖大桥】\n花费: 30🔨\n基础: 1💰\n效果:\n为周边区域提供对应等级加成\n(Lv1 +1, Lv2 +2, Lv3 +3)\n波塞冬: 加成翻倍` },
     'fishery': { name: '捕鱼场', cost: 30, icons: ['🐟'], type: 'engineering', baseYield: { food: 1, gold: 1 }, reqTerrain: [TERRAIN.LAKE], desc: `【捕鱼场】\n花费: 30🔨\n基础: 1🌾 1💰\n加成: 为农业区，市场区提供相邻收益` },
     'lake_reserve': { name: '湖泊保护区', cost: 30, icons: ['🦆'], type: 'engineering', baseYield: { science: 1, culture: 1 }, reqTerrain: [TERRAIN.LAKE], desc: `【湖泊保护区】\n花费: 30🔨\n基础: 1🔬 1🎭\n加成: 为科研区，娱乐区提供相邻收益` },
     'swamp_reserve': { name: '沼泽保护区', cost: 30, icons: ['🐸'], type: 'engineering', baseYield: { science: 1, culture: 1 }, reqTerrain: [TERRAIN.SWAMP], desc: `【沼泽保护区】\n花费: 30🔨\n基础: 1🔬 1🎭\n加成: 为科研区，娱乐区提供相邻收益` },
@@ -6979,6 +6979,13 @@ function performAction(key) {
 
 // ==================== src/14-yields.js：地块产出计算 ====================
 // ==================== src/14-yields.js：地块产出计算 ====================
+function getHarborLikeBonus(district, n, gods) {
+    if (!n || !['harbor', 'bridge', 'sea_bridge'].includes(n.improvement)) return null;
+    const info = getHarborBonus(district, gods);
+    const name = n.improvement === 'harbor' ? '港口' : (n.improvement === 'sea_bridge' ? '跨海大桥' : '跨湖大桥');
+    return { bonus: info.bonus, doubled: info.doubled, name };
+}
+
 function getTileYield(t, activeGodsCache = null) {
     let y = { food: 0, industry: 0, gold: 0, science: 0, culture: 0 };
     let details = { base: {}, building: {}, adjacency: {}, adjacencyBreakdown: [], animal: 0, volcano: 0 };
@@ -7069,19 +7076,20 @@ function getTileYield(t, activeGodsCache = null) {
                 const nName = TERRAIN_INFO[n.type].name; let adj = {};
                 if (t.improvement === 'farm') {
                     if ([TERRAIN.TERRACE, TERRAIN.KAREZ, TERRAIN.CANAL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CAMEL_RANCH, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.FLOATING_GARDEN, TERRAIN.COASTAL_FISHERY, TERRAIN.PEAT_MINE, TERRAIN.CRAB_FARM, TERRAIN.CELLAR_VAULT, TERRAIN.FUNGAL_FARM, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.CACTUS_DESERT, TERRAIN.ALPACA_RANCH, TERRAIN.SALT_PASTURE, TERRAIN.APIARY].includes(n.type)) { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🌾`); }
-                    if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.food = (adj.food||0)+hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🌾`); }
+                    const hbFood = getHarborLikeBonus(t, n, activeGods);
+                    if (hbFood) { adj.food = (adj.food||0) + hbFood.bonus; details.adjacencyBreakdown.push(`${hbFood.name}${hbFood.doubled ? '(波塞冬)' : ''}: +${hbFood.bonus}🌾`); }
                     if (n.improvement === 'fishery') { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`捕鱼场: +${engBonus}🌾`); }
                     if (n.improvement === 'oasis_cistern') { adj.food = (adj.food||0)+engBonus; details.adjacencyBreakdown.push(`绿洲蓄水池: +${engBonus}🌾`); }
                 }
                 if (t.improvement === 'mine') {
                     if ([TERRAIN.MINING_SITE, TERRAIN.LUMBER_MILL, TERRAIN.PEAT_MINE, TERRAIN.SILT_PLANT, TERRAIN.SOLAR_FARM, TERRAIN.WIND_FARM, TERRAIN.DATE_PALM, TERRAIN.BOG_IRON, TERRAIN.WINDMILL_FIELD, TERRAIN.QUARRY, TERRAIN.MANGROVE_KILN, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.CANAL, TERRAIN.REED_BED, TERRAIN.FIREWOOD_CAMP, TERRAIN.RESIN_CAMP].includes(n.type)) { adj.industry = (adj.industry||0)+engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🔨`); }
-                    if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.industry = (adj.industry||0)+hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🔨`); }
+                    const hbIndustry = getHarborLikeBonus(t, n, activeGods);
+                    if (hbIndustry) { adj.industry = (adj.industry||0) + hbIndustry.bonus; details.adjacencyBreakdown.push(`${hbIndustry.name}${hbIndustry.doubled ? '(波塞冬)' : ''}: +${hbIndustry.bonus}🔨`); }
                 }
                 if (t.improvement === 'market') {
                     if ([TERRAIN.TUNNEL, TERRAIN.REINDEER_PASTURE, TERRAIN.PASTURE, TERRAIN.CANAL, TERRAIN.CAMEL_RANCH, TERRAIN.DATE_PALM, TERRAIN.HUNTING_CAMP, TERRAIN.ORCHARD, TERRAIN.PLANTATION, TERRAIN.COASTAL_FISHERY, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.TREEHOUSE_RESORT, TERRAIN.CRAB_FARM, TERRAIN.HOT_SPRING_RESORT, TERRAIN.CELLAR_VAULT, TERRAIN.CLOUDBERRY_PLANTATION, TERRAIN.ALPACA_RANCH, TERRAIN.WINERY, TERRAIN.SALT_PAN, TERRAIN.SALT_PASTURE, TERRAIN.APIARY, TERRAIN.DYE_GARDEN, TERRAIN.RESIN_CAMP].includes(n.type)) { let bonus = engBonus; adj.gold = (adj.gold||0) + bonus; details.adjacencyBreakdown.push(`${nName}: +${bonus}💰`); }
-                    if (n.improvement === 'sea_bridge') { adj.gold = (adj.gold||0) + engBonus; details.adjacencyBreakdown.push(`跨海大桥: +${engBonus}💰`); }
-                    if (n.improvement === 'bridge') { adj.gold = (adj.gold||0) + engBonus; details.adjacencyBreakdown.push(`跨湖大桥: +${engBonus}💰`); }
-                    if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.gold = (adj.gold||0) + hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}💰`); }
+                    const hbGold = getHarborLikeBonus(t, n, activeGods);
+                    if (hbGold) { adj.gold = (adj.gold||0) + hbGold.bonus; details.adjacencyBreakdown.push(`${hbGold.name}${hbGold.doubled ? '(波塞冬)' : ''}: +${hbGold.bonus}💰`); }
                     if (n.improvement === 'fishery') { adj.gold = (adj.gold||0)+engBonus; details.adjacencyBreakdown.push(`捕鱼场: +${engBonus}💰`); }
                 }
                 if (t.improvement === 'campus') {
@@ -7089,12 +7097,14 @@ function getTileYield(t, activeGodsCache = null) {
                     const isReserveImprovement = ['swamp_reserve', 'lake_reserve', 'oasis_reserve'].includes(n.improvement);
                     const isReserveTerrain = [TERRAIN.MANGROVE_RESERVE, TERRAIN.PEAT_BOG_RESERVE, TERRAIN.WETLAND_RESERVE].includes(n.type);
                     if (isReserveImprovement || isReserveTerrain) { adj.science = (adj.science||0) + engBonus; details.adjacencyBreakdown.push(`保护区: +${engBonus}🔬`); }
-                    if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.science = (adj.science||0) + hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🔬`); }
+                    const hbScience = getHarborLikeBonus(t, n, activeGods);
+                    if (hbScience) { adj.science = (adj.science||0) + hbScience.bonus; details.adjacencyBreakdown.push(`${hbScience.name}${hbScience.doubled ? '(波塞冬)' : ''}: +${hbScience.bonus}🔬`); }
                 }
                 if (t.improvement === 'entertainment_complex') {
                     if (n.type === TERRAIN.COAST && n.improvement !== 'harbor') { adj.culture = (adj.culture||0) + 1; details.adjacencyBreakdown.push(`${nName}: +1🎭`); }
                     if ([TERRAIN.AURORA_TOWER, TERRAIN.TOURIST_SPOT, TERRAIN.RACECOURSE, TERRAIN.SAFARI_CAMP, TERRAIN.FLOATING_RESORT, TERRAIN.SKI_RESORT, TERRAIN.ICE_SCULPTURE_PARK, TERRAIN.GEOPARK, TERRAIN.TREEHOUSE_RESORT, TERRAIN.HOT_SPRING_RESORT, TERRAIN.WINERY].includes(n.type)) { adj.culture = (adj.culture||0) + engBonus; details.adjacencyBreakdown.push(`${nName}: +${engBonus}🎭`); }
-                    if (n.improvement === 'harbor') { const hBonus = getHarborBonus(t, activeGods).bonus; adj.culture = (adj.culture||0) + hBonus; details.adjacencyBreakdown.push(`港口${getHarborBonus(t, activeGods).doubled ? '(波塞冬)' : ''}: +${hBonus}🎭`); }
+                    const hbCulture = getHarborLikeBonus(t, n, activeGods);
+                    if (hbCulture) { adj.culture = (adj.culture||0) + hbCulture.bonus; details.adjacencyBreakdown.push(`${hbCulture.name}${hbCulture.doubled ? '(波塞冬)' : ''}: +${hbCulture.bonus}🎭`); }
                     const isReserveImprovement = ['swamp_reserve', 'lake_reserve', 'oasis_reserve'].includes(n.improvement);
                     const isReserveTerrain = [TERRAIN.MANGROVE_RESERVE, TERRAIN.PEAT_BOG_RESERVE, TERRAIN.WETLAND_RESERVE].includes(n.type);
                     if (isReserveImprovement || isReserveTerrain) { adj.culture = (adj.culture||0) + engBonus; details.adjacencyBreakdown.push(`保护区: +${engBonus}🎭`); }
@@ -8844,6 +8854,14 @@ function generateEastIslands() {
     });
 }
 
+function fillPolarMargins() {
+    state.map.forEach(t => {
+        if (t.type !== TERRAIN.OCEAN) return;
+        const lat = tileLat(t);
+        if (lat < 0.27 || lat > 0.86) setIslandLand(t);
+    });
+}
+
 function generateMap() {
  state.map.clear(); const height = CONFIG.map.height; const width = CONFIG.map.width; const offsetX = CONFIG.map.offsetX; const offsetY = CONFIG.map.offsetY; state.plazaCount = 0; state.industrialCount = 0; state.camera.zoom = window.innerWidth < 768 ? 1.0 : CONFIG.map.startZoom; for (let y = 0; y < height; y++) { for (let x = 0; x < width; x++) { const r = y + offsetY; const q = (x + offsetX) - Math.floor((y + offsetY - ((y + offsetY) & 1)) / 2); let type = TERRAIN.OCEAN; const noise = simpleNoise(x, y * 0.8); const lat = y / height; const dx = (x - width/2) / (width/2); let shape = 0; const mainlandScale = Math.min(1, 20 / width); if (lat < 0.45) { let wFactor = 0.9 - (lat * 1.8); if (wFactor < 0.2) wFactor = 0.2; if (lat > 0.1 && lat < 0.35) wFactor += 0.35; if (noise > 0.3) wFactor += 0.1; if (noise < -0.3) wFactor -= 0.1; if (Math.abs(dx) < wFactor * mainlandScale) shape = 1; } else if (lat >= 0.45 && lat < 0.9) { let wFactor = 0.7 * (1 - (lat - 0.45)*2.0); if (lat > 0.5 && lat < 0.65) wFactor += 0.4; if (wFactor < 0.15) wFactor = 0.15; if (Math.abs(dx + 0.1) < wFactor * mainlandScale) shape = 1; } else if (lat >= 0.94) { if (Math.abs(dx) < 0.8 * mainlandScale) shape = 1; } if (shape === 1) { if (lat < 0.10) { type = TERRAIN.POLAR; } else if (lat < 0.19) { type = TERRAIN.TUNDRA; if (Math.random() < 0.05) type = TERRAIN.PEAT_BOG; } else if (lat < 0.27) { type = TERRAIN.TAIGA; } else if (lat < 0.44) { if (noise > 0.3) type = TERRAIN.FOREST; else type = TERRAIN.GRASS; } else if (lat < 0.54) { if (Math.random() < 0.4) type = TERRAIN.DESERT; else type = TERRAIN.BRUSH; } 
 else if (lat < 0.72) {
@@ -8879,6 +8897,7 @@ else if (lat < 0.72) {
     }
     if (shape === 0 && Math.random() < 0.015) { if (lat > 0.9 || lat < 0.15) { type = TERRAIN.ICE_FLOAT; } else if (lat > 0.4 && lat < 0.7) { if (Math.random() < 0.5) type = TERRAIN.REEF; else type = TERRAIN.OASIS; } else if (lat < 0.27 || lat > 0.86) { type = TERRAIN.TUNDRA; }else type = TERRAIN.GRASS; } state.map.set(`${q},${r}`, { q, r, type, improvement: null, owner: null, level: 1 }); } }
     generateEastIslands();
+    fillPolarMargins();
     const landTypes = [TERRAIN.POLAR, TERRAIN.TUNDRA, TERRAIN.TAIGA, TERRAIN.GRASS, TERRAIN.FOREST, TERRAIN.BRUSH, TERRAIN.DESERT, TERRAIN.JUNGLE, TERRAIN.MOUNTAIN, TERRAIN.LAKE, TERRAIN.OASIS, TERRAIN.WASTELAND, TERRAIN.ROCKY, TERRAIN.DRY_GRASS_COLD, TERRAIN.DRY_GRASS_TEMP, TERRAIN.DRY_GRASS_TROP, TERRAIN.SWAMP, TERRAIN.VOLCANO, TERRAIN.MINING_SITE, TERRAIN.TERRACE, TERRAIN.CANAL, TERRAIN.WIND_FARM, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.TOURIST_SPOT, TERRAIN.SOLAR_FARM, TERRAIN.KAREZ, TERRAIN.GEYSER, TERRAIN.CAVE, TERRAIN.PEAT_BOG, TERRAIN.CACTUS_DESERT, TERRAIN.FERTILE_SOIL, TERRAIN.ICE_CAP];
     state.map.forEach(tile => { if (tile.type === TERRAIN.OCEAN || tile.type === TERRAIN.ICE_FLOAT || tile.type === TERRAIN.REEF) { const neighbors = getNeighbors(tile.q, tile.r); if (neighbors.some(n => landTypes.includes(n.type))) { tile.type = TERRAIN.COAST; } } });
     state.map.forEach(tile => { const r = tile.r; const mapH = 50; const offset = 25; const lat = (r + offset) / mapH; if (lat > 0.44 && lat < 0.72) { if (tile.type === TERRAIN.SWAMP || tile.type === TERRAIN.JUNGLE || tile.type === TERRAIN.BRUSH) { const nbs = getNeighbors(tile.q, tile.r); if (nbs.some(n => n.type === TERRAIN.COAST) && Math.random() < 0.2) { tile.type = TERRAIN.MANGROVE; } } } });
