@@ -6805,13 +6805,16 @@ function getTileYield(t, activeGodsCache = null) {
             const volBonus = baseVol + ashLevel * 2;
             y.food = (y.food || 0) + volBonus; 
             details.volcano = volBonus; 
-            const ashLabel = ashLevel > 0 ? `+${ashLevel}层` : '';
+            const layerBonus = ashLevel * 2;
             if (onFertile && !nearVolcano) {
-                details.adjacencyBreakdown.push(`沃土(火山灰${ashLabel}): +${volBonus}🌾`);
+                details.adjacencyBreakdown.push(`沃土(火山灰基础): +${baseVol}🌾`);
+                if (ashLevel > 0) details.adjacencyBreakdown.push(`沃土(火山灰+${ashLevel}层): +${layerBonus}🌾`);
             } else if (isPachamamaActive(activeGods)) {
-                details.adjacencyBreakdown.push(`帕查玛玛(火山灰${ashLabel}): +${volBonus}🌾`); 
+                details.adjacencyBreakdown.push(`帕查玛玛(火山灰基础): +${baseVol}🌾`);
+                if (ashLevel > 0) details.adjacencyBreakdown.push(`帕查玛玛(火山灰+${ashLevel}层): +${layerBonus}🌾`);
             } else {
-                details.adjacencyBreakdown.push(`火山灰${ashLabel ? `(${ashLabel})` : ''}: +${volBonus}🌾`);
+                details.adjacencyBreakdown.push(`火山灰基础: +${baseVol}🌾`);
+                if (ashLevel > 0) details.adjacencyBreakdown.push(`火山灰(+${ashLevel}层): +${layerBonus}🌾`);
             }
         } 
     }
