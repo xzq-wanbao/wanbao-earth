@@ -864,7 +864,7 @@ const CONFIG = {
       desc2: '遗迹奖励翻倍'
     },
     noMaintenance: {
-      name: '轻徭', icon: '📜', cost: 1,
+      name: '减赋', icon: '📜', cost: 1,
       desc1: '人造工程维护费减半',
       desc2: '人造工程不再消耗维护费'
     },
@@ -4463,7 +4463,7 @@ function calculateIncome() {
         }
     }
 
-    // 5. 人造工程维护费：每座 1💰/回合（区域不收费）；轻徭1阶段减半，2阶段免费
+    // 5. 人造工程维护费：每座 1💰/回合（区域不收费）；减赋1阶段减半，2阶段免费
     state.goldGrossIncome = state.income.gold;
     state.engineeringCount = countEngineeringTiles();
     state.engineeringMaintenance = getEngineeringMaintenanceForCount(state.engineeringCount);
@@ -7825,7 +7825,7 @@ function renderMiracleCards(container, activeGods) {
     if (state.miracleExplorerCapacity) status.push(state.miracleExplorerExtra ? '寻踪2 50%' : '寻踪 +1探险家');
     if (state.miracleVillageFriendship) status.push(state.miracleVillageFriendship2 ? '归化2 吸纳100' : '归化 村庄100');
     if (state.miracleAncientRuins) status.push(state.miracleAncientRuins2 ? '古墟2 奖励×2' : '古墟 5遗迹');
-    if (state.miracleNoMaintenance) status.push(state.miracleNoMaintenance2 ? '轻徭2 维护0' : '轻徭 维护减半');
+    if (state.miracleNoMaintenance) status.push(state.miracleNoMaintenance2 ? '减赋2 维护0' : '减赋 维护减半');
     if (state.miracleSeasonPopulation) status.push(state.miracleSeasonPopulation2 ? '季礼2 +3人口/年' : '季礼 +1人口/季');
     if (state.miracleMountainFire) status.push(state.miracleMountainFire2 ? `山火2 喷发×3 +${state.volcanoEruptionBonus}` : `山火 免破坏 山→火${state.miracleMountainToVolcano} 火→山${state.miracleVolcanoToMountain}`);
     if (state.miracleDeadCulture) status.push(state.miracleDeadCulture2 ? `安魂2 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭 +${(state.deadPopulation || 0) * 2}💰` : `安魂 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭`);
@@ -7910,7 +7910,7 @@ function useMiracle(key) {
             showMsg(`🗿 古墟1阶段：地图上生成了 ${count} 个遗迹。`, 'success');
         } else if (key === 'noMaintenance') {
             state.miracleNoMaintenance = true;
-            showMsg('📜 轻徭1阶段：人造工程维护费减半。', 'success');
+            showMsg('📜 减赋1阶段：人造工程维护费减半。', 'success');
         } else if (key === 'seasonPopulation') {
             state.miracleSeasonPopulation = true;
             showMsg('🍂 季礼1阶段：每个季节开启时人口 +1。', 'success');
@@ -7944,7 +7944,7 @@ function useMiracle(key) {
             showMsg('🗿 古墟2阶段：遗迹奖励翻倍。', 'success');
         } else if (key === 'noMaintenance') {
             state.miracleNoMaintenance2 = true;
-            showMsg('📜 轻徭2阶段：人造工程不再消耗维护费。', 'success');
+            showMsg('📜 减赋2阶段：人造工程不再消耗维护费。', 'success');
         } else if (key === 'seasonPopulation') {
             state.miracleSeasonPopulation2 = true;
             showMsg('🍂 季礼2阶段：每年额外 +3 人口。', 'success');
@@ -8188,7 +8188,7 @@ ttHeader.innerHTML = `<span class="${t.improvement ? 'text-yellow-300' : 'text-w
 
 
 // ==================== src/18-map.js：地图生成与画布尺寸 ====================
-﻿// ==================== src/18-map.js：地图生成与画布尺寸 ====================
+// ==================== src/18-map.js：地图生成与画布尺寸 ====================
 // 火山周围一圈土地：除山脉/湖泊/岩地/水域/间歇泉外，变为沃土（火山灰起始 +2🌾）
 const VOLCANIC_SOIL_EXCLUDED = [
     TERRAIN.MOUNTAIN, TERRAIN.LAKE, TERRAIN.ROCKY, TERRAIN.OCEAN,
@@ -8215,7 +8215,21 @@ function applyVolcanicFertileSoilToMap() {
         .forEach(t => applyVolcanicFertileSoilAround(t));
 }
 
-function generateMap() { state.map.clear(); const height = CONFIG.map.height; const width = CONFIG.map.width; const offsetX = CONFIG.map.offsetX; const offsetY = CONFIG.map.offsetY; state.plazaCount = 0; state.industrialCount = 0; state.camera.zoom = window.innerWidth < 768 ? 1.0 : CONFIG.map.startZoom; for (let y = 0; y < height; y++) { for (let x = 0; x < width; x++) { const r = y + offsetY; const q = (x + offsetX) - Math.floor((y + offsetY - ((y + offsetY) & 1)) / 2); let type = TERRAIN.OCEAN; const noise = simpleNoise(x, y * 0.8); const lat = y / height; const dx = (x - width/2) / (width/2); let shape = 0; if (lat < 0.45) { let wFactor = 0.9 - (lat * 1.8); if (wFactor < 0.2) wFactor = 0.2; if (lat > 0.1 && lat < 0.35) wFactor += 0.35; if (noise > 0.3) wFactor += 0.1; if (noise < -0.3) wFactor -= 0.1; if (Math.abs(dx) < wFactor) shape = 1; } else if (lat >= 0.45 && lat < 0.9) { let wFactor = 0.7 * (1 - (lat - 0.45)*2.0); if (lat > 0.5 && lat < 0.65) wFactor += 0.4; if (wFactor < 0.15) wFactor = 0.15; if (Math.abs(dx + 0.1) < wFactor) shape = 1; } else if (lat >= 0.94) { if (Math.abs(dx) < 0.8) shape = 1; } if (shape === 1) { if (lat < 0.10) { type = TERRAIN.POLAR; } else if (lat < 0.19) { type = TERRAIN.TUNDRA; if (Math.random() < 0.05) type = TERRAIN.PEAT_BOG; } else if (lat < 0.27) { type = TERRAIN.TAIGA; } else if (lat < 0.44) { if (noise > 0.3) type = TERRAIN.FOREST; else type = TERRAIN.GRASS; } else if (lat < 0.54) { if (Math.random() < 0.4) type = TERRAIN.DESERT; else type = TERRAIN.BRUSH; } 
+// 现实中的火山不只分布在热带：冰岛、堪察加、阿拉斯加、日本、安第斯、南极都有。
+// 按纬度给出不同生成概率：热带最高，温带次之，寒带/极地较低但存在。
+function getVolcanoChance(lat) {
+    if (lat > 0.5 && lat < 0.7) return 0.012;
+    if (lat > 0.4 && lat <= 0.5) return 0.009;
+    if (lat > 0.27 && lat <= 0.4) return 0.008;
+    if (lat >= 0.7 && lat < 0.86) return 0.008;
+    if (lat > 0.1 && lat <= 0.27) return 0.004;
+    if (lat >= 0.86 && lat < 0.94) return 0.004;
+    if (lat <= 0.1 || lat >= 0.94) return 0.002;
+    return 0.004;
+}
+
+function generateMap() {
+ state.map.clear(); const height = CONFIG.map.height; const width = CONFIG.map.width; const offsetX = CONFIG.map.offsetX; const offsetY = CONFIG.map.offsetY; state.plazaCount = 0; state.industrialCount = 0; state.camera.zoom = window.innerWidth < 768 ? 1.0 : CONFIG.map.startZoom; for (let y = 0; y < height; y++) { for (let x = 0; x < width; x++) { const r = y + offsetY; const q = (x + offsetX) - Math.floor((y + offsetY - ((y + offsetY) & 1)) / 2); let type = TERRAIN.OCEAN; const noise = simpleNoise(x, y * 0.8); const lat = y / height; const dx = (x - width/2) / (width/2); let shape = 0; if (lat < 0.45) { let wFactor = 0.9 - (lat * 1.8); if (wFactor < 0.2) wFactor = 0.2; if (lat > 0.1 && lat < 0.35) wFactor += 0.35; if (noise > 0.3) wFactor += 0.1; if (noise < -0.3) wFactor -= 0.1; if (Math.abs(dx) < wFactor) shape = 1; } else if (lat >= 0.45 && lat < 0.9) { let wFactor = 0.7 * (1 - (lat - 0.45)*2.0); if (lat > 0.5 && lat < 0.65) wFactor += 0.4; if (wFactor < 0.15) wFactor = 0.15; if (Math.abs(dx + 0.1) < wFactor) shape = 1; } else if (lat >= 0.94) { if (Math.abs(dx) < 0.8) shape = 1; } if (shape === 1) { if (lat < 0.10) { type = TERRAIN.POLAR; } else if (lat < 0.19) { type = TERRAIN.TUNDRA; if (Math.random() < 0.05) type = TERRAIN.PEAT_BOG; } else if (lat < 0.27) { type = TERRAIN.TAIGA; } else if (lat < 0.44) { if (noise > 0.3) type = TERRAIN.FOREST; else type = TERRAIN.GRASS; } else if (lat < 0.54) { if (Math.random() < 0.4) type = TERRAIN.DESERT; else type = TERRAIN.BRUSH; } 
 else if (lat < 0.72) {
 
     let jungleWeight = noise; 
@@ -8242,7 +8256,7 @@ else if (lat < 0.72) {
         type = TERRAIN.BRUSH; 
     }
 }
- else if (lat < 0.86) { if (noise > 0.3) type = TERRAIN.FOREST; else type = TERRAIN.GRASS; } else { if (lat > 0.94) type = TERRAIN.POLAR; else type = TERRAIN.TUNDRA; } if (x >= 3 && x <= 8) { if (Math.random() < 0.45) type = TERRAIN.MOUNTAIN; else if (Math.random() < 0.2) type = TERRAIN.ROCKY; } else { if (Math.random() < 0.05) type = TERRAIN.MOUNTAIN; else if (Math.random() < 0.015 && type !== TERRAIN.DESERT && type !== TERRAIN.POLAR) type = TERRAIN.ROCKY; } if (Math.random() < 0.01 && (lat > 0.5 && lat < 0.7)) type = TERRAIN.VOLCANO; else if (Math.random() < 0.007 && (lat > 0.4 && lat < 0.7)) type = TERRAIN.VOLCANO; else if (Math.random() < 0.005 && (lat > 0.4 && lat < 0.7)) type = TERRAIN.GEYSER; else if (Math.random() < 0.005 && (lat > 0.2 && lat < 0.8)) type = TERRAIN.CAVE; } 
+ else if (lat < 0.86) { if (noise > 0.3) type = TERRAIN.FOREST; else type = TERRAIN.GRASS; } else { if (lat > 0.94) type = TERRAIN.POLAR; else type = TERRAIN.TUNDRA; } if (x >= 3 && x <= 8) { if (Math.random() < 0.45) type = TERRAIN.MOUNTAIN; else if (Math.random() < 0.2) type = TERRAIN.ROCKY; } else { if (Math.random() < 0.05) type = TERRAIN.MOUNTAIN; else if (Math.random() < 0.015 && type !== TERRAIN.DESERT && type !== TERRAIN.POLAR) type = TERRAIN.ROCKY; } if (Math.random() < getVolcanoChance(lat)) type = TERRAIN.VOLCANO; else if (Math.random() < 0.005 && (lat > 0.4 && lat < 0.7)) type = TERRAIN.GEYSER; else if (Math.random() < 0.005 && (lat > 0.2 && lat < 0.8)) type = TERRAIN.CAVE; } 
 
     if (type === TERRAIN.DESERT && Math.random() < 0.15) {
         type = TERRAIN.CACTUS_DESERT;
@@ -9766,7 +9780,7 @@ function renderEngineeringPanel() {
         <section>
             <h3 class="text-sm font-bold text-cyan-300 border-b border-cyan-900/50 pb-1 mb-2">🏗️ 人造工程</h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">${engineeringHtml}</div>
-            <p class="text-[11px] text-gray-500 mt-2">每座人造工程每回合基础消耗 1💰；区域不收取维护费。轻徭1阶段减半，2阶段免费。</p>
+            <p class="text-[11px] text-gray-500 mt-2">每座人造工程每回合基础消耗 1💰；区域不收取维护费。减赋1阶段减半，2阶段免费。</p>
         </section>`;
 }
 
