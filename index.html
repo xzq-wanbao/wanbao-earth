@@ -800,7 +800,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
 // 本文件由 build.js 从 src/ 自动打包生成，请勿直接编辑。
 
 // ==================== src/00-config.js：全局可调参数（平衡集中配置） ====================
-// ==================== 全局可调参数（平衡/难度/上限集中在这里） ====================
+﻿// ==================== 全局可调参数（平衡/难度/上限集中在这里） ====================
 const CONFIG = {
   map: {
     width: 30,
@@ -855,7 +855,7 @@ const CONFIG = {
     foodCostStep: 100,
     popCost: 3
   },
-  turn: { seasonTurns: 3, chronosSeasonTurns: 2, turnsPerYear: 12, chronosTurnsPerYear: 8 },
+  turn: { seasonTurns: 3, chronosSeasonTurns: 2, turnsPerYear: 12, chronosTurnsPerYear: 8, dagdaLockBonus: 50 },
   faith: { start: 1, godCost: 2, maxGods: 2, plazaGain: 1, goldenAgeGain: 1, cultureExchangeCost: 150, cultureExchangeStep: 50 },
   miracles: {
     disasterDouble: {
@@ -1666,14 +1666,15 @@ const GODS = {
     },
     'dagda': { 
         name: '众神之父——达格达', 
-        desc: '【四季权柄】：可点击季节图标锁定/解锁季节\n【丰饶之釜】：锁春:+30🌾\n锁夏:+30🔨 | 锁秋:+30💰\n锁冬:+30🔬 | 未锁:+30🎭', 
+        desc: '【四季权柄】：可点击季节图标锁定/解锁季节，每锁定季节获得对应丰饶加成\n【丰饶之釜】：锁春:+50🌾\n锁夏:+50🔨 | 锁秋:+50💰\n锁冬:+50🔬 | 未锁:+50🎭', 
         icon: '🪕',
         effects: {
             income: (state, inc) => { 
+                const v = CONFIG.turn.dagdaLockBonus || 50;
                 if(state.seasonLocked) {
-                    if(state.season===0) inc.food+=30; else if(state.season===1) inc.industry+=30;
-                    else if(state.season===2) inc.gold+=30; else if(state.season===3) inc.science+=30;
-                } else { inc.culture+=30; }
+                    if(state.season===0) inc.food+=v; else if(state.season===1) inc.industry+=v;
+                    else if(state.season===2) inc.gold+=v; else if(state.season===3) inc.science+=v;
+                } else { inc.culture+=v; }
             }
         }
     },
@@ -1704,11 +1705,11 @@ const GODS = {
     },
     'lugh': { 
         name: '光辉之神——鲁格',
-        desc: '【全能技艺】：信奉鲁格的主广场可同时开启多项内政政策\n【秋季庆典】：秋季时，农业区获得等级双倍的额外💰',
+        desc: '【全能技艺】：主广场可同时开启多项内政政策，内政政策全部启用时，收益提升至50\n【秋季庆典】：秋季时，区域获得等级双倍的额外💰',
         icon: '🌟',
         effects: {
             yield: (t, y, list, utils) => {
-                if (utils.turn > 0 && state.season === 2 && t.improvement === 'farm') {
+                if (utils.turn > 0 && state.season === 2 && t.improvement && t.improvement !== 'plaza' && DISTRICT_BUILDINGS.includes(t.improvement)) {
                     const lvl = t.level || 1;
                     const bonus = lvl * 2;
                     y.gold += bonus;
@@ -6923,12 +6924,13 @@ function showSeasonTooltip(e) {
     let lockText = '';
 
     if (flags.dagda) {
+        const dagdaBonus = CONFIG.turn.dagdaLockBonus || 50;
         if (state.seasonLocked) {
              lockText = `<div class="text-xs text-red-400 font-bold border-t border-gray-600 mt-1 pt-1">🔒 季节已锁定 (点击解锁)</div>
-             <div class="text-xs text-green-300">当前加成: ${s.name==='春'?'+10🌾':s.name==='夏'?'+10🔨':s.name==='秋'?'+10💰':'+10🔬'}</div>`;
+             <div class="text-xs text-green-300">当前加成: ${s.name==='春'?`+${dagdaBonus}🌾`:s.name==='夏'?`+${dagdaBonus}🔨`:s.name==='秋'?`+${dagdaBonus}💰`:`+${dagdaBonus}🔬`}</div>`;
         } else {
              lockText = `<div class="text-xs text-blue-300 font-bold border-t border-gray-600 mt-1 pt-1">🔓 点击锁定季节</div>
-             <div class="text-xs text-gray-400">当前加成: +10🎭 (未锁定)</div>`;
+             <div class="text-xs text-gray-400">当前加成: +${dagdaBonus}🎭 (未锁定)</div>`;
         }
     }
 
@@ -7318,13 +7320,15 @@ function getTileYield(t, activeGodsCache = null) {
                 if (PLAZA_POLICIES[pKey]) {
                     const policy = PLAZA_POLICIES[pKey];
                     const cost = getPolicyCost(activeGods, policy.cost);
+                    const allPoliciesActive = activeGods.has('lugh') && Object.keys(PLAZA_POLICIES).every(k => policiesToProcess.includes(k));
                     
                     y.gold -= cost;
                     details.building.gold = (details.building.gold || 0) - cost;
                     
                     for(let k in policy.yield) {
-                        y[k] += policy.yield[k];
-                        details.building[k] = (details.building[k] || 0) + policy.yield[k];
+                        const value = policy.yield[k] + (allPoliciesActive ? 10 : 0);
+                        y[k] += value;
+                        details.building[k] = (details.building[k] || 0) + value;
                     }
                 }
             });
@@ -8229,6 +8233,9 @@ function togglePlaza() {
     const activeGods = getActiveGods();
     const flags = getGodFlags(activeGods); 
     const isLugh = activeGods.has('lugh');
+    const activePolicyKeys = new Set(t.activePolicies || []);
+    if (t.activePolicy) activePolicyKeys.add(t.activePolicy);
+    const allPoliciesActive = isLugh && Object.keys(PLAZA_POLICIES).every(k => activePolicyKeys.has(k));
     
     currentGoldEl.innerText = `${state.income.gold} 💰`; 
     container.innerHTML = ''; 
@@ -8246,11 +8253,12 @@ function togglePlaza() {
         // -------------------------------
 
         const cost = getPolicyCost(activeGods, p.cost); 
-        
+        const policyYieldBonus = allPoliciesActive ? 10 : 0;
+        const policyDesc = allPoliciesActive ? p.desc.replace('40', '50') : p.desc;
         const canAfford = state.income.gold > cost; 
         let yieldText = ''; 
         for(let k in p.yield) {
-            yieldText += `+${p.yield[k]}${k === 'food' ? '🌾' : k === 'industry' ? '🔨' : k === 'science' ? '🔬' : '🎭'} `;
+            yieldText += `+${p.yield[k] + policyYieldBonus}${k === 'food' ? '🌾' : k === 'industry' ? '🔨' : k === 'science' ? '🔬' : '🎭'} `;
         }
         
         const card = document.createElement('div'); 
@@ -8272,7 +8280,7 @@ function togglePlaza() {
             <div>
                 <div class="text-3xl md:text-4xl mb-2 text-center transform transition-transform group-hover:scale-110">${p.icon}</div>
                 <h3 class="font-bold text-center text-base md:text-lg mb-1 ${isActive ? 'text-yellow-400' : 'text-white'}">${p.name}</h3>
-                <div class="text-[11px] md:text-xs text-gray-400 text-center mb-3 min-h-[30px] leading-tight flex items-center justify-center">${p.desc}</div>
+                <div class="text-[11px] md:text-xs text-gray-400 text-center mb-3 min-h-[30px] leading-tight flex items-center justify-center">${policyDesc}</div>
                 
                 <div class="flex justify-between items-center text-xs md:text-sm font-bold bg-slate-900/60 p-2 rounded mb-3 border border-slate-700">
                     <span class="text-red-400">-${cost}💰</span>
