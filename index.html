@@ -800,7 +800,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
 // 本文件由 build.js 从 src/ 自动打包生成，请勿直接编辑。
 
 // ==================== src/00-config.js：全局可调参数（平衡集中配置） ====================
-﻿// ==================== 全局可调参数（平衡/难度/上限集中在这里） ====================
+// ==================== 全局可调参数（平衡/难度/上限集中在这里） ====================
 const CONFIG = {
   map: {
     width: 30,
@@ -895,7 +895,7 @@ const CONFIG = {
     },
     seasonPopulation: {
       name: '季礼', icon: '🍂', cost: 1,
-      desc1: '每个季节开启时 +1 人口',
+      desc1: '每个季节开启时 +1 人口（得墨忒耳：+3）',
       desc2: '新年到来时 +3 人口'
     },
     mountainFire: {
@@ -1429,7 +1429,7 @@ const GODS = {
     },
     'demeter': { 
         name: '四季女神——得墨忒耳', 
-        desc: '【丰收号角】：季节带来的加成效果翻三倍\n【时序馈赠】：解锁「季礼」第一阶段（每个季节开启时 +1 人口）', 
+        desc: '【丰收号角】：季节带来的加成效果翻三倍\n【时序馈赠】：解锁「季礼」第一阶段，并使该效果翻三倍（每季节人口 +3）', 
         icon: '🍂' 
     },
     'zeus': { 
@@ -1518,7 +1518,7 @@ const GODS = {
     },
     'chronos': { 
         name: '时间之神——柯罗诺斯', 
-        desc: '【时光飞逝】：季节周期缩短为2回合(一年8回合)\n【瞬息辉煌】：✨黄金时代持续时间缩短为2回合', 
+        desc: '【时光飞逝】：季节周期缩短为2回合(一年8回合)\n【瞬息辉煌】：✨黄金时代持续时间缩短为2回合\n【时光收藏】：每个探险家每回合额外 +1 收藏进度', 
         icon: '⏳' 
     },
     'huitzilopochtli': { 
@@ -1720,7 +1720,7 @@ const GODS = {
     },
 'epona': { 
         name: '马神——埃波娜', 
-        desc: '【春之蹄声】：春季时，野外草地(温带）自动生成赛马场并归顺于你（每2回合一次，无数量上限）\n【神驹】：赛马场额外+1🎭+1💰\n【骏马回报】：赛马场被毁时返还全额造价', 
+        desc: '【春之蹄声】：春季时，野外草地(温带）自动生成赛马场（每2回合一次）\n【神驹】：赛马场额外+1🎭+1💰\n【骏马回报】：赛马场被毁时返还全额造价', 
         icon: '🐎',
         effects: {
             yield: (t, y, list) => {
@@ -2179,6 +2179,7 @@ function isCailleachActive(gods) { return hasGod(gods, 'cailleach'); }
 function isSetActive(gods) { return hasGod(gods, 'set'); }
 function isHephaestusActive(gods) { return hasGod(gods, 'hephaestus'); }
 function isDemeterActive(gods) { return hasGod(gods, 'demeter'); }
+function getSeasonPopulationGain(gods) { return isDemeterActive(gods) ? 3 : 1; }
 function isEponaActive(gods) { return hasGod(gods, 'epona'); }
 function isUrcaguaryActive(gods) { return hasGod(gods, 'urcaguary'); }
 function isGuibneProtected(gods, isEngineering) {
@@ -3945,11 +3946,17 @@ function processExplorers() {
     }
     const pick = pool[Math.floor(Math.random() * pool.length)];
     const picks = [pick];
+    const extraPool = () => getContinentRemaining(continent)
+      .filter(target => !picks.some(p => p.kind === target.kind && p.id === target.id));
+    // 柯罗诺斯：每名探险家每回合额外 +1 收藏进度
+    if (getActiveGods().has('chronos')) {
+      const extra = extraPool();
+      if (extra.length > 0) picks.push(extra[Math.floor(Math.random() * extra.length)]);
+    }
     // 寻踪神恩：每名探险家每回合有概率额外 +1 收藏进度
     if (state.miracleExplorerExtra && Math.random() < CONFIG.zoo.explorerExtraChance) {
-      const extraPool = getContinentRemaining(continent)
-        .filter(target => !(target.kind === pick.kind && target.id === pick.id));
-      if (extraPool.length > 0) picks.push(extraPool[Math.floor(Math.random() * extraPool.length)]);
+      const extra = extraPool();
+      if (extra.length > 0) picks.push(extra[Math.floor(Math.random() * extra.length)]);
     }
     picks.forEach(target => {
       if (target.kind === 'plant') state.plants.push(target.id);
@@ -5511,14 +5518,18 @@ function build(key) {
     let harvestMsg = "";
     if (!buildRules.skipHarvest) {
         if ([TERRAIN.FOREST, TERRAIN.TAIGA, TERRAIN.JUNGLE].includes(t.type)) {
-            state.resources.industry += 10;
-            harvestMsg = "伐木开荒: +10🔨";
+            state.resources.industry += 5;
+            harvestMsg = "伐木开荒: +5🔨";
             t.type = t.type === TERRAIN.TAIGA ? TERRAIN.DRY_GRASS_COLD
                 : (t.type === TERRAIN.JUNGLE ? TERRAIN.DRY_GRASS_TROP : TERRAIN.DRY_GRASS_TEMP);
         } else if ([TERRAIN.SHRUB_TEMP, TERRAIN.SHRUB_TROP].includes(t.type)) {
             state.resources.industry += 5;
             harvestMsg = "清理灌丛: +5🔨";
             t.type = t.type === TERRAIN.SHRUB_TEMP ? TERRAIN.DRY_GRASS_TEMP : TERRAIN.DRY_GRASS_TROP;
+        } else if (t.type === TERRAIN.MANGROVE) {
+            state.resources.industry += 5;
+            harvestMsg = "砍伐红树林: +5🔨";
+            t.type = TERRAIN.DRY_GRASS_TROP;
         } else if ([TERRAIN.GRASS, TERRAIN.BRUSH].includes(t.type)) {
             state.resources.food += 5;
             harvestMsg = "除草开荒: +5🌾";
@@ -8538,7 +8549,10 @@ function renderMiracleCards(container, activeGods) {
     if (state.miracleVillageFriendship) status.push(state.miracleVillageFriendship2 ? '归化2 吸纳100' : '归化 村庄100');
     if (state.miracleAncientRuins) status.push(state.miracleAncientRuins2 ? '古墟2 奖励×2' : '古墟 5遗迹');
     if (state.miracleNoMaintenance) status.push(state.miracleNoMaintenance2 ? '减赋2 维护0' : '减赋 维护减半');
-    if (state.miracleSeasonPopulation) status.push(state.miracleSeasonPopulation2 ? '季礼2 +3人口/年' : '季礼 +1人口/季');
+    if (state.miracleSeasonPopulation) {
+        const seasonPop = isDemeterActive(activeGods) ? 3 : 1;
+        status.push(state.miracleSeasonPopulation2 ? '季礼2 +3人口/年' : `季礼 +${seasonPop}人口/季`);
+    }
     if (state.miracleMountainFire) status.push(state.miracleMountainFire2 ? `山火2 喷发×3 +${state.volcanoEruptionBonus}` : `山火 免破坏 山→火${state.miracleMountainToVolcano} 火→山${state.miracleVolcanoToMountain}`);
     if (state.miracleDeadCulture) status.push(state.miracleDeadCulture2 ? `安魂2 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭 +${(state.deadPopulation || 0) * 2}💰` : `安魂 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭`);
     if (status.length) {
@@ -10196,8 +10210,9 @@ function nextTurn() {
             state.seasonTurn = 1;
             showMsg(`季节更替: ${SEASONS[state.season].name}季`, "warning");
             if (state.miracleSeasonPopulation) {
-                state.resources.population += 1;
-                showMsg('🍂 季礼：新季节开启，人口 +1。', "success");
+                const seasonPopGain = getSeasonPopulationGain(activeGods);
+                state.resources.population += seasonPopGain;
+                showMsg(`🍂 季礼：新季节开启，人口 +${seasonPopGain}。`, "success");
             }
             if (state.miracleSeasonPopulation2 && state.season === 0) {
                 state.resources.population += 3;
