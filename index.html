@@ -1513,7 +1513,7 @@ const GODS = {
     },
     'hera': { 
         name: '众神女王——赫拉', 
-        desc: '【孔雀王座】：人造工程花费30💰(替代🔨)\n【天后威仪】：✨黄金时代期间🔨产出转换为💰', 
+        desc: '【孔雀王座】：人造工程使用💰替代🔨\n【天后威仪】：✨黄金时代期间🔨产出转换为💰', 
         icon: '👑'
     },
     'chronos': { 
@@ -1704,13 +1704,13 @@ const GODS = {
     },
     'lugh': { 
         name: '光辉之神——鲁格',
-        desc: '【全能技艺】：信奉鲁格的主广场可同时开启多项内政政策\n【秋季庆典】：秋季时，农业区根据等级获得额外 (1💰/3💰/5💰)加成',
+        desc: '【全能技艺】：信奉鲁格的主广场可同时开启多项内政政策\n【秋季庆典】：秋季时，农业区获得等级双倍的额外💰',
         icon: '🌟',
         effects: {
             yield: (t, y, list, utils) => {
                 if (utils.turn > 0 && state.season === 2 && t.improvement === 'farm') {
                     const lvl = t.level || 1;
-                    const bonus = (lvl * 2) - 1;
+                    const bonus = lvl * 2;
                     y.gold += bonus;
                     list.push(`鲁格(秋季): +${bonus}💰`);
                 }
