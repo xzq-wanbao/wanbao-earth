@@ -643,7 +643,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                 <span class="text-3xl">💎</span>
                 <div class="flex-1">
                     <h2 class="text-xl font-bold text-emerald-300">帝国宝藏</h2>
-                    <p class="text-[11px] text-gray-400 mt-0.5">动物园与植物园两大收藏；藏品按稀有度每回合提供 🎭，黄金时代期间会转化为 💰。派出探险家可持续发现新的动物与植物。</p>
+                    <p class="text-[11px] text-gray-400 mt-0.5">动物园与植物园两大收藏；藏品按稀有度每回合提供 🎭，黄金时代期间会转化为 💰；托特信仰时改为提供 🔬。派出探险家可持续发现新的动物与植物。</p>
                 </div>
             </div>
             <button onclick="closeZooModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl leading-none">×</button>
@@ -721,7 +721,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
             <div class="space-y-4">
                     <section>
                         <h3 class="text-blue-300 font-bold text-lg mb-2">📅 季节与气候</h3>
-                        <p class="text-xs text-gray-400 mb-2">每5回合更替一次季节 (柯罗诺斯: 3回合)。一年为20回合 (柯罗诺斯: 12回合)。</p>
+                        <p class="text-xs text-gray-400 mb-2">每4回合更替一次季节 (柯罗诺斯: 2回合)。一年为16回合 (柯罗诺斯: 8回合)。</p>
                         <div class="overflow-x-auto">
                             <table class="w-full text-xs text-left border-collapse">
                                 <thead>
@@ -847,15 +847,15 @@ const CONFIG = {
     costStep: 100,
     turns: 5,
     bastetTurns: 10,
-    chronosTurns: 3,
-    darkTurns: 3,
+    chronosTurns: 2,
+    darkTurns: 2,
     tlalocTurns: 5,
     tonatiuhTurns: 99,
     foodCost: 100,
     foodCostStep: 100,
     popCost: 3
   },
-  turn: { seasonTurns: 5, chronosSeasonTurns: 3, turnsPerYear: 20, chronosTurnsPerYear: 12 },
+  turn: { seasonTurns: 4, chronosSeasonTurns: 2, turnsPerYear: 16, chronosTurnsPerYear: 8 },
   faith: { start: 1, godCost: 2, maxGods: 2, plazaGain: 1, goldenAgeGain: 1, cultureExchangeCost: 150, cultureExchangeStep: 50 },
   miracles: {
     disasterDouble: {
@@ -896,7 +896,7 @@ const CONFIG = {
     seasonPopulation: {
       name: '季礼', icon: '🍂', cost: 1,
       desc1: '每个季节开启时 +1 人口',
-      desc2: '新年到来时 +3 人口'
+      desc2: '新年到来时 +4 人口'
     },
     mountainFire: {
       name: '山火', icon: '🌋', cost: 1,
@@ -1364,7 +1364,7 @@ const GODS = {
     },
     'thoth': { 
         name: '智慧之神——托特', 
-        desc: '【全知之书】：Lv3的科研区获得🔬科技储备加成 (每100科研+1产出)', 
+        desc: '【全知之书】：Lv3的科研区获得🔬科技储备加成 (每100科研+1产出)\n【智慧珍藏】：帝国宝藏不再产出🎭，改为产出🔬', 
         icon: '📜' 
     },
     'bastet': { 
@@ -1387,14 +1387,14 @@ const GODS = {
     },
     'set': { 
         name: '沙漠之神——赛特', 
-        desc: '【赤沙风暴】：可花费30💰将热带平地变为沙漠\n【混沌之力】：沙漠上的区域+2💰，人造工程+1💰\n【风暴主宰】：被沙尘暴覆盖区域无减益,而是+5对应产出', 
+        desc: '【赤沙风暴】：可花费30💰将热带平地变为沙漠\n【混沌之力】：沙漠上的区域+3💰，人造工程+2💰\n【风暴主宰】：被沙尘暴覆盖区域无减益,而是+5对应产出', 
         icon: '🌪️',
         effects: {
             yield: (t, y, list) => { 
                 const isDes = [TERRAIN.DESERT, TERRAIN.CACTUS_DESERT, TERRAIN.SOLAR_FARM, TERRAIN.KAREZ, TERRAIN.ETERNA_PYRAMID].includes(t.type);
                 if(isDes) {
-                    if(t.improvement && DISTRICT_BUILDINGS.includes(t.improvement)) { y.gold+=2; list.push('赛特: +2💰'); }
-                    else if(ENGINEERING_TERRAINS.includes(t.type) || (t.improvement && SPECIAL_ENGINEERING_BUILDINGS.includes(t.improvement))) { y.gold+=1; list.push('赛特: +1💰'); }
+                    if(t.improvement && DISTRICT_BUILDINGS.includes(t.improvement)) { y.gold+=3; list.push('赛特: +3💰'); }
+                    else if(ENGINEERING_TERRAINS.includes(t.type) || (t.improvement && SPECIAL_ENGINEERING_BUILDINGS.includes(t.improvement))) { y.gold+=2; list.push('赛特: +2💰'); }
                 }
             }
         }
@@ -1417,7 +1417,7 @@ const GODS = {
     },
     'sobek': { 
         name: '沼泽之神——索贝克', 
-        desc: '【尼罗河神】：湖泊/沼泽上的浮田+2🌾，捕鱼场+2💰\n【湿地霸主】：允许在沼泽建造农业区且+3🌾\n【沼泽馈赠】：人造沼泽花费变为 30💰', 
+        desc: '【沼泽馈赠】：人造沼泽花费变为 30💰\n【尼罗河神】：湖泊/沼泽上的浮田+2🌾，捕鱼场+2💰\n【湿地霸主】：允许在沼泽建造农业区且+3🌾', 
         icon: '🐊',
         effects: {
             yield: (t, y, list) => {
@@ -1434,11 +1434,11 @@ const GODS = {
     },
     'zeus': { 
         name: '众神之王——宙斯', 
-        desc: '【雷霆万钧】：所有发电设施+1🔨\n【奥林匹斯】：每回合获得回合数x2的💰', 
+        desc: '【雷霆万钧】：所有发电设施+2🔨\n【奥林匹斯】：每回合获得回合数x2的💰', 
         icon: '⚡',
         effects: {
             income: (state, inc) => { inc.gold += state.turn * 2; },
-            yield: (t, y, list) => { if([TERRAIN.WIND_FARM, TERRAIN.SOLAR_FARM, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.WINDMILL_FIELD].includes(t.type)) { y.industry+=1; list.push('宙斯: +1🔨'); } }
+            yield: (t, y, list) => { if([TERRAIN.WIND_FARM, TERRAIN.SOLAR_FARM, TERRAIN.GEOTHERMAL_PLANT, TERRAIN.WINDMILL_FIELD].includes(t.type)) { y.industry+=2; list.push('宙斯: +2🔨'); } }
         }
     },
     'poseidon': { 
@@ -1448,13 +1448,22 @@ const GODS = {
     },
     'athena': { 
         name: '智慧女神——雅典娜', 
-        desc: '【战略智慧】：科研区升级不消耗🔬', 
+        desc: '【战略智慧】：科研区升级不消耗🔬\n【遗迹智慧】：建在遗迹上的区域升至Lv2', 
         icon: '🦉'
     },
     'dionysus': { 
         name: '酒神——狄俄尼索斯', 
-        desc: '【酒神祭】：可在干草地(温带)建造酿酒厂(30🔨)酿酒厂提供2🎭2💰', 
-        icon: '🍷' 
+        desc: '【酒神祭】：可在干草地(温带)建造酿酒厂(30🔨)酿酒厂提供2🎭2💰\n【佳酿陈年】：每开启一次✨黄金时代，酿酒厂额外 +1🎭 +1💰（可累计）', 
+        icon: '🍷',
+        effects: {
+            yield: (t, y, list) => {
+                if (t.type === TERRAIN.WINERY && (state.dionysusWineryBonus || 0) > 0) {
+                    const bonus = state.dionysusWineryBonus;
+                    y.culture += bonus; y.gold += bonus;
+                    list.push(`狄俄尼索斯: +${bonus}🎭 +${bonus}💰`);
+                }
+            }
+        }
     },
     'hephaestus': { 
         name: '锻造之神——赫淮斯托斯', 
@@ -1509,7 +1518,7 @@ const GODS = {
     },
     'chronos': { 
         name: '时间之神——柯罗诺斯', 
-        desc: '【时光飞逝】：季节周期缩短为3回合(一年12回合)\n【瞬息辉煌】：✨黄金时代持续时间缩短为3回合', 
+        desc: '【时光飞逝】：季节周期缩短为2回合(一年8回合)\n【瞬息辉煌】：✨黄金时代持续时间缩短为2回合', 
         icon: '⏳' 
     },
     'huitzilopochtli': { 
@@ -1533,7 +1542,7 @@ const GODS = {
     },
     'kukulkan': { 
         name: '羽蛇神——库库尔坎', 
-        desc: '【羽蛇神风】：建造区域消耗60区域对应资源(农🌾工🔨科🔬娱🎭市💰)', 
+        desc: '【羽蛇神风】：建造区域消耗50区域对应资源(农🌾科🔬娱🎭市💰)', 
         icon: '🐍'
     },
     'tezcatlipoca': { 
@@ -1563,7 +1572,7 @@ const GODS = {
     },
     'tlaloc': { 
         name: '雨神——特拉洛克', 
-        desc: '【雷雨交加】：将✨黄金时代替换为🌧️特拉洛克之泪\n【雨露滋润】：消耗3人口开启，所有区域获得(等级x3)加成', 
+        desc: '【雷雨交加】：将✨黄金时代替换为🌧️特拉洛克之泪\n【雨露滋润】：消耗3人口开启，所有区域获得(等级x5)加成', 
         icon: '🌧️' 
     },
     'chicomecoatl': { 
@@ -1616,7 +1625,7 @@ const GODS = {
     },
     'mama_cocha': { 
         name: '海洋之母——玛玛科查', 
-        desc: '【深海涌动】：毗邻深海的区域获得(等级x6)对应产出\n【渔获】：捕鱼场/沿海捕鱼场消耗30🌾建造', 
+        desc: '【深海涌动】：毗邻深海的区域获得(等级x6)对应产出\n【渔获】：获得所有未获得的蓝色水族馆动物', 
         icon: '🌊',
         effects: {
             yield: (t, y, list, utils) => {
@@ -1670,7 +1679,7 @@ const GODS = {
     },
     'cernunnos': { 
         name: '荒野之神——科尔努诺斯', 
-        desc: '【狂野之心】：不可建造人造工程，建造区域不清除地貌\n【自然复仇】：区域位于树林+3🔨/草地+3🌾/其他+3🎭', 
+        desc: '【狂野之心】：不可建造人造工程，不可改造地形，建造区域不清除地貌\n【自然复仇】：区域位于树林+3🔨/草地+3🌾/其他+3🎭\n【欧陆生灵】：获得欧洲所有未获得的动物与植物', 
         icon: '🦌',
         effects: {
             yield: (t, y, list) => {
@@ -2212,7 +2221,8 @@ const GOD_EXCLUSIVE = {
   kukulkan: ['hathor'],
   viracocha: ['ptah'],
   ptah: ['viracocha', 'hera'],
-  hera: ['ptah'],
+  hera: ['ptah', 'cernunnos'],
+  cernunnos: ['hera'],
   chronos: ['bastet'],
   bastet: ['chronos'],
   axomama: ['mama_sara'],
@@ -2352,8 +2362,8 @@ GODS.kukulkan.events = {
   onCost(cost, key, info) {
     if (!info.isDistrict) return;
     const kk = {
-      farm: ['food', 60], mine: ['industry', 60], market: ['gold', 60],
-      campus: ['science', 60], entertainment_complex: ['culture', 60]
+      farm: ['food', 50], market: ['gold', 50],
+      campus: ['science', 50], entertainment_complex: ['culture', 50]
     }[key];
     if (!kk) return;
     cost.food = 0; cost.industry = 0; cost.gold = 0; cost.science = 0; cost.culture = 0;
@@ -2385,9 +2395,15 @@ GODS.pachamama.events = {
 };
 
 GODS.mama_cocha.events = {
-  onCost(cost, key) {
-    if (key !== 'fishery' && key !== 'build_coastal_fishery') return;
-    cost.food = 30; cost.industry = 0; cost.gold = 0;
+  onSelect() {
+    const owned = new Set(state.animals || []);
+    const marine = ANIMALS.filter(a => a.movement === '海洋' && a.rarity === '蓝色' && !owned.has(a.id)).map(a => a.id);
+    if (marine.length === 0) return;
+    state.animals = [...(state.animals || []), ...marine];
+    showMsg(`🌊 渔获：获得 ${marine.length} 种蓝色水族馆动物！`, 'success');
+    if (typeof updateZooBadge === 'function') updateZooBadge();
+    if (typeof renderZooModal === 'function') renderZooModal();
+    if (typeof grantTreasureCompletionFaith === 'function') grantTreasureCompletionFaith();
   }
 };
 
@@ -2406,6 +2422,13 @@ GODS.chicomecoatl.events = {
 };
 
 GODS.athena.events = {
+  onBuild(ctx) {
+    if (ctx.buildType !== 'district' || !DISTRICT_BUILDINGS.includes(ctx.key)) return;
+    if (ctx.tile.isRuin) {
+      ctx.tile.level = 2;
+      showMsg('🦉 遗迹智慧：区域直接升至 Lv.2！', 'success');
+    }
+  },
   onUpgradeCost(cost, t) {
     if (t.improvement === 'campus') cost.science = 0;
   }
@@ -2456,6 +2479,7 @@ GODS.tonatiuh.events = {
       state.goldenAge.turnCount = CONFIG.goldenAge.tonatiuhTurns + getMiracleGaTurns();
       if (!wasActive) {
         state.faithPoints = (state.faithPoints || 0) + CONFIG.faith.goldenAgeGain;
+        recordDionysusGoldenAge(getActiveGods());
         showMsg("托纳季乌：太阳升起，黄金时代开启 (+1⚡)", "success");
       }
     } else {
@@ -2642,6 +2666,19 @@ GODS.hestia.events = {
 };
 
 GODS.cernunnos.events = {
+  onSelect() {
+    const ownedAnimals = new Set(state.animals || []);
+    const ownedPlants = new Set(state.plants || []);
+    const animals = ANIMALS.filter(a => a.continent === '欧洲' && !ownedAnimals.has(a.id)).map(a => a.id);
+    const plants = PLANTS.filter(p => p.continent === '欧洲' && !ownedPlants.has(p.id)).map(p => p.id);
+    if (animals.length === 0 && plants.length === 0) return;
+    state.animals = [...(state.animals || []), ...animals];
+    state.plants = [...(state.plants || []), ...plants];
+    showMsg(`🦌 欧陆生灵：获得欧洲 ${animals.length} 种动物、${plants.length} 种植物！`, 'success');
+    if (typeof updateZooBadge === 'function') updateZooBadge();
+    if (typeof renderZooModal === 'function') renderZooModal();
+    if (typeof grantTreasureCompletionFaith === 'function') grantTreasureCompletionFaith();
+  },
   onBuildRules(ctx) {
     ctx.skipHarvest = true;
   }
@@ -2694,6 +2731,7 @@ GODS.mama_quilla.events.onUiRules = function (ctx) {
 GODS.cernunnos.events.onUiRules = function (ctx) {
   if (ctx.itemType === 'building' && BUILDINGS[ctx.key] && BUILDINGS[ctx.key].type === 'engineering') ctx.hide = true;
   if (ctx.itemType === 'action' && ctx.isEngineering && ctx.key !== 'build_pyramid') ctx.hide = true;
+  if (ctx.itemType === 'action' && ctx.isTerrainMod) ctx.hide = true;
 };
 
 // === 黄金时代开启钩子（返回 true 表示已接管） ===
@@ -2734,6 +2772,7 @@ GODS.tlaloc.events.onActivateGoldenAge = function () {
     state.goldenAge.level++;
     state.goldenAge.active = true;
     state.goldenAge.turnCount = CONFIG.goldenAge.tlalocTurns + getMiracleGaTurns();
+    recordDionysusGoldenAge(getActiveGods());
     state.faithPoints = (state.faithPoints || 0) + CONFIG.faith.goldenAgeGain;
     showMsg("🌧️ 特拉洛克之泪开启！", "success");
     createParticlesAtPlaza('#3b82f6');
@@ -2794,7 +2833,7 @@ GODS.illapa.events = {
 GODS.tlaloc.events.onYield = function (ctx) {
   const t = ctx.tile;
   if (!state.goldenAge.active || !t.improvement || !DISTRICT_BUILDINGS.includes(t.improvement)) return;
-  const bonus = (t.level || 1) * 3;
+  const bonus = (t.level || 1) * 5;
   if (t.improvement === 'farm') { ctx.y.food += bonus; ctx.details.adjacencyBreakdown.push(`特拉洛克之泪: +${bonus}🌾`); }
   else if (t.improvement === 'mine') { ctx.y.industry += bonus; ctx.details.adjacencyBreakdown.push(`特拉洛克之泪: +${bonus}🔨`); }
   else if (t.improvement === 'market') { ctx.y.gold += bonus; ctx.details.adjacencyBreakdown.push(`特拉洛克之泪: +${bonus}💰`); }
@@ -3015,6 +3054,7 @@ function createInitialState() {
         tlalocCooldown: 0,
         tonatiuhCooldown: 0,
         permanentGold: 0,
+        dionysusWineryBonus: 0,
         sacrificedThisTurn: false,
         xipeSacrificeCount: 0,
         mamaQuillaFreeBuildUsed: false,
@@ -3024,6 +3064,7 @@ function createInitialState() {
         plants: [],
         explorerAssignments: [],
         convertedExplorers: 0,
+        autoExplore: false,
         zooCompleteFaithRewarded: false,
         eponaLastRacecourseTurn: null,
         absorbedVillages: 0
@@ -3708,11 +3749,13 @@ function getCollectionIncome(kind) {
   return { culture };
 }
 
-// 动物与植物只提供文化；黄金时代期间文化仍会照常转化为金币
+// 动物与植物提供文化；托特信仰时改为提供科技
 function getZooIncome() {
   const animal = getCollectionIncome('animal');
   const plant = getCollectionIncome('plant');
-  return { culture: animal.culture + plant.culture };
+  const total = animal.culture + plant.culture;
+  if (getActiveGods().has('thoth')) return { culture: 0, science: total };
+  return { culture: total, science: 0 };
 }
 
 function updateZooBadge() {
@@ -3823,6 +3866,58 @@ function assignExplorer(continent) {
   autoSave();
 }
 
+// 按大洲顺序填充空闲探险家；silent 用于自主探索时不刷屏
+function autoAssignExplorers(silent = false) {
+  syncExplorerAssignments();
+  let idle = getIdleExplorers();
+  if (idle <= 0) {
+    if (!silent) showMsg('没有空闲探险家：每建一个主广场或同化一个村庄可获得 1 名。', "warning");
+    return 0;
+  }
+  const assigned = [];
+  for (const continent of ZOO_CONTINENTS) {
+    if (idle <= 0) break;
+    if (state.explorerAssignments.includes(continent)) continue;
+    if (isContinentComplete(continent)) continue;
+    state.explorerAssignments.push(continent);
+    idle--;
+    assigned.push(continent);
+  }
+  if (assigned.length === 0) {
+    if (!silent) showMsg('没有可派出的大洲：目标已全部派出或收集完成。', 'warning');
+    return 0;
+  }
+  if (!silent) showMsg(`🧭 已派出 ${assigned.length} 名探险家：${assigned.join('、')}${idle > 0 ? `（剩余 ${idle} 名空闲）` : ''}`, 'success');
+  renderExpeditionModal();
+  renderZooModal();
+  if (typeof updateAdvisorBox === 'function') updateAdvisorBox();
+  if (!silent) autoSave();
+  return assigned.length;
+}
+
+// 自主探索：开启后，一有空闲探险家就按顺序自动出发
+function autoExploreIdle(silent = false, save = true) {
+  if (!state.autoExplore) return 0;
+  const count = autoAssignExplorers(true);
+  if (count > 0) {
+    if (save) autoSave();
+    if (!silent) showMsg(`🧭 自主探索：自动派出 ${count} 名探险家。`, 'success');
+  }
+  return count;
+}
+
+function toggleAutoExplore() {
+  state.autoExplore = !state.autoExplore;
+  if (state.autoExplore) {
+    const count = autoExploreIdle(true);
+    showMsg(`🧭 自主探索已开启${count > 0 ? `：已自动派出 ${count} 名探险家` : ''}。`, 'success');
+  } else {
+    showMsg('🧭 自主探索已关闭：已派出的探险家会继续探索。', 'warning');
+  }
+  renderExpeditionModal();
+  autoSave();
+}
+
 function recallExplorer(continent) {
   syncExplorerAssignments();
   const idx = state.explorerAssignments.indexOf(continent);
@@ -3890,6 +3985,7 @@ function processExplorers() {
     state.convertedExplorers = (state.convertedExplorers || 0) + excess;
     showMsg(`🎉 ${excess} 名多余探险家已转为 ${excess} 人口。`, "success");
   }
+  autoExploreIdle();
 }
 
 function openExpeditionModal() {
@@ -4028,7 +4124,7 @@ function renderAnimalTab(owned) {
   const cards = list.map(a => {
     const has = owned.has(a.id);
     const rs = RARITY_STYLE[a.rarity] || RARITY_STYLE['蓝色'];
-    const attrs = `${a.continent} · ${a.movement} · ${a.rarity}`;
+    const attrs = `${a.continent} · ${a.rarity}`;
     if (!has) {
       return `<div data-rarity="${a.rarity}" class="border-2 ${rs.border} ${rs.glow} bg-slate-900/80 rounded-lg p-2 flex flex-col items-center justify-between opacity-65 min-h-[120px]">
         <div class="text-2xl text-slate-600">${ZOO_MOVEMENT_ICON[a.movement] || '🐾'}</div>
@@ -4130,12 +4226,13 @@ function renderZooModal() {
   const owned = isPlant ? plantOwned : animalOwned;
   const total = isPlant ? PLANTS.length : ANIMALS.length;
   const inc = getCollectionIncome(isPlant ? 'plant' : 'animal');
+  const thothZoo = getActiveGods().has('thoth');
 
   body.innerHTML = `
     <div class="flex items-center gap-1 border-b border-slate-700 mb-2">${treasureTabsHtml()}</div>
     <div class="grid grid-cols-2 gap-2 mb-2">
       <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">已收集</div><div class="text-lg font-bold text-emerald-300">${owned.size}/${total}</div></div>
-      <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">每回合文化</div><div class="text-lg font-bold text-pink-300">+${inc.culture}🎭</div></div>
+      <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">每回合${thothZoo ? '科技' : '文化'}</div><div class="text-lg font-bold ${thothZoo ? 'text-cyan-300' : 'text-pink-300'}">+${inc.culture}${thothZoo ? '🔬' : '🎭'}</div></div>
     </div>
     ${isPlant ? renderPlantTab(plantOwned) : renderAnimalTab(animalOwned)}
 
@@ -4178,6 +4275,9 @@ function renderExpeditionModal() {
   const capacity = getExplorerCapacity();
   const assigned = getAssignedExplorers();
   const idle = getIdleExplorers();
+  const zooYieldText = getActiveGods().has('thoth')
+    ? '动物与植物按稀有度每回合提供 +1~+3🔬（托特：不再产出文化）。'
+    : '动物与植物按稀有度每回合提供 +1~+3🎭，黄金时代期间会转化为💰。';
 
   body.innerHTML = `
     <div class="flex items-start gap-3 border-b border-gray-700 pb-3 mb-3 pr-8">
@@ -4192,8 +4292,11 @@ function renderExpeditionModal() {
       <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">已派出</div><div class="text-lg font-bold text-amber-300">${assigned.length}</div></div>
       <div class="bg-slate-800 rounded-lg border border-slate-700 p-2"><div class="text-[10px] text-gray-400">空闲</div><div class="text-lg font-bold ${idle > 0 ? 'text-emerald-300' : 'text-gray-400'}">${idle}</div></div>
     </div>
+    <div class="flex justify-end mb-2">
+      <button onclick="toggleAutoExplore()" class="px-3 py-1.5 rounded text-xs font-bold border ${state.autoExplore ? 'bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-300' : 'bg-slate-700 hover:bg-slate-600 text-gray-200 border-slate-500'}" title="开启后，一有空闲探险家就按亚洲→非洲→北美洲→南美洲→欧洲→大洋洲的顺序自动出发">⚡ 自主探索${state.autoExplore ? '：开启' : ''}</button>
+    </div>
     <div class="space-y-2">${renderExpeditionRows()}</div>
-    <p class="text-[11px] text-gray-500 mt-3">来源：每有 1 个主广场 +1，寻踪神恩额外 +1（吸纳村庄不提供探险家）。动物与植物按稀有度每回合提供 +1~+3🎭，黄金时代期间会转化为💰。完成大洲后若没有可派位置，所有多余探险家都会转为人口。全部动物与植物收集完成后额外 +${CONFIG.zoo.completeFaithReward || 2} 信仰点。</p>
+    <p class="text-[11px] text-gray-500 mt-3">来源：每有 1 个主广场 +1，寻踪神恩额外 +1（吸纳村庄不提供探险家）。${zooYieldText}完成大洲后若没有可派位置，所有多余探险家都会转为人口。全部动物与植物收集完成后额外 +${CONFIG.zoo.completeFaithReward || 2} 信仰点。</p>
   `;
 }
 
@@ -4522,9 +4625,10 @@ function calculateIncome() {
     state.income.industry += baseProduction; state.income.science += baseProduction; 
     state.income.culture += baseProduction;
 
-    // 动物园/植物园只提供文化；黄金时代仍会把文化统一转换成金币
+    // 动物园/植物园提供文化；托特信仰时改为科技
     const zooIncome = getZooIncome();
-    state.income.culture += zooIncome.culture;
+    state.income.culture += zooIncome.culture || 0;
+    state.income.science += zooIncome.science || 0;
 
     // 「安魂」：每个亡者每回合提供文化（1阶段）与金币（2阶段），文化同样参与黄金时代转换
     const deadCulture = getDeadCultureIncome();
@@ -4697,6 +4801,7 @@ function buildSaveData() {
         tlalocCooldown: state.tlalocCooldown || 0,
         tonatiuhCooldown: state.tonatiuhCooldown || 0,
         permanentGold: state.permanentGold || 0,
+        dionysusWineryBonus: state.dionysusWineryBonus || 0,
         sacrificedThisTurn: !!state.sacrificedThisTurn,
         xipeSacrificeCount: state.xipeSacrificeCount || 0,
         mamaQuillaFreeBuildUsed: !!state.mamaQuillaFreeBuildUsed,
@@ -4706,6 +4811,7 @@ function buildSaveData() {
         plants: [...(state.plants || [])],
         explorerAssignments: [...(state.explorerAssignments || [])],
         convertedExplorers: state.convertedExplorers || 0,
+        autoExplore: !!state.autoExplore,
         zooCompleteFaithRewarded: !!state.zooCompleteFaithRewarded,
         eponaLastRacecourseTurn: state.eponaLastRacecourseTurn ?? null,
         faithPoints: state.faithPoints || 0,
@@ -4773,6 +4879,7 @@ function applySaveData(data) {
     next.tlalocCooldown = data.tlalocCooldown || 0;
     next.tonatiuhCooldown = data.tonatiuhCooldown || 0;
     next.permanentGold = data.permanentGold || 0;
+    next.dionysusWineryBonus = Math.max(0, Math.floor(Number(data.dionysusWineryBonus) || 0));
     next.sacrificedThisTurn = !!data.sacrificedThisTurn;
     next.xipeSacrificeCount = data.xipeSacrificeCount || 0;
     next.mamaQuillaFreeBuildUsed = !!data.mamaQuillaFreeBuildUsed;
@@ -4791,6 +4898,7 @@ function applySaveData(data) {
         : [];
     next.absorbedVillages = data.absorbedVillages || 0;
     next.convertedExplorers = data.convertedExplorers || 0;
+    next.autoExplore = !!data.autoExplore;
     next.zooCompleteFaithRewarded = !!data.zooCompleteFaithRewarded;
     next.eponaLastRacecourseTurn = data.eponaLastRacecourseTurn ?? null;
     next.faithPoints = data.faithPoints != null ? data.faithPoints : CONFIG.faith.start;
@@ -4877,6 +4985,7 @@ function applySaveData(data) {
     applyVolcanicFertileSoilToMap();
     syncGodGrantedMiracles();
     syncExplorerAssignments();
+    if (typeof autoExploreIdle === 'function') autoExploreIdle(true, false);
     particles = [];
     particlesLoop = false;
     isDown = false;
@@ -5343,6 +5452,7 @@ function build(key) {
         createParticles(t.q, t.r, '#a855f7');
         showMsg("主广场建成！", "success");
         afterStateChange(t);
+        if (typeof autoExploreIdle === 'function') autoExploreIdle();
         return;
     }
 
@@ -6689,7 +6799,7 @@ function showGoldenAgeTooltip(e) {
                 const nextPenalty = 40 + (state.darkAge.count * 40);
                 const nextReward = 20 + (state.darkAge.count * 10);
                 html += `<div class="text-xs text-white mb-2">花费: 无</div>
-                <div class="text-xs text-purple-300">开启效果 (持续3回合):</div>
+                <div class="text-xs text-purple-300">开启效果 (持续${CONFIG.goldenAge.darkTurns}回合):</div>
                 <div class="text-xs text-red-300">• 全产出 -${nextPenalty} (随次数增加40)</div>
                 <div class="text-xs text-red-400">• 期间禁止建造</div>
                 <div class="text-xs text-green-300 mt-2">结束后永久奖励:</div>
@@ -6768,8 +6878,8 @@ function showGoldenAgeTooltip(e) {
         const displayBonus = isHorus ? currentBonus * 2 : currentBonus;
         const nextDisplayBonus = isHorus ? nextBonus * 2 : nextBonus;
         
-        const duration = isChronos ? 3 : (flags.bastet ? 10 : 5);
-        const durationText = isChronos ? `<span class="text-orange-400">(柯罗诺斯: 3回合)</span>` : (flags.bastet ? `<span class="text-pink-400">(巴斯特: 10回合)</span>` : `(持续5回合)`);
+        const duration = isChronos ? CONFIG.goldenAge.chronosTurns : (flags.bastet ? CONFIG.goldenAge.bastetTurns : CONFIG.goldenAge.turns);
+        const durationText = isChronos ? `<span class="text-orange-400">(柯罗诺斯: 2回合)</span>` : (flags.bastet ? `<span class="text-pink-400">(巴斯特: 10回合)</span>` : `(持续5回合)`);
 
         html = timeBonusText + `<div class="font-bold text-base mb-1 text-yellow-400">✨ 黄金时代 (Lv.${state.goldenAge.level})</div>`;
         let costText = '';
@@ -6824,7 +6934,7 @@ function showSeasonTooltip(e) {
 
     const html = `<div class="font-bold text-base mb-1 text-center">${s.icon} ${s.name}季 ${state.seasonLocked ? '(暂停中)' : `(剩余${remaining}回合)`}</div>
     <div class="text-xs text-gray-300">${s.desc}</div>
-    ${isChronos ? '<div class="text-xs text-orange-400 mt-1">柯罗诺斯: 季节缩短为3回合</div>' : ''}
+    ${isChronos ? '<div class="text-xs text-orange-400 mt-1">柯罗诺斯: 季节缩短为2回合</div>' : ''}
     ${lockText}`;
     showTooltip(html, e.clientX, e.clientY);
 }
@@ -6856,9 +6966,17 @@ function getMiracleGaTurns() {
     return state.miracleGaDuration ? 1 : 0;
 }
 
+function recordDionysusGoldenAge(activeGods) {
+    const gods = activeGods || getActiveGods();
+    if (gods.has && gods.has('dionysus')) {
+        state.dionysusWineryBonus = (state.dionysusWineryBonus || 0) + 1;
+    }
+}
+
 function startGoldenAgeEffect(activeGods) {
+    recordDionysusGoldenAge(activeGods);
     state.goldenAge.active = true;
-    // 柯罗诺斯缩短为3回合；庆典神恩每阶段 +1 回合
+    // 柯罗诺斯缩短为2回合；庆典神恩每阶段 +1 回合
     state.goldenAge.turnCount = getGoldenAgeDuration(activeGods) + getMiracleGaTurns();
     state.goldenAge.level++;
     state.faithPoints = (state.faithPoints || 0) + CONFIG.faith.goldenAgeGain;
@@ -6958,6 +7076,9 @@ function performAction(key) {
     if (!act) return; 
     if (t.village) return showMsg("村庄土地无法动土", "err");
     const activeGods = getActiveGods();
+    if (activeGods.has('cernunnos') && TERRAIN_MOD_ACTIONS.includes(key)) {
+        return showMsg('狂野之心：不可改造地形', 'err');
+    }
     const r = t.r; const mapH = 50; const offset = 25; const lat = (r + offset) / mapH;
     const isCold = lat < 0.27 || lat > 0.86;
 
@@ -8097,7 +8218,7 @@ function showTileTooltip(t, clientX, clientY) {
 
 
 // ==================== src/17-plaza-faith.js：内政/信仰/神祇/悬浮详情 ====================
-﻿// ==================== src/17-plaza-faith.js：内政/信仰/神祇/悬浮详情 ====================
+// ==================== src/17-plaza-faith.js：内政/信仰/神祇/悬浮详情 ====================
 function togglePlaza() { 
     const t = state.selectedTile; 
     if (!t || t.improvement !== 'plaza') return; 
@@ -8392,6 +8513,14 @@ function syncGodGrantedMiracles() {
     }
 }
 
+function getMiracleBlockedReason(key, gods) {
+    const active = gods || getActiveGods();
+    if (key === 'gaDuration' && active.has('tezcatlipoca')) return '黑暗之神在位，无法选择庆典';
+    if (key === 'disasterDouble' && (state.miracleDisasterHalf || state.miracleDisasterHalf2)) return '已选择庇护，无法选择灾厄';
+    if (key === 'disasterHalf' && (state.miracleDisasterDouble || state.miracleDisasterDouble2)) return '已选择灾厄，无法选择庇护';
+    return '';
+}
+
 function renderMiracleCards(container, activeGods) {
     const status = [];
     if (state.miracleDisasterDouble) status.push(state.miracleDisasterDouble2 ? '灾厄2 +50🎭' : '灾厄 ×2');
@@ -8401,7 +8530,7 @@ function renderMiracleCards(container, activeGods) {
     if (state.miracleVillageFriendship) status.push(state.miracleVillageFriendship2 ? '归化2 吸纳100' : '归化 村庄100');
     if (state.miracleAncientRuins) status.push(state.miracleAncientRuins2 ? '古墟2 奖励×2' : '古墟 5遗迹');
     if (state.miracleNoMaintenance) status.push(state.miracleNoMaintenance2 ? '减赋2 维护0' : '减赋 维护减半');
-    if (state.miracleSeasonPopulation) status.push(state.miracleSeasonPopulation2 ? '季礼2 +3人口/年' : '季礼 +1人口/季');
+    if (state.miracleSeasonPopulation) status.push(state.miracleSeasonPopulation2 ? '季礼2 +4人口/年' : '季礼 +1人口/季');
     if (state.miracleMountainFire) status.push(state.miracleMountainFire2 ? `山火2 喷发×3 +${state.volcanoEruptionBonus}` : `山火 免破坏 山→火${state.miracleMountainToVolcano} 火→山${state.miracleVolcanoToMountain}`);
     if (state.miracleDeadCulture) status.push(state.miracleDeadCulture2 ? `安魂2 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭 +${(state.deadPopulation || 0) * 2}💰` : `安魂 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭`);
     if (status.length) {
@@ -8414,13 +8543,16 @@ function renderMiracleCards(container, activeGods) {
     Object.keys(CONFIG.miracles).forEach(key => {
         const m = CONFIG.miracles[key];
         const stage = getMiracleStage(key);
-        const canPay = (state.faithPoints || 0) >= m.cost;
+        const blockedReason = getMiracleBlockedReason(key, activeGods);
+        const canPay = (state.faithPoints || 0) >= m.cost && !blockedReason;
         const card = document.createElement('div');
         card.className = `bg-slate-800 p-4 rounded-xl border flex flex-col justify-between ${stage === 2 ? 'border-amber-400' : (stage === 1 ? 'border-amber-500/50' : 'border-slate-700')}`;
         const buttonClass = canPay ? 'bg-indigo-600 hover:bg-indigo-500 text-white border-indigo-400' : 'bg-gray-700 text-gray-500 border-gray-600 cursor-not-allowed';
         const btn = stage === 2
             ? '<button class="w-full py-2 rounded font-bold bg-amber-600 text-white border border-amber-400 cursor-default" disabled>已满级</button>'
-            : `<button onclick="useMiracle('${key}')" class="w-full py-2 rounded font-bold transition border text-sm ${buttonClass}" ${canPay ? '' : 'disabled'}>${stage === 0 ? `施行 (-${m.cost} 信仰点)` : `升级至2阶段 (-${m.cost} 信仰点)`}</button>`;
+            : blockedReason
+                ? `<button class="w-full py-2 rounded font-bold bg-gray-700 text-gray-500 border-gray-600 cursor-not-allowed" disabled>不可选</button>`
+                : `<button onclick="useMiracle('${key}')" class="w-full py-2 rounded font-bold transition border text-sm ${buttonClass}" ${canPay ? '' : 'disabled'}>${stage === 0 ? `施行 (-${m.cost} 信仰点)` : `升级至2阶段 (-${m.cost} 信仰点)`}</button>`;
         card.innerHTML = `
             <div>
                 <div class="flex items-center gap-3 mb-2 pb-2 border-b border-gray-700">
@@ -8431,6 +8563,7 @@ function renderMiracleCards(container, activeGods) {
                 </div>
                 <div class="text-[11px] text-white mb-1 leading-relaxed"><span class="${stage >= 1 ? 'text-emerald-300' : 'text-gray-500'}">1阶段：</span>${m.desc1}</div>
                 <div class="text-[11px] mb-3 leading-relaxed"><span class="${stage === 2 ? 'text-amber-300' : 'text-gray-500'}">2阶段：</span><span class="text-white">${m.desc2}</span></div>
+                ${blockedReason ? `<div class="text-[11px] mb-2 text-red-300">${blockedReason}</div>` : ''}
             </div>
             ${btn}
         `;
@@ -8443,6 +8576,8 @@ function useMiracle(key) {
     if (!m) return;
     const stage = getMiracleStage(key);
     if (stage >= 2) return showMsg('该神恩已达到2阶段', 'warning');
+    const blockedReason = getMiracleBlockedReason(key, getActiveGods());
+    if (blockedReason) return showMsg(blockedReason, 'err');
     if ((state.faithPoints || 0) < m.cost) return showMsg(`信仰点不足 (需 ${m.cost})`, "err");
     state.faithPoints -= m.cost;
 
@@ -8466,6 +8601,7 @@ function useMiracle(key) {
         } else if (key === 'explorerExtra') {
             state.miracleExplorerCapacity = true;
             showMsg('🧭 寻踪1阶段：探险家数量 +1。', 'success');
+            if (typeof autoExploreIdle === 'function') autoExploreIdle();
         } else if (key === 'villageFriendship') {
             state.miracleVillageFriendship = true;
             state.map.forEach(t => { if (t.village) t.village.friendship = CONFIG.village.maxFriendship; });
@@ -8522,7 +8658,7 @@ function useMiracle(key) {
             showMsg('📜 减赋2阶段：人造工程不再消耗维护费。', 'success');
         } else if (key === 'seasonPopulation') {
             state.miracleSeasonPopulation2 = true;
-            showMsg('🍂 季礼2阶段：每年额外 +3 人口。', 'success');
+            showMsg('🍂 季礼2阶段：每年额外 +4 人口。', 'success');
         } else if (key === 'mountainFire') {
             state.miracleMountainFire2 = true;
             showMsg('🌋 山火2阶段：火山喷发概率翻3倍，喷发强化己方区域。', 'warning');
@@ -9512,7 +9648,7 @@ function triggerForestFire(tile) {
 
 
 // ==================== src/20-turn.js：回合推进 ====================
-// ==================== src/20-turn.js：回合推进 ====================
+﻿// ==================== src/20-turn.js：回合推进 ====================
 function nextTurn() {
     if (state.gameOver) return;
     const activeGods = getActiveGods();
@@ -10056,8 +10192,8 @@ function nextTurn() {
                 showMsg('🍂 季礼：新季节开启，人口 +1。', "success");
             }
             if (state.miracleSeasonPopulation2 && state.season === 0) {
-                state.resources.population += 3;
-                showMsg('🍂 季礼2阶段：新的一年开始，人口 +3。', "success");
+                state.resources.population += 4;
+                showMsg('🍂 季礼2阶段：新的一年开始，人口 +4。', "success");
             }
         }
     }
