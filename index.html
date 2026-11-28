@@ -721,7 +721,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
             <div class="space-y-4">
                     <section>
                         <h3 class="text-blue-300 font-bold text-lg mb-2">📅 季节与气候</h3>
-                        <p class="text-xs text-gray-400 mb-2">每4回合更替一次季节 (柯罗诺斯: 2回合)。一年为16回合 (柯罗诺斯: 8回合)。</p>
+                        <p class="text-xs text-gray-400 mb-2">每3回合更替一次季节 (柯罗诺斯: 2回合)。一年为12回合 (柯罗诺斯: 8回合)。</p>
                         <div class="overflow-x-auto">
                             <table class="w-full text-xs text-left border-collapse">
                                 <thead>
@@ -855,7 +855,7 @@ const CONFIG = {
     foodCostStep: 100,
     popCost: 3
   },
-  turn: { seasonTurns: 4, chronosSeasonTurns: 2, turnsPerYear: 16, chronosTurnsPerYear: 8 },
+  turn: { seasonTurns: 3, chronosSeasonTurns: 2, turnsPerYear: 12, chronosTurnsPerYear: 8 },
   faith: { start: 1, godCost: 2, maxGods: 2, plazaGain: 1, goldenAgeGain: 1, cultureExchangeCost: 150, cultureExchangeStep: 50 },
   miracles: {
     disasterDouble: {
@@ -896,7 +896,7 @@ const CONFIG = {
     seasonPopulation: {
       name: '季礼', icon: '🍂', cost: 1,
       desc1: '每个季节开启时 +1 人口',
-      desc2: '新年到来时 +4 人口'
+      desc2: '新年到来时 +3 人口'
     },
     mountainFire: {
       name: '山火', icon: '🌋', cost: 1,
@@ -8052,7 +8052,7 @@ function updateSelectionUI(t) {
             if (isValid && !t.improvement) {
                 const qCost = getBuildCost(k);
                 canAfford = canPayCost(qCost);
-                costText = k === 'build_pyramid' && flags.viracocha ? '2K(无粮)' : costToText(qCost);
+                costText = k === 'build_pyramid' && flags.viracocha ? `${CONFIG.pyramid.viracochaAll / 1000}K(无粮)` : costToText(qCost);
                 tooltipText = act.tooltip;
                 if (k === 'build_pyramid') {
                     tooltipText = flags.viracocha
@@ -8530,7 +8530,7 @@ function renderMiracleCards(container, activeGods) {
     if (state.miracleVillageFriendship) status.push(state.miracleVillageFriendship2 ? '归化2 吸纳100' : '归化 村庄100');
     if (state.miracleAncientRuins) status.push(state.miracleAncientRuins2 ? '古墟2 奖励×2' : '古墟 5遗迹');
     if (state.miracleNoMaintenance) status.push(state.miracleNoMaintenance2 ? '减赋2 维护0' : '减赋 维护减半');
-    if (state.miracleSeasonPopulation) status.push(state.miracleSeasonPopulation2 ? '季礼2 +4人口/年' : '季礼 +1人口/季');
+    if (state.miracleSeasonPopulation) status.push(state.miracleSeasonPopulation2 ? '季礼2 +3人口/年' : '季礼 +1人口/季');
     if (state.miracleMountainFire) status.push(state.miracleMountainFire2 ? `山火2 喷发×3 +${state.volcanoEruptionBonus}` : `山火 免破坏 山→火${state.miracleMountainToVolcano} 火→山${state.miracleVolcanoToMountain}`);
     if (state.miracleDeadCulture) status.push(state.miracleDeadCulture2 ? `安魂2 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭 +${(state.deadPopulation || 0) * 2}💰` : `安魂 亡者${state.deadPopulation || 0} +${(state.deadPopulation || 0) * 2}🎭`);
     if (status.length) {
@@ -8658,7 +8658,7 @@ function useMiracle(key) {
             showMsg('📜 减赋2阶段：人造工程不再消耗维护费。', 'success');
         } else if (key === 'seasonPopulation') {
             state.miracleSeasonPopulation2 = true;
-            showMsg('🍂 季礼2阶段：每年额外 +4 人口。', 'success');
+            showMsg('🍂 季礼2阶段：每年额外 +3 人口。', 'success');
         } else if (key === 'mountainFire') {
             state.miracleMountainFire2 = true;
             showMsg('🌋 山火2阶段：火山喷发概率翻3倍，喷发强化己方区域。', 'warning');
@@ -9648,7 +9648,7 @@ function triggerForestFire(tile) {
 
 
 // ==================== src/20-turn.js：回合推进 ====================
-﻿// ==================== src/20-turn.js：回合推进 ====================
+// ==================== src/20-turn.js：回合推进 ====================
 function nextTurn() {
     if (state.gameOver) return;
     const activeGods = getActiveGods();
@@ -10192,8 +10192,8 @@ function nextTurn() {
                 showMsg('🍂 季礼：新季节开启，人口 +1。', "success");
             }
             if (state.miracleSeasonPopulation2 && state.season === 0) {
-                state.resources.population += 4;
-                showMsg('🍂 季礼2阶段：新的一年开始，人口 +4。', "success");
+                state.resources.population += 3;
+                showMsg('🍂 季礼2阶段：新的一年开始，人口 +3。', "success");
             }
         }
     }
